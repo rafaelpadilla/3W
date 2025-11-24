@@ -220,7 +220,7 @@ class ThreeWChart:
             # Loads data from the Parquet file
             df = pd.read_parquet(fp, engine="pyarrow")
             expected = self.dataset_ini["COLUMNS_DATA_FILES"][1:]
-            if not df.columns == expected.all():
+            if not all(df.columns == expected):
                 raise ValueError(
                     f"Invalid columns in the file {fp}: {df.columns.tolist()}"
                 )
