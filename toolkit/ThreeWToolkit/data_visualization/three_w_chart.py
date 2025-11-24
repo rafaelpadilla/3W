@@ -219,9 +219,9 @@ class ThreeWChart:
 
             # Loads data from the Parquet file
             df = pd.read_parquet(fp, engine="pyarrow")
-            assert (df.columns == self.dataset_ini["COLUMNS_DATA_FILES"][1:]).all(), (
-                f"invalid columns in the file {fp}: {df.columns.tolist()}"
-            )
+            assert (
+                df.columns == self.dataset_ini["COLUMNS_DATA_FILES"][1:]
+            ).all(), f"invalid columns in the file {fp}: {df.columns.tolist()}"
         except Exception as e:
             raise Exception(f"error reading file {fp}: {e}")
 
