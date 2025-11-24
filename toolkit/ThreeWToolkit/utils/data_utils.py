@@ -1,6 +1,10 @@
+import configparser
 import numpy as np
 import pandas as pd
 
+from pathlib import Path
+from os.path import exists
+from ..constants import DATASET_INI_2_0_0
 
 """Signals in dataset with few samples (or no samples at all)."""
 UNUSED_TAGS = [
@@ -116,6 +120,100 @@ GLOBAL_STDS = {  # computed from cleaned up data
     "T-PDG": 2.331257e01,
     "T-TPT": 3.053168e01,
 }
+
+
+def load_config_in_dataset_ini():
+    """Loads all configurations present in the 3W Dataset's main configuration file.
+
+    Raises:
+        Exception: Error if the configuration file is not found.
+        Exception: Error if the configuration file cannot be loaded.
+
+    Returns:
+        dict: Dict with all configurations present in the 3W Dataset's main configuration file. This dict is formated with the basic configuration language used by the configparser module.
+    """
+    # Check if the configuration file exists in the expected path
+    if not exists(Path(DATASET_INI_2_0_0)):
+        raise Exception(
+            f"the 3w Dataset's main configuration file was not found "
+            f"in {Path(DATASET_INI_2_0_0)}"
+        )
+
+    # Load the configuration file
+    dataset_ini = configparser.ConfigParser()
+    dataset_ini.optionxform = lambda option: option
+    try:
+        dataset_ini.read(Path(DATASET_INI_2_0_0))
+    except Exception as e:
+        raise Exception(
+            f"the 3w Dataset's main configuration file "
+            f"({Path(DATASET_INI_2_0_0)}) could not be loaded. {e}"
+        )
+
+    return dict(dataset_ini)
+
+
+def get_config_dataset_ini():
+    """
+    Load and process dataset configuration from the ``dataset.ini`` file.
+
+    This function reads the configuration entries related to dataset columns,
+    event labels, transient event offset, and other metadata defined in the
+    ``dataset.ini`` file. It builds and returns structured dictionaries
+    containing column descriptions, label mappings, and transient label
+    mappings used throughout the dataset processing pipeline.
+
+    Returns
+    -------
+    dict
+        A dictionary with the following keys:
+
+        - ``COLUMNS_DESCRIPTIONS`` : dict
+          Maps each column name to its textual description.
+
+        - ``TRANSIENT_OFFSET`` : int
+          Offset applied to transient event labels.
+
+        - ``COLUMNS_DATA_FILES`` : list
+          List of column names found in the dataset configuration.
+
+        - ``LABELS_DESCRIPTIONS`` : dict
+          Maps each event label (int) to its description (str).
+
+        - ``TRANSIENT_LABELS_DESCRIPTIONS`` : dict
+          Maps each transient event label (label + offset) to its description.
+
+    Notes
+    -----
+    The function expects the following sections and keys to exist inside
+    ``dataset.ini`` of data version 2.0.0.
+    """
+    dt_ini = load_config_in_dataset_ini()
+
+    COLUMNS_DESCRIPTIONS = dict(dt_ini.get("PARQUET_FILE_PROPERTIES"))
+    TRANSIENT_OFFSET = int(dt_ini["EVENTS"].get("TRANSIENT_OFFSET"))
+    COLUMNS_DATA_FILES = list(COLUMNS_DESCRIPTIONS.keys())
+    LABELS_DESCRIPTIONS = {}
+    TRANSIENT_LABELS_DESCRIPTIONS = {}
+
+    for name in [n.strip() for n in dt_ini["EVENTS"].get("NAMES").split(",")]:
+        n_ = dt_ini.get(name)
+        label = int(n_["LABEL"])
+        description = n_["DESCRIPTION"]
+        LABELS_DESCRIPTIONS[label] = description
+
+        if n_.getboolean("TRANSIENT"):
+            TRANSIENT_LABELS_DESCRIPTIONS[label + TRANSIENT_OFFSET] = (
+                f"Transient: {description}"
+            )
+
+    return {
+        "COLUMNS_DESCRIPTIONS": COLUMNS_DESCRIPTIONS,
+        "TRANSIENT_OFFSET": TRANSIENT_OFFSET,
+        "COLUMNS_DATA_FILES": COLUMNS_DATA_FILES,
+        "LABELS_DESCRIPTIONS": LABELS_DESCRIPTIONS,
+        "TRANSIENT_LABELS_DESCRIPTIONS": TRANSIENT_LABELS_DESCRIPTIONS,
+    }
 
 
 def default_data_cleanup(
