@@ -21,4 +21,6 @@ CSS_PATH = HTML_TEMPLATES_DIR / "petro.css"
 HTML_ASSETS_DIR = HTML_TEMPLATES_DIR / "assets"
 
 # Define the path to the dataset 2.0.0 config
-DATASET_INI_2_0_0 = Path(str(resources.files(package))).parents[1] / "dataset/dataset.ini"
+DATASET_INI_2_0_0 = (
+    Path(str(resources.files(package))).parents[1] / "dataset/dataset.ini"
+)

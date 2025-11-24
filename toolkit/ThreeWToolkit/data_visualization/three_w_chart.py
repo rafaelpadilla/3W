@@ -9,7 +9,7 @@ from ..utils.data_utils import get_config_dataset_ini
 
 class ThreeWChart:
     """A class to generate interactive visualizations for 3W dataset files using Plotly.
-    
+
     Notes
     -----
     Desenvolvido por: Yan Tavares (2025) | Github: https://github.com/yantavares

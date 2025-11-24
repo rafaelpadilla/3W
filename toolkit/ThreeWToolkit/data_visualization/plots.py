@@ -315,7 +315,7 @@ class DataVisualization(ABC):
         ax.set_title(title)
         ax.set_xlabel(freq_unit)
         ax.set_ylabel("Amplitude")
-        ax.set_xlim(0, max(xf))
+        ax.set_xlim(0.0, float(xf.max()))
 
         # Add some styling
         ax.spines["top"].set_visible(False)
