@@ -12,8 +12,8 @@ class ThreeWChart:
 
     Notes
     -----
-    Desenvolvido por: Yan Tavares (2025) | Github: https://github.com/yantavares
-    Adaptado por: Matheus Ferreira (2025) | Github: https://github.com/Mathtzt
+    Developed by: Yan Tavares (2025) | Github: https://github.com/yantavares
+    Adapted by: Matheus Ferreira (2025) | Github: https://github.com/Mathtzt
     """
 
     def __init__(
