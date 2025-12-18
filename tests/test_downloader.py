@@ -45,7 +45,7 @@ class TestFigshareURLS:
                 metadata_dict[version] = metadata
             except Exception as e:
                 pytest.fail(f"Failed to fetch metadata for version {version}: {e}")
-            time.sleep(1) # Figshare prefers 1 fetch per second at most.
+            time.sleep(1)  # Figshare prefers 1 fetch per second at most.
 
         return metadata_dict
 
