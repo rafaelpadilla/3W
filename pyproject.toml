@@ -30,6 +30,7 @@ dependencies = [
     "pyarrow>=20.0.0",
     "pylatex>=1.4.2",
     "statsmodels>=0.14.5",
+    "requests>=2.35.5",
 ]
 
 [project.optional-dependencies]
