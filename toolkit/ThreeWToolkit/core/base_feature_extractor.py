@@ -10,19 +10,19 @@ class OverlapOffsetMixin(BaseModel):
 
     @field_validator("overlap")
     @classmethod
-    def check_overlap_range(cls, v):
+    def check_overlap_range(cls, value):
         """Validates that overlap is in the [0, 1) range."""
-        if not 0 <= v < 1:
+        if not 0 <= value < 1:
             raise ValueError("Overlap must be in the range [0, 1)")
-        return v
+        return value
 
     @field_validator("offset")
     @classmethod
-    def check_offset_value(cls, v):
+    def check_offset_value(cls, value):
         """Validates that offset is not negative."""
-        if v < 0:
+        if value < 0:
             raise ValueError("Offset must be a non-negative integer.")
-        return v
+        return value
 
 
 class EpsMixin(BaseModel):
@@ -32,11 +32,11 @@ class EpsMixin(BaseModel):
 
     @field_validator("eps")
     @classmethod
-    def check_eps_value(cls, v):
+    def check_eps_value(cls, value):
         """Validates that epsilon is a small, positive number."""
-        if v <= 0:
+        if value <= 0:
             raise ValueError("Epsilon (eps) must be positive.")
-        return v
+        return value
 
 
 class WindowSizeMixin(BaseModel):
@@ -46,11 +46,11 @@ class WindowSizeMixin(BaseModel):
 
     @field_validator("window_size")
     @classmethod
-    def check_window_size(cls, v):
+    def check_window_size(cls, value):
         """Validates that window_size is positive."""
-        if v <= 0:
+        if value <= 0:
             raise ValueError("Window size must be a positive integer.")
-        return v
+        return value
 
 
 class FeatureSelectionMixin(BaseModel):
@@ -81,16 +81,16 @@ class StatisticalConfig(
 
     @field_validator("selected_features")
     @classmethod
-    def validate_selected_features(cls, v):
+    def validate_selected_features(cls, value):
         """Validates that selected features are available."""
-        if v is not None:
-            invalid_features = set(v) - set(cls.AVAILABLE_FEATURES)
+        if value is not None:
+            invalid_features = set(value) - set(cls.AVAILABLE_FEATURES)
             if invalid_features:
                 raise ValueError(
                     f"Invalid features: {invalid_features}. "
                     f"Available features: {cls.AVAILABLE_FEATURES}"
                 )
-        return v
+        return value
 
 
 class EWStatisticalConfig(
@@ -114,24 +114,24 @@ class EWStatisticalConfig(
 
     @field_validator("decay")
     @classmethod
-    def check_decay_range(cls, v):
+    def check_decay_range(cls, value):
         """Validates that decay is in the (0, 1] range."""
-        if not 0 < v <= 1:
+        if not 0 < value <= 1:
             raise ValueError("Decay must be in the range (0, 1]")
-        return v
+        return value
 
     @field_validator("selected_features")
     @classmethod
-    def validate_selected_features(cls, v):
+    def validate_selected_features(cls, value):
         """Validates that selected features are available."""
-        if v is not None:
-            invalid_features = set(v) - set(cls.AVAILABLE_FEATURES)
+        if value is not None:
+            invalid_features = set(value) - set(cls.AVAILABLE_FEATURES)
             if invalid_features:
                 raise ValueError(
                     f"Invalid features: {invalid_features}. "
                     f"Available features: {cls.AVAILABLE_FEATURES}"
                 )
-        return v
+        return value
 
 
 class WaveletConfig(OverlapOffsetMixin, FeatureSelectionMixin):
@@ -161,19 +161,19 @@ class WaveletConfig(OverlapOffsetMixin, FeatureSelectionMixin):
 
     @field_validator("level")
     @classmethod
-    def check_level_is_positive(cls, v):
+    def check_level_is_positive(cls, value):
         """Validates that the wavelet level is a positive integer."""
-        if v < 1:
+        if value < 1:
             raise ValueError("Wavelet level must be a positive integer (>= 1).")
-        return v
+        return value
 
     @field_validator("wavelet")
     @classmethod
-    def check_wavelet_name(cls, v):
+    def check_wavelet_name(cls, value):
         """Validates that the wavelet name is supported."""
-        if v not in cls.AVAILABLE_WAVELETS:
+        if value not in cls.AVAILABLE_WAVELETS:
             raise ValueError(
-                f"Wavelet '{v}' is not supported. "
+                f"Wavelet '{value}' is not supported. "
                 f"Available wavelets: {cls.AVAILABLE_WAVELETS}"
             )
-        return v
+        return value

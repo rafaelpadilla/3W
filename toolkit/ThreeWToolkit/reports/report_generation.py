@@ -230,7 +230,7 @@ class ReportGeneration:
                             # Format dictionaries with key-value pairs
                             param_itemize.add_item(
                                 NoEscape(
-                                    f"{param_str}: {', '.join(f'{k}: {v}' for k, v in value.items())}"
+                                    f"{param_str}: {', '.join(f'{key}: {val}' for key, val in value.items())}"
                                 )
                             )
                         else:

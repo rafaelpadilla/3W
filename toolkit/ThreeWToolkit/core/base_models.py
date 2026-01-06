@@ -10,8 +10,8 @@ class ModelsConfig(BaseModel):
 
     @field_validator("model_type")
     @classmethod
-    def check_model_type(cls, v, info):
-        if v not in {
+    def check_model_type(cls, value, info):
+        if value not in {
             ModelTypeEnum.MLP,
             ModelTypeEnum.LOGISTIC_REGRESSION,
             ModelTypeEnum.RANDOM_FOREST,
@@ -22,10 +22,10 @@ class ModelsConfig(BaseModel):
             ModelTypeEnum.SVM,
         }:
             raise NotImplementedError("model_type not implemented yet.")
-        elif v is None:
+        elif value is None:
             raise ValueError("model_type is required.")
 
-        return v
+        return value
 
 
 class BaseModels(ABC):

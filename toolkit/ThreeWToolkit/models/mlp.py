@@ -104,11 +104,11 @@ class MLPConfig(ModelsConfig):
 
     @field_validator("input_size")
     @classmethod
-    def check_input_size(cls, v):
+    def check_input_size(cls, value):
         """Validate that `input_size` is positive if specified.
 
         Args:
-            v (int | None): The input size to validate.
+            value (int | None): The input size to validate.
 
         Returns:
             int | None: The validated input size.
@@ -116,17 +116,17 @@ class MLPConfig(ModelsConfig):
         Raises:
             ValueError: If `input_size` is specified but not positive.
         """
-        if v is not None and v <= 0:
+        if value is not None and value <= 0:
             raise ValueError("`input_size` must be > 0 when specified")
-        return v
+        return value
 
     @field_validator("activation_function")
     @classmethod
-    def check_activation_function(cls, v):
+    def check_activation_function(cls, value):
         """Validate that the activation function is supported.
 
         Args:
-            v (str): The activation function name to validate.
+            value (str): The activation function name to validate.
 
         Returns:
             str: The validated activation function name.
@@ -139,9 +139,9 @@ class MLPConfig(ModelsConfig):
             ActivationFunctionEnum.SIGMOID.value,
             ActivationFunctionEnum.TANH.value,
         }
-        if v not in valid:
+        if value not in valid:
             raise ValueError(f"activation_function must be one of {valid}")
-        return v
+        return value
 
     @field_validator("hidden_sizes")
     @classmethod

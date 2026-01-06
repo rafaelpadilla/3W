@@ -68,15 +68,15 @@ class ModelAssessmentConfig(BaseModel):
 
     @field_validator("task_type")
     @classmethod
-    def validate_task_type(cls, v):
+    def validate_task_type(cls, value):
         valid_types = {TaskType.CLASSIFICATION, TaskType.REGRESSION}
-        if v not in valid_types:
+        if value not in valid_types:
             raise ValueError(f"task_type must be one of {valid_types}")
-        return v
+        return value
 
     @field_validator("metrics")
     @classmethod
-    def validate_metrics(cls, v):
+    def validate_metrics(cls, value):
         valid_metrics = {
             # Classification metrics
             "accuracy",
@@ -88,20 +88,20 @@ class ModelAssessmentConfig(BaseModel):
             # Regression metrics
             "explained_variance",
         }
-        invalid_metrics = set(v) - valid_metrics
+        invalid_metrics = set(value) - valid_metrics
         if invalid_metrics:
             raise ValueError(
                 f"Invalid metrics: {invalid_metrics}. Valid metrics: {valid_metrics}"
             )
-        return v
+        return value
 
     @field_validator("device")
     @classmethod
-    def validate_device(cls, v):
+    def validate_device(cls, value):
         valid_devices = {"cpu", "cuda"}
-        if v not in valid_devices:
+        if value not in valid_devices:
             raise ValueError(f"device must be one of {valid_devices}")
-        return v
+        return value
 
 
 class BaseModelAssessment(BaseStep):

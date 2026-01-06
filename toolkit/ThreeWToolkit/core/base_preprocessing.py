@@ -12,11 +12,11 @@ class ImputeMissingConfig(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @field_validator("fill_value")
-    def check_fill_value_for_constant(cls, v, info: ValidationInfo):
+    def check_fill_value_for_constant(cls, value, info: ValidationInfo):
         strategy = info.data.get("strategy")
-        if strategy == "constant" and v is None:
+        if strategy == "constant" and value is None:
             raise ValueError("You must provide `fill_value` when strategy='constant'")
-        return v
+        return value
 
 
 class NormalizeConfig(BaseModel):
@@ -40,7 +40,7 @@ class WindowingConfig(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @field_validator("window")
-    def validate_window(cls, v):
+    def validate_window(cls, value):
         WINDOWS_WITH_REQUIRED_PARAMS = {
             "kaiser": 1,
             "kaiser_bessel_derived": 1,
@@ -76,20 +76,20 @@ class WindowingConfig(BaseModel):
             set(WINDOWS_WITH_REQUIRED_PARAMS) | WINDOWS_WITH_OPTIONAL_OR_NO_PARAMS
         )
 
-        if isinstance(v, str):
-            if v not in ALL_WINDOW_NAMES:
-                raise ValueError(f"Invalid window name '{v}'.")
-            if v in WINDOWS_WITH_REQUIRED_PARAMS:
+        if isinstance(value, str):
+            if value not in ALL_WINDOW_NAMES:
+                raise ValueError(f"Invalid window name '{value}'.")
+            if value in WINDOWS_WITH_REQUIRED_PARAMS:
                 raise ValueError(
-                    f"Window '{v}' requires parameter(s); use a tuple like ('{v}', param)."
+                    f"Window '{value}' requires parameter(s); use a tuple like ('{value}', param)."
                 )
 
         else:
-            if len(v) == 0 or not isinstance(v[0], str):
+            if len(value) == 0 or not isinstance(value[0], str):
                 raise ValueError("Tuple window must start with a string window name.")
 
-            name = v[0]
-            params = v[1:]
+            name = value[0]
+            params = value[1:]
 
             if name not in ALL_WINDOW_NAMES:
                 raise ValueError(f"Unknown window name '{name}'.")
@@ -101,7 +101,7 @@ class WindowingConfig(BaseModel):
                         f"Window '{name}' requires {expected} parameter(s), got {len(params)}."
                     )
 
-        return v
+        return value
 
 
 class RenameColumnsConfig(BaseModel):

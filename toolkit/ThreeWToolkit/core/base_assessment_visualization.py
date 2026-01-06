@@ -9,15 +9,15 @@ class AssessmentVisualizationConfig(BaseModel):
 
     @field_validator("class_names")
     @classmethod
-    def validate_class_names(cls, v):
-        if v is None:
-            return v
-        if not isinstance(v, list) or len(v) == 0:
+    def validate_class_names(cls, value):
+        if value is None:
+            return value
+        if not isinstance(value, list) or len(value) == 0:
             raise ValueError("class_names must be a non-empty list if provided.")
 
-        if not all(isinstance(name, str) and name.strip() for name in v):
+        if not all(isinstance(name, str) and name.strip() for name in value):
             raise ValueError("All elements in class_names must be non-empty strings.")
-        return v
+        return value
 
 
 class BaseAssessmentVisualization(ABC):
