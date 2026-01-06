@@ -310,9 +310,9 @@ class ThreeWChart:
         fig.update_layout(
             shapes=self._get_background_shapes(data_df),
             xaxis_title="Timestamp",
-            yaxis_title=self.y_axis
-            if not self.use_dropdown
-            else data_df[self.y_axis].name,
+            yaxis_title=(
+                self.y_axis if not self.use_dropdown else data_df[self.y_axis].name
+            ),
             title=self.title,
             legend=dict(
                 x=1.05, y=1, title="Legend", itemclick=False, itemdoubleclick=False
