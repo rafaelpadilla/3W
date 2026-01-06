@@ -84,7 +84,7 @@ class ParquetDatasetConfig(BaseModel):
         Raise a ValueError if an unknown type is provided.
         """
         if value is not None:
-            for t in value:
-                if t not in list(EventPrefixEnum):
-                    raise ValueError(f"Unknown event_type: {t}")
+            for event_type in value:
+                if event_type not in list(EventPrefixEnum):
+                    raise ValueError(f"Unknown event_type: {event_type}")
         return value

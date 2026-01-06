@@ -401,8 +401,8 @@ class Windowing(BaseStep):
         col_names = []
         for var_idx in range(n_variables):
             var_name = f"var{var_idx + 1}"
-            for t in range(self.config.window_size):
-                col_names.append(f"{var_name}_t{t}")
+            for time_idx in range(self.config.window_size):
+                col_names.append(f"{var_name}_t{time_idx}")
         col_names.append("win")  # Window ID column
 
         return pd.DataFrame(windows, columns=col_names)

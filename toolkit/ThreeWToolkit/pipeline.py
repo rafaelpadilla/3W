@@ -270,11 +270,11 @@ class Pipeline:
 
                 # Concatenate X and y (if it exists)
                 if y_series is not None:
-                    df = pd.concat([x_df, y_series], axis=1)
+                    batch_df = pd.concat([x_df, y_series], axis=1)
                 else:
-                    df = x_df
+                    batch_df = x_df
 
-                yield df
+                yield batch_df
 
     def run(self):
         """
@@ -473,7 +473,7 @@ class Pipeline:
         if self.step_data_loader is None:
             raise ValueError("Data loader step is not defined.")
 
-        df = pd.DataFrame()
+        features_df = pd.DataFrame()
         # Progress bar for feature extraction steps
         for step in tqdm(
             self.step_feat_extraction,
@@ -503,9 +503,9 @@ class Pipeline:
             step.label_column = "label"
 
             # Apply feature extraction to the entire batch
-            df = step(df_batch)
+            features_df = step(df_batch)
 
-        return df
+        return features_df
 
     def _check_and_apply_windowing(
         self, batch: dict[Any, Any]

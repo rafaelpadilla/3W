@@ -202,7 +202,7 @@ def get_config_dataset_ini() -> dict[str, Any]:
     if not names_value:
         raise KeyError("The 'EVENTS' section is missing the 'NAMES' key or it is empty")
 
-    for name in (n.strip() for n in names_value.split(",")):
+    for name in (name.strip() for name in names_value.split(",")):
         # Accessing by index guarantees SectionProxy type (KeyError if absent)
         if name not in dt_ini:
             raise KeyError(f"Missing section for event name '{name}' in dataset.ini")
@@ -341,11 +341,11 @@ def default_label_handling(data: pd.DataFrame, *args, **kwargs) -> pd.DataFrame:
         - Maps transient labels to corresponding faults
         - Annotation gaps are filled with adjacent valid labels, forward first, then backwards
     """
-    s = data["class"]
-    s = s % 100  # map transients to faults
-    s = s.ffill()  # forward fill of gaps in annotations
-    s = s.bfill()  # backward fill of holes in annotations
-    data["class"] = s
+    class_series = data["class"]
+    class_series = class_series % 100  # map transients to faults
+    class_series = class_series.ffill()  # forward fill of gaps in annotations
+    class_series = class_series.bfill()  # backward fill of holes in annotations
+    data["class"] = class_series
     return data
 
 

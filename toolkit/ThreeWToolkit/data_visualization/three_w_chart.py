@@ -91,10 +91,14 @@ class ThreeWChart:
             pd.DataFrame: Preprocessed DataFrame with sorted timestamps and no missing values.
         """
         instance = (int(Path(self.file_path).parent.name), Path(self.file_path))
-        df = self._load_instance(instance)
-        df.reset_index(inplace=True)
-        df = df.dropna(subset=["timestamp"]).drop_duplicates("timestamp").fillna(0)
-        return df.sort_values(by="timestamp")
+        instance_df = self._load_instance(instance)
+        instance_df.reset_index(inplace=True)
+        instance_df = (
+            instance_df.dropna(subset=["timestamp"])
+            .drop_duplicates("timestamp")
+            .fillna(0)
+        )
+        return instance_df.sort_values(by="timestamp")
 
     def _get_non_zero_columns(self, df: pd.DataFrame) -> list[str]:
         """Returns the list of columns that are not all zeros or NaN.
@@ -218,25 +222,27 @@ class ThreeWChart:
             well, id = fp.stem.split("_")
 
             # Loads data from the Parquet file
-            df = pd.read_parquet(fp, engine="pyarrow")
+            data_df = pd.read_parquet(fp, engine="pyarrow")
             expected = self.dataset_ini["COLUMNS_DATA_FILES"][1:]
-            if not all(df.columns == expected):
+            if not all(data_df.columns == expected):
                 raise ValueError(
-                    f"Invalid columns in the file {fp}: {df.columns.tolist()}"
+                    f"Invalid columns in the file {fp}: {data_df.columns.tolist()}"
                 )
 
         except Exception as e:
             raise Exception(f"error reading file {fp}: {e}")
 
         # Incorporates the loaded metadata
-        df["label"] = label
-        df["well"] = well
-        df["id"] = id
+        data_df["label"] = label
+        data_df["well"] = well
+        data_df["id"] = id
 
         # Incorporates the loaded data and ordenates the df's columns
-        df = df[["label", "well", "id"] + self.dataset_ini["COLUMNS_DATA_FILES"][1:]]
+        data_df = data_df[
+            ["label", "well", "id"] + self.dataset_ini["COLUMNS_DATA_FILES"][1:]
+        ]
 
-        return df
+        return data_df
 
     def plot(self) -> None:
         """Generates and displays the interactive chart using Plotly.
@@ -244,16 +250,16 @@ class ThreeWChart:
         Raises:
             ValueError: If no available columns are found to plot.
         """
-        df = self._load_data()
+        data_df = self._load_data()
 
-        present_classes = df["class"].dropna().unique().tolist()
+        present_classes = data_df["class"].dropna().unique().tolist()
 
         if self.use_dropdown:
-            available_y_axes = self._get_non_zero_columns(df)
+            available_y_axes = self._get_non_zero_columns(data_df)
             if available_y_axes:
                 dropdown_buttons = [
                     dict(
-                        args=[{"y": [df[col]]}, {"yaxis.title": col}],
+                        args=[{"y": [data_df[col]]}, {"yaxis.title": col}],
                         label=col,
                         method="update",
                     )
@@ -266,14 +272,14 @@ class ThreeWChart:
                     )
                     print("Using the first available column as the default y-axis.")
                     self.y_axis = available_y_axes[0]
-                fig.add_trace(
-                    go.Scatter(
-                        x=df["timestamp"],
-                        y=df[self.y_axis],
-                        mode="lines",
-                        name="Selected Variable",
+                    fig.add_trace(
+                        go.Scatter(
+                            x=data_df["timestamp"],
+                            y=data_df[self.y_axis],
+                            mode="lines",
+                            name="Selected Variable",
+                        )
                     )
-                )
                 active_index = available_y_axes.index(self.y_axis)
                 fig.update_layout(
                     updatemenus=[
@@ -293,15 +299,20 @@ class ThreeWChart:
             fig = go.Figure()
             fig.add_trace(
                 go.Scatter(
-                    x=df["timestamp"], y=df[self.y_axis], mode="lines", name=self.y_axis
+                    x=data_df["timestamp"],
+                    y=data_df[self.y_axis],
+                    mode="lines",
+                    name=self.y_axis,
                 )
             )
 
         fig.update_xaxes(rangeslider_visible=True)
         fig.update_layout(
-            shapes=self._get_background_shapes(df),
+            shapes=self._get_background_shapes(data_df),
             xaxis_title="Timestamp",
-            yaxis_title=self.y_axis if not self.use_dropdown else df[self.y_axis].name,
+            yaxis_title=self.y_axis
+            if not self.use_dropdown
+            else data_df[self.y_axis].name,
             title=self.title,
             legend=dict(
                 x=1.05, y=1, title="Legend", itemclick=False, itemdoubleclick=False
