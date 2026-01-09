@@ -62,7 +62,7 @@ class TestPipeline:
             shuffle_train=True,
         )
         self.dataset_config = ParquetDatasetConfig(
-            path="./data/raw",
+            path="./dataset",
             columns=["sig1", "sig2"],
             target_column="class",
             target_class=[0, 1],

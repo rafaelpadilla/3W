@@ -143,9 +143,7 @@ def get_figshare_data(
     downloaded = []
     for meta in metadata:  # iterate through multiple files if present
         # Stream download from Figshare
-        stream = requests.get(
-            FIGSHARE_BASE_URL + "/file/download/" + str(meta["id"]), stream=True
-        )
+        stream = requests.get(meta["download_url"], stream=True)
         stream_size = int(stream.headers.get("content-length", 0))
         hasher = hashlib.sha256()
         file_path = path / meta["name"]

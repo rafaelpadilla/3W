@@ -1,5 +1,6 @@
 import json
 import pytest
+import warnings
 import requests  # type: ignore
 import time
 
@@ -43,6 +44,11 @@ class TestFigshareURLS:
                 known_files.raise_for_status()
                 metadata = json.loads(known_files.text)
                 metadata_dict[version] = metadata
+            except requests.exceptions.HTTPError as http_err:
+                warnings.warn(
+                    f"Failed to fetch metadata for version {version}: {http_err}"
+                )
+                pytest.skip(f"Skipping tests for version {version} due to HTTP error.")
             except Exception as e:
                 pytest.fail(f"Failed to fetch metadata for version {version}: {e}")
             time.sleep(1)  # Figshare prefers 1 fetch per second at most.
@@ -56,6 +62,7 @@ class TestFigshareURLS:
 
         assert meta["name"] == "3w_dataset_1.0.0.zip"
         assert meta["supplied_md5"] == "189eb151fa07cf27f82976575586df1a"
+        assert "download_url" in meta
 
     def test_v_1_1_0(self, all_metadata):
         metadata = all_metadata["1.1.0"]
@@ -64,6 +71,7 @@ class TestFigshareURLS:
 
         assert meta["name"] == "3w_dataset_1.1.0.zip"
         assert meta["supplied_md5"] == "e74641bb6b8a0466bb1f28c57a9163f9"
+        assert "download_url" in meta
 
     def test_v_1_1_1(self, all_metadata):
         metadata = all_metadata["1.1.1"]
@@ -72,6 +80,7 @@ class TestFigshareURLS:
 
         assert meta["name"] == "3w_dataset_1.1.1.zip"
         assert meta["supplied_md5"] == "ae105a8abff4ac33058fea3ebb991fc2"
+        assert "download_url" in meta
 
     def test_v_2_0_0(self, all_metadata):
         metadata = all_metadata["2.0.0"]
@@ -80,3 +89,4 @@ class TestFigshareURLS:
 
         assert meta["name"] == "3w_dataset_2.0.0.zip"
         assert meta["supplied_md5"] == "2c23b87b60c5d19ed9cf9559efa6ffa7"
+        assert "download_url" in meta

@@ -7,35 +7,30 @@ from pydantic import BaseModel
 from .models.mlp import MLP
 from tqdm.auto import tqdm
 
-from .assessment.model_assess import ModelAssessment
-from .core.base_assessment import ModelAssessmentConfig
-from .core.base_dataset import ParquetDatasetConfig
-from .core.base_preprocessing import (
-    ImputeMissingConfig,
-    NormalizeConfig,
-    RenameColumnsConfig,
-    WindowingConfig,
-)
+from .assessment import ModelAssessment, ModelAssessmentConfig
+
 from .core.base_step import BaseStep
-from .dataset.parquet_dataset import ParquetDataset
-from .feature_extraction.extract_exponential_statistics_features import (
+from .dataset import ParquetDataset, ParquetDatasetConfig
+
+from .feature_extraction import (
+    ExtractWaveletFeatures,
+    WaveletConfig,
+    ExtractStatisticalFeatures,
+    StatisticalConfig,
     EWStatisticalConfig,
     ExtractEWStatisticalFeatures,
 )
-from .feature_extraction.extract_statistical_features import (
-    ExtractStatisticalFeatures,
-    StatisticalConfig,
-)
-from .feature_extraction.extract_wavelet_features import (
-    ExtractWaveletFeatures,
-    WaveletConfig,
-)
 from .models.sklearn_models import SklearnModels
-from .preprocessing._data_processing import (
+
+from .preprocessing import (
     ImputeMissing,
+    ImputeMissingConfig,
     Normalize,
+    NormalizeConfig,
     RenameColumns,
+    RenameColumnsConfig,
     Windowing,
+    WindowingConfig,
 )
 from .trainer.trainer import ModelTrainer, TrainerConfig
 
