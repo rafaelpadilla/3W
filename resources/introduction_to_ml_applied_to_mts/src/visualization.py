@@ -1457,7 +1457,6 @@ class DimensionalityReductionVisualizer:
             print("❌ UMAP not available. Install with: pip install umap-learn")
             return None
 
-
         if configs is None:
             # Use default configs from config module if available
             import src.config as config

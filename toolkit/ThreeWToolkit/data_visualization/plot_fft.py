@@ -74,7 +74,7 @@ class PlotFFT(BaseVisualizer):
             sample_period = 1.0 / self.sample_rate
             freq_unit = "Frequency (Hz)"
 
-        yf = np.fft.fft(clean_series.values)
+        yf = np.fft.fft(np.asarray(clean_series.values))
         xf = np.fft.fftfreq(num_samples, sample_period)[: num_samples // 2]
         amplitude = 2.0 / num_samples * np.abs(yf[0 : num_samples // 2])
 

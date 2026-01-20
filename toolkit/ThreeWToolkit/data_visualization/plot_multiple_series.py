@@ -1,6 +1,7 @@
 from typing import cast
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -91,7 +92,7 @@ class PlotMultipleSeries(BaseVisualizer):
 
             ax.plot(
                 series.index,
-                series.values,
+                np.asarray(series.values),
                 label=label,
                 color=colors[series_index],
                 **self.plot_kwargs,
