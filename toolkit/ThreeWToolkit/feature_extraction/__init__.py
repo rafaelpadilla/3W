@@ -5,7 +5,6 @@ from .extract_exponential_statistics_features import (
 )
 from .extract_wavelet_features import ExtractWaveletFeatures, WaveletConfig
 
-
 __all__ = [
     "ExtractStatisticalFeatures",
     "StatisticalConfig",

@@ -17,7 +17,6 @@ from ..core.enums import ModelTypeEnum
 from ..utils.model_recorder import ModelRecorder
 from ..metrics import _classification
 
-
 # Dictionary to map the enum to the scikit-learn classes
 SKLEARN_MODELS = {
     ModelTypeEnum.LOGISTIC_REGRESSION: LogisticRegression,
