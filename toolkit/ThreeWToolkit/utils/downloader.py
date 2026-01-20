@@ -43,11 +43,11 @@ class GetFigshareDataValidator(BaseModel):
 
     @field_validator("path")
     @classmethod
-    def validate_path(cls, v: Path) -> Path:
+    def validate_path(cls, path_value: Path) -> Path:
         """Validate that the path exists and is a directory.
 
         Args:
-            v (Path): Path to validate.
+            path_value (Path): Path to validate.
 
         Returns:
             Path: The validated path.
@@ -55,11 +55,11 @@ class GetFigshareDataValidator(BaseModel):
         Raises:
             RuntimeError: If path doesn't exist or is not a directory.
         """
-        if not v.exists():
+        if not path_value.exists():
             raise RuntimeError("Provided path must exist.")
-        if not v.is_dir():
+        if not path_value.is_dir():
             raise RuntimeError("Provided path must be a directory.")
-        return v
+        return path_value
 
     @field_validator("version")
     @classmethod

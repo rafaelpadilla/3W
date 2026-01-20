@@ -568,7 +568,10 @@ class ReportGeneration:
             num_features = X_test_arr.shape[1]
             df_features = pd.DataFrame(
                 X_test_arr,
-                columns=[f"feature_{i + 1}" for i in range(num_features)],
+                columns=[
+                    f"feature_{feature_index + 1}"
+                    for feature_index in range(num_features)
+                ],
             )
 
         df_export = df_features.copy()

@@ -159,9 +159,9 @@ class ExtractWaveletFeatures(BaseStep):
 
         # Create feature dictionary
         features_dict = {}
-        for j, feat_name in enumerate(self.feat_names):
+        for feature_index, feat_name in enumerate(self.feat_names):
             col_name = f"var{var_idx}_{feat_name}"
-            features_dict[col_name] = wavelet_coeffs[:, j]
+            features_dict[col_name] = wavelet_coeffs[:, feature_index]
 
         return features_dict
 

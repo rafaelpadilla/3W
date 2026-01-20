@@ -79,10 +79,10 @@ class PlotMultipleSeries(BaseVisualizer):
             fig = cast(Figure, ax.get_figure())
 
         cmap = plt.get_cmap("Set1", len(self.series_list))
-        colors = [cmap(i) for i in range(len(self.series_list))]
+        colors = [cmap(series_index) for series_index in range(len(self.series_list))]
 
         plotted_any = False
-        for i, (series, label) in enumerate(
+        for series_index, (series, label) in enumerate(
             zip(self.series_list, self.labels, strict=True)
         ):
             clean_series = series.dropna()
@@ -93,7 +93,7 @@ class PlotMultipleSeries(BaseVisualizer):
                 series.index,
                 series.values,
                 label=label,
-                color=colors[i],
+                color=colors[series_index],
                 **self.plot_kwargs,
             )
             plotted_any = True

@@ -60,9 +60,11 @@ class ExtractEWStatisticalFeatures(BaseStep):
         More recent values get higher weights.
         """
         # Create exponential decay weights (recent values have higher weights)
-        h = self.decay ** np.arange(self.window_size, 0, step=-1, dtype=np.float64)
+        decay_weights = self.decay ** np.arange(
+            self.window_size, 0, step=-1, dtype=np.float64
+        )
         # Normalize weights so they sum to 1
-        self.weights = h / (np.abs(h).sum() + self.eps)
+        self.weights = decay_weights / (np.abs(decay_weights).sum() + self.eps)
 
     def _apply_weights(self, data_array: np.ndarray, axis=-1) -> np.ndarray:
         """
@@ -202,8 +204,8 @@ class ExtractEWStatisticalFeatures(BaseStep):
             if feat_name in self.selected_features:
                 # Calculate weighted quantiles for each window
                 quantile_results = []
-                for i in range(standardized_data.shape[0]):
-                    window_data = standardized_data[i, :]
+                for window_index in range(standardized_data.shape[0]):
+                    window_data = standardized_data[window_index, :]
                     # Use numpy percentile as approximation
                     quantile_result = np.percentile(window_data, q_val * 100)
                     quantile_results.append(quantile_result)

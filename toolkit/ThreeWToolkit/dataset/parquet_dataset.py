@@ -102,15 +102,19 @@ class ParquetDataset(BaseStep):
         else:
             # Cleans the config file list so that only parquet files are left
             self.config.file_list = [
-                Path(p) for p in self.config.file_list if Path(p).suffix == ".parquet"
+                Path(file_path)
+                for file_path in self.config.file_list
+                if Path(file_path).suffix == ".parquet"
             ]
 
-            not_found = set(Path(p) for p in self.config.file_list) - set(found_events)
+            not_found = set(
+                Path(file_path) for file_path in self.config.file_list
+            ) - set(found_events)
             if not_found:
                 raise RuntimeError(
                     f'"file_list" contains files not found in root path: {not_found}'
                 )
-            self.files_events = [Path(p) for p in self.config.file_list]
+            self.files_events = [Path(file_path) for file_path in self.config.file_list]
 
         # Remove target column from feature names if necessary
         if self.config.columns:
@@ -126,8 +130,12 @@ class ParquetDataset(BaseStep):
         """
         if isinstance(self.config.event_type, list):
             return any(
-                event.name.startswith(t.value if hasattr(t, "value") else t)
-                for t in self.config.event_type
+                event.name.startswith(
+                    event_type_item.value
+                    if hasattr(event_type_item, "value")
+                    else event_type_item
+                )
+                for event_type_item in self.config.event_type
             )
         else:  # Default: accept all
             return True
@@ -200,7 +208,7 @@ class ParquetDataset(BaseStep):
 
         for idx in range(0, total_files, self.config.files_per_batch):
             batch_ids = shuffled_ids[idx : idx + self.config.files_per_batch]
-            batch_files = [self[i] for i in batch_ids]
+            batch_files = [self[file_index] for file_index in batch_ids]
 
             dict_signals = {}
             dict_labels = {}

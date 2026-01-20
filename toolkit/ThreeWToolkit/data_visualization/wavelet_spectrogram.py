@@ -64,8 +64,10 @@ class WaveletSpectrogramPlot(BaseVisualizer):
         frequency_scales = 50
         mock_spectrogram = np.random.rand(frequency_scales, time_points)
 
-        for i in range(frequency_scales):
-            mock_spectrogram[i, :] *= np.exp(-i / frequency_scales * 2)
+        for scale_index in range(frequency_scales):
+            mock_spectrogram[scale_index, :] *= np.exp(
+                -scale_index / frequency_scales * 2
+            )
 
         extent_tuple = (0.0, float(time_points), 1.0, float(frequency_scales))
         im = ax.imshow(

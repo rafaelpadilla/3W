@@ -130,11 +130,11 @@ class ThreeWChart(BaseVisualizer):
         prev_class = None
         start_idx = 0
 
-        for i in range(len(df)):
-            current_class = df.iloc[i]["class"]
+        for row_index in range(len(df)):
+            current_class = df.iloc[row_index]["class"]
 
             if pd.isna(current_class):
-                print(f"Warning: NaN class value at index {i}")
+                print(f"Warning: NaN class value at index {row_index}")
                 continue
 
             if prev_class is not None and current_class != prev_class:
@@ -142,7 +142,7 @@ class ThreeWChart(BaseVisualizer):
                     dict(
                         type="rect",
                         x0=df.iloc[start_idx]["timestamp"],
-                        x1=df.iloc[i - 1]["timestamp"],
+                        x1=df.iloc[row_index - 1]["timestamp"],
                         y0=0,
                         y1=1,
                         xref="x",
@@ -152,7 +152,7 @@ class ThreeWChart(BaseVisualizer):
                         line_width=0,
                     )
                 )
-                start_idx = i
+                start_idx = row_index
 
             prev_class = current_class
 

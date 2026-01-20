@@ -145,11 +145,11 @@ class MLPConfig(ModelsConfig):
 
     @field_validator("hidden_sizes")
     @classmethod
-    def check_hidden_sizes(cls, v):
+    def check_hidden_sizes(cls, hidden_sizes_value):
         """Validate that hidden sizes are positive integers.
 
         Args:
-            v (tuple): The hidden layer sizes to validate.
+            hidden_sizes_value (tuple): The hidden layer sizes to validate.
 
         Returns:
             tuple: The validated hidden layer sizes.
@@ -157,9 +157,12 @@ class MLPConfig(ModelsConfig):
         Raises:
             ValueError: If any hidden size is not a positive integer.
         """
-        if not v or not all(isinstance(h, int) and h > 0 for h in v):
+        if not hidden_sizes_value or not all(
+            isinstance(hidden_size, int) and hidden_size > 0
+            for hidden_size in hidden_sizes_value
+        ):
             raise ValueError("hidden_sizes must be a tuple of positive integers")
-        return v
+        return hidden_sizes_value
 
     def is_input_size_dynamic(self) -> bool:
         """Check if input size will be inferred dynamically.
@@ -278,10 +281,10 @@ class MLP(BaseModels, nn.Module):
 
         # Create hidden layers with activation functions
         in_size = input_size
-        for h in self.config.hidden_sizes:
-            layers.append(nn.Linear(in_size, h))
+        for hidden_size in self.config.hidden_sizes:
+            layers.append(nn.Linear(in_size, hidden_size))
             layers.append(self.activation_func)
-            in_size = h
+            in_size = hidden_size
 
         # Add final output layer (no activation - handled by loss function)
         layers.append(nn.Linear(in_size, self.config.output_size))

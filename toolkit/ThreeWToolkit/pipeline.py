@@ -185,8 +185,8 @@ class Pipeline:
                     f"Step '{step.__class__.__name__}' must inherit from BaseStep."
                 )
 
-        rename_steps = [s for s in steps if isinstance(s, RenameColumns)]
-        windowing_steps = [s for s in steps if isinstance(s, Windowing)]
+        rename_steps = [step for step in steps if isinstance(step, RenameColumns)]
+        windowing_steps = [step for step in steps if isinstance(step, Windowing)]
 
         # More than one RenameColumns is not allowed
         if len(rename_steps) > 1:
@@ -198,7 +198,7 @@ class Pipeline:
             if not isinstance(steps[-1], Windowing):
                 logging.info("[Pipeline] Moving Windowing step to the last position.")
                 steps = [
-                    s for s in steps if not isinstance(s, Windowing)
+                    step for step in steps if not isinstance(step, Windowing)
                 ] + windowing_steps
 
             # If RenameColumns exists after Windowing, move it before
@@ -526,7 +526,7 @@ class Pipeline:
                 (with windowing applied if necessary) and the "label" column
         """
         is_windowing_applied = any(
-            isinstance(s, Windowing) for s in self.step_preprocessing
+            isinstance(step, Windowing) for step in self.step_preprocessing
         )
         if not is_windowing_applied:
             logging.warning(

@@ -179,7 +179,7 @@ class TrainerConfig(ModelTrainerConfig):
         Raises:
             ValueError: If optimizer is not in the supported list.
         """
-        valid = {o.value for o in OptimizersEnum}
+        valid = {optimizer_enum.value for optimizer_enum in OptimizersEnum}
         if value not in valid:
             raise ValueError(f"optimizer must be one of {valid}")
         return value

@@ -86,10 +86,10 @@ class ParquetDatasetConfig(BaseModel):
         if value is not None:
             valid_strs = {e.value for e in EventPrefixEnum}
             if not isinstance(value, list) or not all(
-                isinstance(t, str) for t in value
+                isinstance(event_type_item, str) for event_type_item in value
             ):
                 raise TypeError("event_type must be a list of str.")
-            for t in value:
-                if t not in valid_strs:
-                    raise ValueError(f"Unknown event_type: {t}")
+            for event_type_item in value:
+                if event_type_item not in valid_strs:
+                    raise ValueError(f"Unknown event_type: {event_type_item}")
         return value
