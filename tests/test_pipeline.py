@@ -24,7 +24,7 @@ from ThreeWToolkit.models.mlp import MLPConfig
 from ThreeWToolkit.assessment.model_assess import ModelAssessment
 from ThreeWToolkit.trainer.trainer import ModelTrainer
 from ThreeWToolkit.dataset.parquet_dataset import ParquetDataset
-from ThreeWToolkit.core.enums import TaskType
+from ThreeWToolkit.core.enums import TaskTypeEnum
 
 
 class MockStep(BaseStep):
@@ -68,7 +68,7 @@ class TestPipeline:
             target_class=[0, 1],
         )
         self.assessment_config = ModelAssessmentConfig(
-            metrics=["f1"], task_type=TaskType.CLASSIFICATION
+            metrics=["f1"], task_type=TaskTypeEnum.CLASSIFICATION
         )
 
     def test_pipeline_initialization(self):

@@ -54,7 +54,10 @@ class SklearnModels(BaseModels):
     def __init__(self, config: SklearnModelsConfig):
         """Initializes the wrapper and the underlying scikit-learn model."""
         super().__init__(config)
-        model_class = SKLEARN_MODELS[config.model_type]
+        model_type = config.model_type
+        if isinstance(model_type, str):
+            model_type = ModelTypeEnum(model_type)
+        model_class = SKLEARN_MODELS[model_type]
         params = config.model_params.copy()
         if "random_state" in model_class().get_params():
             params["random_state"] = config.random_seed

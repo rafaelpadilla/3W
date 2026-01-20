@@ -122,9 +122,13 @@ class ParquetDataset(BaseStep):
     def _check_event_type(self, event: Path) -> bool:
         """
         Check if the event file name matches one of the requested event types.
+        Supports both enum members and strings.
         """
         if isinstance(self.config.event_type, list):
-            return any(event.name.startswith(t.value) for t in self.config.event_type)
+            return any(
+                event.name.startswith(t.value if hasattr(t, "value") else t)
+                for t in self.config.event_type
+            )
         else:  # Default: accept all
             return True
 

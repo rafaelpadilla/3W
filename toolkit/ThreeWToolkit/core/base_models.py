@@ -1,30 +1,23 @@
 from abc import ABC
+
 from pydantic import BaseModel, Field, field_validator
 
 from ..core.enums import ModelTypeEnum
 
 
 class ModelsConfig(BaseModel):
-    model_type: ModelTypeEnum = Field(..., description="Type of model to use.")
+    model_type: ModelTypeEnum | str = Field(..., description="Type of model to use.")
     random_seed: int | None = Field(42, description="Random seed for reproducibility.")
 
     @field_validator("model_type")
     @classmethod
-    def check_model_type(cls, value, info):
-        if value not in {
-            ModelTypeEnum.MLP,
-            ModelTypeEnum.LOGISTIC_REGRESSION,
-            ModelTypeEnum.RANDOM_FOREST,
-            ModelTypeEnum.DECISION_TREE,
-            ModelTypeEnum.GRADIENT_BOOSTING,
-            ModelTypeEnum.KNN,
-            ModelTypeEnum.NAIVE_BAYES,
-            ModelTypeEnum.SVM,
-        }:
-            raise NotImplementedError("model_type not implemented yet.")
-        elif value is None:
+    def check_model_type(cls, value):
+        valid_types = {e for e in ModelTypeEnum}
+        valid_strs = {e.value for e in ModelTypeEnum}
+        if value is None:
             raise ValueError("model_type is required.")
-
+        if value not in valid_types and value not in valid_strs:
+            raise NotImplementedError(f"`model_type` {value} not implemented yet.")
         return value
 
 

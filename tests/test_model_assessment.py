@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 
 from ThreeWToolkit.assessment.model_assess import ModelAssessment
 from ThreeWToolkit.core.base_assessment import ModelAssessmentConfig
-from ThreeWToolkit.core.enums import TaskType
+from ThreeWToolkit.core.enums import TaskTypeEnum
 from ThreeWToolkit.models.mlp import MLP
 from ThreeWToolkit.models.sklearn_models import SklearnModels
 
@@ -26,7 +26,7 @@ class TestModelAssessmentConfig:
         assert config.metrics == ["accuracy", "f1"]
         assert config.export_results is True
         assert config.generate_report is False
-        assert config.task_type == TaskType.CLASSIFICATION
+        assert config.task_type == TaskTypeEnum.CLASSIFICATION
         assert config.batch_size == 64
         assert config.device in ["cpu", "cuda"]
         assert config.report_author == "3W Toolkit Report"
@@ -38,7 +38,7 @@ class TestModelAssessmentConfig:
             output_dir=Path("./custom_output"),
             export_results=False,
             generate_report=True,
-            task_type=TaskType.REGRESSION,
+            task_type=TaskTypeEnum.REGRESSION,
             batch_size=32,
             device="cpu",
             report_title="Custom Report",
@@ -49,7 +49,7 @@ class TestModelAssessmentConfig:
         assert config.output_dir == Path("./custom_output")
         assert config.export_results is False
         assert config.generate_report is True
-        assert config.task_type == TaskType.REGRESSION
+        assert config.task_type == TaskTypeEnum.REGRESSION
         assert config.batch_size == 32
         assert config.device == "cpu"
         assert config.report_title == "Custom Report"
@@ -273,7 +273,7 @@ class TestModelAssessmentPostProcess:
     @pytest.fixture
     def assessor(self, temp_dir):
         config = ModelAssessmentConfig(
-            output_dir=temp_dir, task_type=TaskType.CLASSIFICATION
+            output_dir=temp_dir, task_type=TaskTypeEnum.CLASSIFICATION
         )
         assessor = ModelAssessment(config)
         assessor.results = {
@@ -303,7 +303,7 @@ class TestModelAssessmentMetricSetup:
     def test_setup_classification_metrics(self, temp_dir):
         """Test metric setup for classification tasks."""
         config = ModelAssessmentConfig(
-            output_dir=temp_dir, task_type=TaskType.CLASSIFICATION
+            output_dir=temp_dir, task_type=TaskTypeEnum.CLASSIFICATION
         )
         assessor = ModelAssessment(config)
         assessor._setup_metrics()
@@ -323,7 +323,7 @@ class TestModelAssessmentMetricSetup:
         """Test metric setup for regression tasks."""
         config = ModelAssessmentConfig(
             output_dir=temp_dir,
-            task_type=TaskType.REGRESSION,
+            task_type=TaskTypeEnum.REGRESSION,
             metrics=["explained_variance"],
         )
         assessor = ModelAssessment(config)
@@ -334,7 +334,7 @@ class TestModelAssessmentMetricSetup:
     def test_classification_metrics_callable(self, temp_dir):
         """Test that classification metrics are callable."""
         config = ModelAssessmentConfig(
-            output_dir=temp_dir, task_type=TaskType.CLASSIFICATION
+            output_dir=temp_dir, task_type=TaskTypeEnum.CLASSIFICATION
         )
         assessor = ModelAssessment(config)
         assessor._setup_metrics()
@@ -441,7 +441,7 @@ class TestModelAssessmentEvaluate:
         config = ModelAssessmentConfig(
             output_dir=temp_dir,
             metrics=["explained_variance"],
-            task_type=TaskType.REGRESSION,
+            task_type=TaskTypeEnum.REGRESSION,
             export_results=False,
             generate_report=False,
         )
@@ -454,7 +454,7 @@ class TestModelAssessmentEvaluate:
         results = assessor.evaluate(model, X_test, y_test)
 
         assert "explained_variance" in results["metrics"]
-        assert results["task_type"] == TaskType.REGRESSION
+        assert results["task_type"] == TaskTypeEnum.REGRESSION
 
 
 class TestModelAssessmentGetPredictions:
@@ -700,7 +700,7 @@ class TestModelAssessmentExportResults:
         assessor = ModelAssessment(config)
         assessor.results = {
             "model_name": "TestModel",
-            "task_type": TaskType.CLASSIFICATION,
+            "task_type": TaskTypeEnum.CLASSIFICATION,
             "predictions": np.array([0, 1, 0, 1]),
             "true_values": np.array([0, 1, 0, 1]),
             "metrics": {"accuracy": 1.0, "f1": 1.0},
@@ -814,7 +814,7 @@ class TestModelAssessmentSummary:
         assessor = ModelAssessment(config)
         assessor.results = {
             "model_name": "RandomForestClassifier",
-            "task_type": TaskType.CLASSIFICATION.value,
+            "task_type": TaskTypeEnum.CLASSIFICATION.value,
             "timestamp": "2024-01-15T10:30:45.123456",
             "metrics": {
                 "accuracy": 0.8750,
@@ -872,7 +872,7 @@ class TestModelAssessmentSummary:
         assessor = ModelAssessment(config)
         assessor.results = {
             "model_name": "LinearRegression",
-            "task_type": TaskType.REGRESSION.value,
+            "task_type": TaskTypeEnum.REGRESSION.value,
             "timestamp": "2024-01-15T10:30:45",
             "metrics": {"explained_variance": 0.9234},
         }
@@ -896,7 +896,7 @@ class TestModelAssessmentIntegration:
         config = ModelAssessmentConfig(
             output_dir=temp_dir,
             metrics=["accuracy", "f1", "precision", "recall"],
-            task_type=TaskType.CLASSIFICATION,
+            task_type=TaskTypeEnum.CLASSIFICATION,
             export_results=True,
             generate_report=False,
         )
@@ -937,7 +937,7 @@ class TestModelAssessmentIntegration:
         config = ModelAssessmentConfig(
             output_dir=temp_dir,
             metrics=["explained_variance"],
-            task_type=TaskType.REGRESSION,
+            task_type=TaskTypeEnum.REGRESSION,
             export_results=True,
             generate_report=False,
         )
@@ -953,7 +953,7 @@ class TestModelAssessmentIntegration:
 
         results = assessor.evaluate(model, X_test, y_test)
 
-        assert results["task_type"] == TaskType.REGRESSION
+        assert results["task_type"] == TaskTypeEnum.REGRESSION
         assert "explained_variance" in results["metrics"]
 
     def test_pipeline_workflow(self, temp_dir):

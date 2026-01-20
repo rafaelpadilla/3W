@@ -13,7 +13,7 @@ from sklearn.model_selection import StratifiedKFold, train_test_split
 
 from ..core.base_step import BaseStep
 from ..core.base_model_trainer import ModelTrainerConfig
-from ..core.enums import OptimizersEnum, CriterionEnum, TaskType
+from ..core.enums import OptimizersEnum, CriterionEnum, TaskTypeEnum
 from ..models.mlp import MLPConfig, MLP
 from ..models.sklearn_models import SklearnModelsConfig, SklearnModels
 from ..utils import ModelRecorder
@@ -786,7 +786,7 @@ class ModelTrainer(BaseStep):
             >>> # Custom assessment configuration
             >>> config = ModelAssessmentConfig(
             ...     metrics=["accuracy", "f1", "precision", "recall"],
-            ...     task_type=TaskType.CLASSIFICATION
+            ...     task_type=TaskTypeEnum.CLASSIFICATION
             ... )
             >>> results = trainer.assess(X_test, y_test, assessment_config=config)
         """
@@ -799,9 +799,9 @@ class ModelTrainer(BaseStep):
                     else ["explained_variance"]
                 ),
                 task_type=(
-                    TaskType.CLASSIFICATION
+                    TaskTypeEnum.CLASSIFICATION
                     if self._is_classification_task()
-                    else TaskType.REGRESSION
+                    else TaskTypeEnum.REGRESSION
                 ),
             )
 

@@ -1,12 +1,11 @@
-import torch
-
 from pathlib import Path
+
+import torch
 from pydantic import BaseModel, Field, field_validator
 
 from ThreeWToolkit.constants import OUTPUT_DIR
 
-from ..core.enums import TaskType
-
+from ..core.enums import TaskTypeEnum
 from .base_step import BaseStep
 
 
@@ -19,7 +18,7 @@ class ModelAssessmentConfig(BaseModel):
         output_dir (Path): Directory to save assessment results.
         export_results (bool): Whether to export results to CSV.
         generate_report (bool): Whether to generate LaTeX report.
-        task_type (str): Type of task (TaskType.CLASSIFICATION or TaskType.REGRESSION).
+        task_type (TaskTypeEnum): Type of task (TaskTypeEnum.CLASSIFICATION or TaskTypeEnum.REGRESSION).
         batch_size (int): Batch size for PyTorch model predictions.
         device (str): Device for PyTorch computations.
         report_title (str | None): Title for the report.
@@ -29,7 +28,7 @@ class ModelAssessmentConfig(BaseModel):
         >>> config = ModelAssessmentConfig(
         ...     metrics=["accuracy", "f1", "precision", "recall"],
         ...     output_dir=Path("./results"),
-        ...     task_type=TaskType.CLASSIFICATION,
+        ...     task_type=TaskTypeEnum.CLASSIFICATION,
         ...     generate_report=True,
         ...     report_title="Model Performance Analysis"
         ... )
@@ -48,8 +47,8 @@ class ModelAssessmentConfig(BaseModel):
         default=False,
         description="Whether to generate LaTeX report using ReportGeneration",
     )
-    task_type: TaskType = Field(
-        default=TaskType.CLASSIFICATION,
+    task_type: TaskTypeEnum = Field(
+        default=TaskTypeEnum.CLASSIFICATION,
         description="Type of task (classification or regression)",
     )
     batch_size: int = Field(
@@ -69,7 +68,7 @@ class ModelAssessmentConfig(BaseModel):
     @field_validator("task_type")
     @classmethod
     def validate_task_type(cls, value):
-        valid_types = {TaskType.CLASSIFICATION, TaskType.REGRESSION}
+        valid_types = {TaskTypeEnum.CLASSIFICATION, TaskTypeEnum.REGRESSION}
         if value not in valid_types:
             raise ValueError(f"task_type must be one of {valid_types}")
         return value

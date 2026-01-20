@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader, TensorDataset
 
 from ..core.base_step import BaseStep
 from ..core.base_assessment import ModelAssessmentConfig
-from ..core.enums import TaskType
+from ..core.enums import TaskTypeEnum
 from ..metrics import (
     accuracy_score,
     balanced_accuracy_score,
@@ -49,7 +49,7 @@ class ModelAssessment(BaseStep):
         Basic usage for classification:
         >>> config = ModelAssessmentConfig(
         ...     metrics=["accuracy", "f1", "precision", "recall"],
-        ...     task_type=TaskType.CLASSIFICATION,
+        ...     task_type=TaskTypeEnum.CLASSIFICATION,
         ...     export_results=True
         ... )
         >>> assessor = ModelAssessment(config)
@@ -60,7 +60,7 @@ class ModelAssessment(BaseStep):
         Usage with report generation:
         >>> config = ModelAssessmentConfig(
         ...     metrics=["explained_variance"],
-        ...     task_type=TaskType.REGRESSION,
+        ...     task_type=TaskTypeEnum.REGRESSION,
         ...     generate_report=True,
         ...     report_title="Model Performance Analysis"
         ... )
@@ -225,7 +225,7 @@ class ModelAssessment(BaseStep):
             - Average precision requires at least 2 classes to be meaningful
             - All functions are wrapped with appropriate error handling
         """
-        if self.config.task_type == TaskType.CLASSIFICATION:
+        if self.config.task_type == TaskTypeEnum.CLASSIFICATION:
             self.metric_functions = {
                 "accuracy": accuracy_score,
                 "balanced_accuracy": balanced_accuracy_score,
@@ -244,7 +244,7 @@ class ModelAssessment(BaseStep):
                     else 0.0
                 ),
             }
-        else:  # TaskType.REGRESSION
+        else:  # TaskTypeEnum.REGRESSION
             self.metric_functions = {
                 "explained_variance": explained_variance_score,
             }
@@ -276,7 +276,7 @@ class ModelAssessment(BaseStep):
         Returns:
             dict[str, Any]: Comprehensive evaluation results containing:
                 - model_name (str): Name of the evaluated model
-                - task_type (TaskType): Classification or regression
+                - task_type (TaskTypeEnum): Classification or regression
                 - predictions (np.ndarray): Model predictions on test data
                 - true_values (np.ndarray): Actual target values
                 - X_test (np.ndarray): Test features (for report generation)
@@ -665,7 +665,7 @@ class ModelAssessment(BaseStep):
             Model Assessment Summary
             ========================
             Model: RandomForestClassifier
-            Task Type: TaskType.CLASSIFICATION
+            Task Type: TaskTypeEnum.CLASSIFICATION
             Timestamp: 2024-01-15T10:30:45.123456
 
             Metrics:
