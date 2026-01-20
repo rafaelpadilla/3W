@@ -216,9 +216,9 @@ class DataLoader:
 
             # Update loaded counts for this class
             stats["classes_count"][class_folder]["real_loaded"] = loaded_real_count
-            stats["classes_count"][class_folder][
-                "simulated_loaded"
-            ] = loaded_simulated_count
+            stats["classes_count"][class_folder]["simulated_loaded"] = (
+                loaded_simulated_count
+            )
             stats["classes_count"][class_folder]["total_loaded"] = (
                 loaded_real_count + loaded_simulated_count
             )
@@ -400,13 +400,13 @@ class DataLoader:
                         )
                         print(f"  Available features: {available_features}")
                         print(f"  Shape after filtering: {filtered_df.shape}")
-                        print(f"  Missing values per column:")
+                        print("  Missing values per column:")
                         for col in filtered_df.columns:
                             missing_count = filtered_df[col].isnull().sum()
                             missing_pct = (missing_count / len(filtered_df)) * 100
                             print(f"    {col}: {missing_count} ({missing_pct:.1f}%)")
 
-        print(f"\nFiltering Results:")
+        print("\nFiltering Results:")
         print("=" * 40)
         print(f"Datasets after filtering: {len(filtered_dfs)}")
         print(f"Total samples: {sum(len(df) for df in filtered_dfs):,}")
@@ -418,7 +418,7 @@ class DataLoader:
                 count = sum(1 for df in filtered_dfs if feature in df.columns)
                 feature_availability[feature] = count
 
-            print(f"\nFeature Availability Across Datasets:")
+            print("\nFeature Availability Across Datasets:")
             print("-" * 40)
             for feature, count in feature_availability.items():
                 percentage = (count / len(filtered_dfs)) * 100

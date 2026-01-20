@@ -1,15 +1,17 @@
 #!/bin/bash
 set -exu
 
-# If CI is unset or empty, use true as the default value
-CI="${CI:-true}"
+# If CI is unset or empty, use false as the default value (for local development)
+# Set CI=true in your environment or CI system to enable check-only mode
+CI="${CI:-false}"
 
 cd "$(dirname "$0")"/..
 
-LINT="toolkit tests"
+LINT="toolkit tests resources"
+LINT_MYPY="toolkit tests"  # Only type-check toolkit and tests, not resources
 
 # Run mypy for type checking
-mypy ${LINT}
+mypy ${LINT_MYPY}
 
 if [ "${CI}" = true ]; then
     # In CI, only check code formatting and linting with Ruff
