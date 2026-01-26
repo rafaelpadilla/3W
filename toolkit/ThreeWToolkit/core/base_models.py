@@ -11,14 +11,14 @@ class ModelsConfig(BaseModel):
 
     @field_validator("model_type")
     @classmethod
-    def check_model_type(cls, v, info):
+    def check_model_type(cls, value, info):
         valid_types = {e for e in ModelTypeEnum}
         valid_strs = {e.value for e in ModelTypeEnum}
-        if v is None:
+        if value is None:
             raise ValueError("model_type is required.")
-        if v not in valid_types and v not in valid_strs:
-            raise NotImplementedError(f"`model_type` {v} not implemented yet.")
-        return v
+        if value not in valid_types and value not in valid_strs:
+            raise NotImplementedError(f"`model_type` {value} not implemented yet.")
+        return value
 
 
 class BaseModels(ABC):

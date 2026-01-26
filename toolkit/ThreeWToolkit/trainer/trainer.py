@@ -89,11 +89,11 @@ class TrainerConfig(ModelTrainerConfig):
 
     @field_validator("batch_size")
     @classmethod
-    def check_batch_size(cls, v):
+    def check_batch_size(cls, value):
         """Validate that batch_size is positive.
 
         Args:
-            v (int): The batch size value to validate.
+            value (int): The batch size value to validate.
 
         Returns:
             int: The validated batch size.
@@ -101,17 +101,17 @@ class TrainerConfig(ModelTrainerConfig):
         Raises:
             ValueError: If batch_size is not greater than 0.
         """
-        if v <= 0:
+        if value <= 0:
             raise ValueError("batch_size must be > 0")
-        return v
+        return value
 
     @field_validator("epochs")
     @classmethod
-    def check_epochs(cls, v):
+    def check_epochs(cls, value):
         """Validate that epochs is positive.
 
         Args:
-            v (int): The number of epochs to validate.
+            value (int): The number of epochs to validate.
 
         Returns:
             int: The validated number of epochs.
@@ -119,17 +119,17 @@ class TrainerConfig(ModelTrainerConfig):
         Raises:
             ValueError: If epochs is not greater than 0.
         """
-        if v <= 0:
+        if value <= 0:
             raise ValueError("epochs must be > 0")
-        return v
+        return value
 
     @field_validator("learning_rate")
     @classmethod
-    def check_learning_rate(cls, v):
+    def check_learning_rate(cls, value):
         """Validate that learning_rate is positive.
 
         Args:
-            v (float): The learning rate value to validate.
+            value (float): The learning rate value to validate.
 
         Returns:
             float: The validated learning rate.
@@ -137,17 +137,17 @@ class TrainerConfig(ModelTrainerConfig):
         Raises:
             ValueError: If learning_rate is not greater than 0.
         """
-        if v <= 0:
+        if value <= 0:
             raise ValueError("learning_rate must be > 0")
-        return v
+        return value
 
     @field_validator("n_splits")
     @classmethod
-    def check_n_splits(cls, v, values):
+    def check_n_splits(cls, value, values):
         """Validate n_splits when cross-validation is enabled.
 
         Args:
-            v (int): The number of splits to validate.
+            value (int): The number of splits to validate.
             values: The validation context containing other field values.
 
         Returns:
@@ -161,17 +161,17 @@ class TrainerConfig(ModelTrainerConfig):
             if hasattr(values, "data")
             else values.get("cross_validation")
         )
-        if cross_val and v is not None and v <= 1:
+        if cross_val and value is not None and value <= 1:
             raise ValueError("n_splits must be > 1 for cross-validation")
-        return v
+        return value
 
     @field_validator("optimizer")
     @classmethod
-    def check_optimizer(cls, v):
+    def check_optimizer(cls, value):
         """Validate that optimizer is from the supported list.
 
         Args:
-            v (str): The optimizer name to validate.
+            value (str): The optimizer name to validate.
 
         Returns:
             str: The validated optimizer name.
@@ -180,17 +180,17 @@ class TrainerConfig(ModelTrainerConfig):
             ValueError: If optimizer is not in the supported list.
         """
         valid = {o.value for o in OptimizersEnum}
-        if v not in valid:
+        if value not in valid:
             raise ValueError(f"optimizer must be one of {valid}")
-        return v
+        return value
 
     @field_validator("criterion")
     @classmethod
-    def check_criterion(cls, v):
+    def check_criterion(cls, value):
         """Validate that criterion is from the supported list.
 
         Args:
-            v (str): The criterion name to validate.
+            value (str): The criterion name to validate.
 
         Returns:
             str: The validated criterion name.
@@ -199,17 +199,17 @@ class TrainerConfig(ModelTrainerConfig):
             ValueError: If criterion is not in the supported list.
         """
         valid = {c.value for c in CriterionEnum}
-        if v not in valid:
+        if value not in valid:
             raise ValueError(f"criterion must be one of {valid}")
-        return v
+        return value
 
     @field_validator("device")
     @classmethod
-    def check_device(cls, v):
+    def check_device(cls, value):
         """Validate that device is either 'cpu' or 'cuda'.
 
         Args:
-            v (str): The device name to validate.
+            value (str): The device name to validate.
 
         Returns:
             str: The validated device name.
@@ -218,9 +218,9 @@ class TrainerConfig(ModelTrainerConfig):
             ValueError: If device is not 'cpu' or 'cuda'.
         """
         valid = {"cpu", "cuda"}
-        if v not in valid:
+        if value not in valid:
             raise ValueError("device must be 'cpu' or 'cuda'")
-        return v
+        return value
 
 
 class ModelTrainer(BaseStep):

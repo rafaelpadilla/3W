@@ -12,11 +12,11 @@ class ImputeMissingConfig(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @field_validator("fill_value")
-    def check_fill_value_for_constant(cls, v, info: ValidationInfo):
+    def check_fill_value_for_constant(cls, value, info: ValidationInfo):
         strategy = info.data.get("strategy")
-        if strategy == "constant" and v is None:
+        if strategy == "constant" and value is None:
             raise ValueError("You must provide `fill_value` when strategy='constant'")
-        return v
+        return value
 
 
 class NormalizeConfig(BaseModel):

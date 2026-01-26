@@ -13,14 +13,14 @@ class BaseScoreArgsValidator(BaseModel):
 
     @field_validator("y_true", "y_pred", "sample_weight", mode="before")
     @classmethod
-    def check_array_like(cls, v, info):
-        if info.field_name == "sample_weight" and v is None:
-            return v
-        if not isinstance(v, (np.ndarray, pd.Series, list)):
+    def check_array_like(cls, value, info):
+        if info.field_name == "sample_weight" and value is None:
+            return value
+        if not isinstance(value, (np.ndarray, pd.Series, list)):
             raise TypeError(
-                f"'{info.field_name}' must be a np.ndarray, pd.Series or list, got {type(v)}"
+                f"'{info.field_name}' must be a np.ndarray, pd.Series or list, got {type(value)}"
             )
-        return v
+        return value
 
     @model_validator(mode="after")
     def check_shapes(self):
@@ -47,10 +47,10 @@ class LabelsValidator(BaseModel):
 
     @field_validator("labels", mode="before")
     @classmethod
-    def check_labels(cls, v):
-        if v is not None and not isinstance(v, list):
-            raise TypeError(f"'labels' must be a list or None, got {type(v)}")
-        return v
+    def check_labels(cls, value):
+        if value is not None and not isinstance(value, list):
+            raise TypeError(f"'labels' must be a list or None, got {type(value)}")
+        return value
 
 
 class PosLabelValidator(BaseModel):
@@ -58,10 +58,10 @@ class PosLabelValidator(BaseModel):
 
     @field_validator("pos_label", mode="before")
     @classmethod
-    def check_pos_label(cls, v):
-        if not isinstance(v, (int, float)) and v is not None:
-            raise TypeError(f"'pos_label' must be a number or None, got {type(v)}")
-        return v
+    def check_pos_label(cls, value):
+        if not isinstance(value, (int, float)) and value is not None:
+            raise TypeError(f"'pos_label' must be a number or None, got {type(value)}")
+        return value
 
 
 class AverageValidator(BaseModel):
@@ -69,11 +69,11 @@ class AverageValidator(BaseModel):
 
     @field_validator("average", mode="before")
     @classmethod
-    def check_average(cls, v):
+    def check_average(cls, value):
         allowed = {"micro", "macro", "samples", "weighted", "binary", None}
-        if v not in allowed:
-            raise ValueError(f"'average' must be one of {allowed}, got '{v}'")
-        return v
+        if value not in allowed:
+            raise ValueError(f"'average' must be one of {allowed}, got '{value}'")
+        return value
 
 
 class ZeroDivisionValidator(BaseModel):
@@ -81,11 +81,11 @@ class ZeroDivisionValidator(BaseModel):
 
     @field_validator("zero_division", mode="before")
     @classmethod
-    def check_zero_division(cls, v):
+    def check_zero_division(cls, value):
         allowed = {"warn", 0, 1}
-        if v not in allowed:
-            raise ValueError(f"'zero_division' must be one of {allowed}, got '{v}'")
-        return v
+        if value not in allowed:
+            raise ValueError(f"'zero_division' must be one of {allowed}, got '{value}'")
+        return value
 
 
 class AccuracyScoreConfig(BaseScoreArgsValidator):
@@ -93,12 +93,12 @@ class AccuracyScoreConfig(BaseScoreArgsValidator):
 
     @field_validator("normalize", mode="before")
     @classmethod
-    def check_bool(cls, v):
-        if not isinstance(v, bool):
+    def check_bool(cls, value):
+        if not isinstance(value, bool):
             raise TypeError(
-                f"'normalize' must be a boolean, got {type(v)} with value '{v}'"
+                f"'normalize' must be a boolean, got {type(value)} with value '{value}'"
             )
-        return v
+        return value
 
 
 class BalancedAccuracyScoreConfig(BaseScoreArgsValidator):
@@ -106,12 +106,12 @@ class BalancedAccuracyScoreConfig(BaseScoreArgsValidator):
 
     @field_validator("adjusted", mode="before")
     @classmethod
-    def check_bool(cls, v):
-        if not isinstance(v, bool):
+    def check_bool(cls, value):
+        if not isinstance(value, bool):
             raise TypeError(
-                f"'adjusted' must be a boolean, got {type(v)} with value '{v}'"
+                f"'adjusted' must be a boolean, got {type(value)} with value '{value}'"
             )
-        return v
+        return value
 
 
 class AveragePrecisionScoreConfig(
@@ -119,11 +119,11 @@ class AveragePrecisionScoreConfig(
 ):
     @field_validator("average", mode="before")
     @classmethod
-    def override_average_options(cls, v):
+    def override_average_options(cls, value):
         allowed = {"micro", "macro", "samples", "weighted", None}
-        if v not in allowed:
-            raise ValueError(f"'average' must be one of {allowed}, got '{v}'")
-        return v
+        if value not in allowed:
+            raise ValueError(f"'average' must be one of {allowed}, got '{value}'")
+        return value
 
 
 class MultiClassValidator(BaseModel):
@@ -131,11 +131,11 @@ class MultiClassValidator(BaseModel):
 
     @field_validator("multi_class", mode="before")
     @classmethod
-    def check_multi_class(cls, v):
+    def check_multi_class(cls, value):
         allowed = {"raise", "ovr", "ovo"}
-        if v not in allowed:
-            raise ValueError(f"'multi_class' must be one of {allowed}, got '{v}'")
-        return v
+        if value not in allowed:
+            raise ValueError(f"'multi_class' must be one of {allowed}, got '{value}'")
+        return value
 
 
 class MaxFprValidator(BaseModel):
@@ -143,10 +143,14 @@ class MaxFprValidator(BaseModel):
 
     @field_validator("max_fpr", mode="before")
     @classmethod
-    def check_max_fpr(cls, v):
-        if v is not None and (not isinstance(v, (int, float)) or not (0 < v <= 1)):
-            raise ValueError(f"'max_fpr' must be a float in the range (0, 1], got {v}")
-        return v
+    def check_max_fpr(cls, value):
+        if value is not None and (
+            not isinstance(value, (int, float)) or not (0 < value <= 1)
+        ):
+            raise ValueError(
+                f"'max_fpr' must be a float in the range (0, 1], got {value}"
+            )
+        return value
 
 
 class PrecisionScoreConfig(
@@ -188,11 +192,11 @@ class RocAucScoreConfig(
 ):
     @field_validator("average", mode="before")
     @classmethod
-    def override_average_options(cls, v):
+    def override_average_options(cls, value):
         allowed = {"micro", "macro", "samples", "weighted", None}
-        if v not in allowed:
-            raise ValueError(f"'average' must be one of {allowed}, got '{v}'")
-        return v
+        if value not in allowed:
+            raise ValueError(f"'average' must be one of {allowed}, got '{value}'")
+        return value
 
 
 class MultiOutputValidator(BaseModel):
@@ -200,11 +204,11 @@ class MultiOutputValidator(BaseModel):
 
     @field_validator("multioutput", mode="before")
     @classmethod
-    def check_multioutput(cls, v):
+    def check_multioutput(cls, value):
         allowed = {"raw_values", "uniform_average", "variance_weighted"}
-        if v not in allowed:
-            raise ValueError(f"'multioutput' must be one of {allowed}, got '{v}'")
-        return v
+        if value not in allowed:
+            raise ValueError(f"'multioutput' must be one of {allowed}, got '{value}'")
+        return value
 
 
 class ForceFiniteValidator(BaseModel):
@@ -212,10 +216,10 @@ class ForceFiniteValidator(BaseModel):
 
     @field_validator("force_finite", mode="before")
     @classmethod
-    def check_force_finite(cls, v):
-        if not isinstance(v, bool):
-            raise TypeError(f"'force_finite' must be a boolean, got {type(v)}")
-        return v
+    def check_force_finite(cls, value):
+        if not isinstance(value, bool):
+            raise TypeError(f"'force_finite' must be a boolean, got {type(value)}")
+        return value
 
 
 class ExplainedVarianceScoreConfig(

@@ -64,30 +64,32 @@ class ParquetDatasetConfig(BaseModel):
 
     @field_validator("file_list")
     @classmethod
-    def validate_file_list(cls, v, info):
+    def validate_file_list(cls, value, info):
         """
         Ensure that `file_list` is only provided when `split=="list"`.
         Raise a ValueError otherwise.
         """
         split = info.data.get("split")
-        if split == "list" and v is None:
+        if split == "list" and value is None:
             raise ValueError('file_list must be provided if split is "list".')
-        elif split != "list" and v is not None:
+        elif split != "list" and value is not None:
             raise ValueError(f'file_list must not be provided if split="{split}".')
-        return v
+        return value
 
     @field_validator("event_type")
     @classmethod
-    def validate_event_type(cls, v):
+    def validate_event_type(cls, value):
         """
         Ensure that all event types are valid string values of EventPrefixEnum.
         Raise a ValueError if an unknown type is provided.
         """
-        if v is not None:
+        if value is not None:
             valid_strs = {e.value for e in EventPrefixEnum}
-            if not isinstance(v, list) or not all(isinstance(t, str) for t in v):
+            if not isinstance(value, list) or not all(
+                isinstance(event_type_item, str) for event_type_item in value
+            ):
                 raise TypeError("event_type must be a list of str.")
-            for t in v:
-                if t not in valid_strs:
-                    raise ValueError(f"Unknown event_type: {t}")
-        return v
+            for event_type_item in value:
+                if event_type_item not in valid_strs:
+                    raise ValueError(f"Unknown event_type: {event_type_item}")
+        return value
