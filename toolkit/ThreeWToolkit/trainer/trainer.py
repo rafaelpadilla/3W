@@ -4,7 +4,6 @@ import torch.optim as optim
 import pandas as pd
 import numpy as np
 import logging
-logger = logging.getLogger(__name__)
 
 from pathlib import Path
 from typing import Callable, Union
@@ -22,6 +21,8 @@ from ..models.sklearn_models import SklearnModelsConfig, SklearnModels
 from ..utils import ModelRecorder
 from torch.utils.data import TensorDataset
 from ..assessment.model_assess import ModelAssessment, ModelAssessmentConfig
+
+logger = logging.getLogger(__name__)
 
 
 class TrainerConfig(ModelTrainerConfig):
@@ -439,12 +440,11 @@ class ModelTrainer(
             kwargs = kwargs_value
 
         logger.info("Training started")
-        
+
         # Perform training
         self.train(x_train, y_train, x_val, y_val, **kwargs)
 
         logger.info("Training finished | history_len=%d", len(self.history))
-
 
         # Add training results to data
         data["model"] = self.model

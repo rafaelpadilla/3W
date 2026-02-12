@@ -2,12 +2,15 @@ import numpy as np
 import torch.nn as nn
 import torch
 from torch.utils.data import DataLoader
+import logging
 
 from tqdm.auto import tqdm
 from ..core.base_models import ModelsConfig, BaseModels
 from ..core.enums import ModelTypeEnum, ActivationFunctionEnum
 from typing import Iterable, TypeAlias, Callable
 from pydantic import Field, field_validator
+
+logger = logging.getLogger(__name__)
 
 # Type alias for PyTorch model parameters
 ParamsT: TypeAlias = (
@@ -571,9 +574,22 @@ class MLP(BaseModels, nn.Module):
                 pbar.set_description_str(
                     f"[Pipeline] Training | train_loss: {avg_epoch_train_loss:.4f}, val_loss: {val_loss:.4f}"
                 )
+                logger.info(
+                    "Epoch %d/%d | train_loss=%.6f | val_loss=%.6f",
+                    epoch_idx + 1,
+                    epochs,
+                    avg_epoch_train_loss,
+                    val_loss,
+                )
             else:
                 pbar.set_description_str(
                     f"[Pipeline] Training | train_loss: {avg_epoch_train_loss:.4f}"
+                )
+                logger.info(
+                    "Epoch %d/%d | train_loss=%.6f",
+                    epoch_idx + 1,
+                    epochs,
+                    avg_epoch_train_loss,
                 )
 
         return loss_dict

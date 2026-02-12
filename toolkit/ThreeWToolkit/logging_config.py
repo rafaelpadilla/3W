@@ -1,19 +1,28 @@
 # ThreeWToolkit/logging_config.py
+from __future__ import annotations
+
 import logging
 from pathlib import Path
 from logging.handlers import RotatingFileHandler
 
-def setup_default_logging(logs_dir: Path, run_id: str, level: int = logging.INFO) -> Path:
-    root = logging.getLogger()
+_CONFIGURED: bool = False
+_LOG_FILE: Path | None = None
 
-    if getattr(root, "_threew_configured", False):
-        return Path(getattr(root, "_threew_log_file"))
+
+def setup_default_logging(
+    logs_dir: Path, run_id: str, level: int = logging.INFO
+) -> Path:
+    global _CONFIGURED, _LOG_FILE
+
+    if _CONFIGURED and _LOG_FILE is not None:
+        return _LOG_FILE
 
     logs_dir.mkdir(parents=True, exist_ok=True)
     log_file = logs_dir / f"run_{run_id}.log"
 
     fmt = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
 
+    root = logging.getLogger()
     root.setLevel(level)
 
     fh = RotatingFileHandler(log_file, maxBytes=5_000_000, backupCount=3)
@@ -25,6 +34,6 @@ def setup_default_logging(logs_dir: Path, run_id: str, level: int = logging.INFO
     root.addHandler(sh)
     root.addHandler(fh)
 
-    root._threew_configured = True
-    root._threew_log_file = str(log_file)
+    _CONFIGURED = True
+    _LOG_FILE = log_file
     return log_file
