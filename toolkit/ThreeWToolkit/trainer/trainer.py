@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.optim as optim
 import pandas as pd
 import numpy as np
+import logging
+logger = logging.getLogger(__name__)
 
 from pathlib import Path
 from typing import Callable, Union
@@ -354,6 +356,16 @@ class ModelTrainer(
         self.shuffle_train = config.shuffle_train
         self.history: list = []
 
+        logger.info(
+            "ModelTrainer initialized | model=%s | device=%s | lr=%s | epochs=%d | batch=%d | cv=%s",
+            type(self.model).__name__,
+            self.device,
+            self.lr,
+            self.epochs,
+            self.batch_size,
+            bool(self.cross_validation),
+        )
+
     def pre_process(
         self, data: dict | tuple | list
     ) -> dict[str, pd.DataFrame | pd.Series | dict | None]:
@@ -426,8 +438,13 @@ class ModelTrainer(
         else:
             kwargs = kwargs_value
 
+        logger.info("Training started")
+        
         # Perform training
         self.train(x_train, y_train, x_val, y_val, **kwargs)
+
+        logger.info("Training finished | history_len=%d", len(self.history))
+
 
         # Add training results to data
         data["model"] = self.model
@@ -617,6 +634,7 @@ class ModelTrainer(
             or a single-element list (regular training)
         """
         if self.cross_validation:
+            logger.info("Cross-validation enabled | n_splits=%d", self.n_splits)
             self.history = []
 
             # Create stratified k-fold splits
@@ -637,6 +655,7 @@ class ModelTrainer(
                 colour="#0a2c53",
             )
             for fold, (train_idx, val_idx) in pbar:
+                logger.info("Fold %d/%d started", fold + 1, self.n_splits)
                 # Updates the bar description for the current fold
                 pbar.set_description_str(f"[Pipeline] Training Fold {fold + 1}")
 
@@ -663,6 +682,7 @@ class ModelTrainer(
                 self.history.append(fold_history)
 
         elif x_val is not None and y_val is not None:
+            logger.info("Using provided validation set")
             # Use provided validation data
             self.history = [
                 self.call_trainer(x_train, y_train, x_val=x_val, y_val=y_val, **kwargs)
@@ -788,6 +808,7 @@ class ModelTrainer(
             The saved model can be loaded later using the load() method.
         """
         ModelRecorder.save_best_model(model=self.model, filename=filepath)
+        logger.info("Saving model to %s", filepath)
 
     def load(self, filepath: Path) -> MLP | SklearnModels:
         """Load a previously saved model from disk.
@@ -809,6 +830,7 @@ class ModelTrainer(
         state_dict = ModelRecorder.load_model(filename=filepath)
         if isinstance(self.model, MLP):
             self.model.load_state_dict(state_dict)
+        logger.info("Loading model from %s", filepath)
         return self.model
 
     def assess(
@@ -861,6 +883,12 @@ class ModelTrainer(
                     else TaskTypeEnum.REGRESSION
                 ),
             )
+
+        logger.debug(
+            "Assessment config | metrics=%s | task_type=%s",
+            assessment_config.metrics,
+            assessment_config.task_type,
+        )
 
         assessor = ModelAssessment(assessment_config)
         assessor._setup_metrics()
