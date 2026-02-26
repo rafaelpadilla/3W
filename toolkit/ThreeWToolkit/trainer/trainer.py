@@ -827,11 +827,7 @@ class ModelTrainer(
             For PyTorch models, this loads the state dict. For scikit-learn
             models, this loads the entire model state.
         """
-        state_dict = ModelRecorder.load_model(filename=filepath)
-        if isinstance(self.model, MLP):
-            self.model.load_state_dict(state_dict)
-        logger.info("Loading model from %s", filepath)
-        return self.model
+        return ModelRecorder.load_model(filename=filepath, model=self.model)
 
     def assess(
         self,
