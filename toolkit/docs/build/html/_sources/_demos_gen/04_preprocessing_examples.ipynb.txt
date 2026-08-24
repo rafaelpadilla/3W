@@ -1,0 +1,909 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "56c7567e",
+   "metadata": {},
+   "source": [
+    "# Preprocessing Demonstration\n",
+    "\n",
+    "This notebook demonstrates the **preprocessing utilities** shipped in `ThreeWToolkit.preprocessing`.\n",
+    "\n",
+    "Functions demonstrated:\n",
+    "\n",
+    "- CleanSignals\n",
+    "- FillLabels\n",
+    "- ImputeMissing\n",
+    "- Normalize\n",
+    "- RemapClass\n",
+    "- RenameColumns"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "043095a4",
+   "metadata": {},
+   "source": [
+    "Importing methods:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "b641ef22",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ThreeWToolkit.preprocessing import (\n",
+    "    ImputeMissingConfig,\n",
+    "    NormalizeConfig,\n",
+    "    RenameColumnsConfig,\n",
+    "    CleanSignalsConfig,\n",
+    "    FillLabelsConfig,\n",
+    "    RemapClassConfig,\n",
+    "    SequentialPreprocessingAdapterConfig,\n",
+    ")\n",
+    "from ThreeWToolkit.dataset import ParquetDatasetConfig, TransformConfig"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8073d2bc",
+   "metadata": {},
+   "source": [
+    "Preparing dataset for demonstration:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "57b18c64",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "2026-04-17 00:36:24,728 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset\n",
+      "2026-04-17 00:36:24,729 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...\n",
+      "2026-04-17 00:36:24,732 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!\n"
+     ]
+    }
+   ],
+   "source": [
+    "ds = ParquetDatasetConfig(path=\"../../dataset/\", event_type=[\"real\"]).build()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3bdab6ba",
+   "metadata": {},
+   "source": [
+    "## Clean Signals\n",
+    "\n",
+    "In this section, we use the **SequentialPreprocessingAdapterConfig** to define a custom pre-processing pipeline by chaining one or more pre-processing steps in sequence. Here, the pipeline includes a step for cleaning frozen / out-of-range signals.\n",
+    "\n",
+    "- This method uses thresholds based on the interquartile range (IQR) of the average and standard deviation of the signals to identify frozen / out-of-range behavior.\n",
+    "\n",
+    "- Events whose statistics (average or standard deviation) fall outside the specified IQR thresholds may be considered faulty and are replaced with NaN values.\n",
+    "\n",
+    "- Larger IQR thresholds make the method more lenient, while smaller thresholds make it stricter when identifying frozen / out-of-range signals.\n",
+    "\n",
+    "- Categorical signals should not be processed by this feature extractor, since the IQR-based thresholds are designed for continuous signals.\n",
+    "\n",
+    "- This method also includes a **missing_columns_threshold** parameter, which is used to drop columns that contain mostly NaN values after the cleaning step."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "61a05798",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Columns before cleaning: ['ABER-CKGL', 'ABER-CKP', 'ESTADO-DHSV', 'ESTADO-M1', 'ESTADO-M2', 'ESTADO-PXO', 'ESTADO-SDV-GL', 'ESTADO-SDV-P', 'ESTADO-W1', 'ESTADO-W2', 'ESTADO-XO', 'P-ANULAR', 'P-JUS-BS', 'P-JUS-CKGL', 'P-JUS-CKP', 'P-MON-CKGL', 'P-MON-CKP', 'P-MON-SDV-P', 'P-PDG', 'PT-P', 'P-TPT', 'QBS', 'QGL', 'T-JUS-CKP', 'T-MON-CKP', 'T-PDG', 'T-TPT', 'state']\n",
+      "Original event                      ABER-CKGL  ABER-CKP  ESTADO-DHSV  ESTADO-M1  ESTADO-M2  \\\n",
+      "timestamp                                                                     \n",
+      "2017-02-01 01:02:07        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:08        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:09        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:10        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:11        NaN       NaN          1.0        1.0        0.0   \n",
+      "...                        ...       ...          ...        ...        ...   \n",
+      "2017-02-01 06:59:56        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:57        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:58        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:59        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 07:00:00        NaN       NaN          1.0        1.0        0.0   \n",
+      "\n",
+      "                     ESTADO-PXO  ESTADO-SDV-GL  ESTADO-SDV-P  ESTADO-W1  \\\n",
+      "timestamp                                                                 \n",
+      "2017-02-01 01:02:07         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:08         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:09         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:10         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:11         0.0            0.0           1.0        1.0   \n",
+      "...                         ...            ...           ...        ...   \n",
+      "2017-02-01 06:59:56         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 06:59:57         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 06:59:58         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 06:59:59         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 07:00:00         0.0            0.0           1.0        1.0   \n",
+      "\n",
+      "                     ESTADO-W2  ...  P-PDG  PT-P       P-TPT  QBS  QGL  \\\n",
+      "timestamp                       ...                                      \n",
+      "2017-02-01 01:02:07        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:08        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:09        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:10        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:11        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "...                        ...  ...    ...   ...         ...  ...  ...   \n",
+      "2017-02-01 06:59:56        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 06:59:57        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 06:59:58        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 06:59:59        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 07:00:00        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "\n",
+      "                     T-JUS-CKP  T-MON-CKP  T-PDG     T-TPT  state  \n",
+      "timestamp                                                          \n",
+      "2017-02-01 01:02:07   84.64463        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:08   84.63828        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:09   84.63194        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:10   84.62558        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:11   84.61923        NaN    0.0  119.0781   <NA>  \n",
+      "...                        ...        ...    ...       ...    ...  \n",
+      "2017-02-01 06:59:56   83.44021        NaN    0.0  119.0453      0  \n",
+      "2017-02-01 06:59:57   83.45413        NaN    0.0  119.0452      0  \n",
+      "2017-02-01 06:59:58   83.46806        NaN    0.0  119.0451      0  \n",
+      "2017-02-01 06:59:59   83.48199        NaN    0.0  119.0450      0  \n",
+      "2017-02-01 07:00:00   83.49591        NaN    0.0  119.0449      0  \n",
+      "\n",
+      "[21474 rows x 28 columns]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Columns before cleaning: {ds[0].signal.columns.tolist()}\")\n",
+    "print(f\"Original event {ds[0].signal}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "3fdfb070",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "clean_signal = CleanSignalsConfig()\n",
+    "\n",
+    "transformer = TransformConfig(pre_processing=clean_signal).build()\n",
+    "transformer.fit(ds)\n",
+    "transformed_ds = transformer.transform(ds)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "a12d3b05",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Number of columns before cleaning: 28, after cleaning: 16\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\n",
+    "    f\"Number of columns before cleaning: {ds[0].signal.shape[1]}, after cleaning: {transformed_ds[0].signal.shape[1]}\"\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "9daa518e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Columns after cleaning: ['ESTADO-DHSV', 'ESTADO-M1', 'ESTADO-M2', 'ESTADO-PXO', 'ESTADO-SDV-GL', 'ESTADO-SDV-P', 'ESTADO-W1', 'ESTADO-W2', 'ESTADO-XO', 'P-ANULAR', 'P-JUS-CKGL', 'P-MON-CKP', 'P-TPT', 'T-JUS-CKP', 'T-TPT', 'state']\n",
+      "Event after cleaning:                      ESTADO-DHSV  ESTADO-M1  ESTADO-M2  ESTADO-PXO  \\\n",
+      "timestamp                                                            \n",
+      "2017-02-01 01:02:07          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:08          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:09          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:10          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:11          1.0        1.0        0.0         0.0   \n",
+      "...                          ...        ...        ...         ...   \n",
+      "2017-02-01 06:59:56          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 06:59:57          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 06:59:58          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 06:59:59          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 07:00:00          1.0        1.0        0.0         0.0   \n",
+      "\n",
+      "                     ESTADO-SDV-GL  ESTADO-SDV-P  ESTADO-W1  ESTADO-W2  \\\n",
+      "timestamp                                                                \n",
+      "2017-02-01 01:02:07            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:08            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:09            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:10            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:11            0.0           1.0        1.0        0.0   \n",
+      "...                            ...           ...        ...        ...   \n",
+      "2017-02-01 06:59:56            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:57            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:58            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:59            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 07:00:00            0.0           1.0        1.0        0.0   \n",
+      "\n",
+      "                     ESTADO-XO    P-ANULAR  P-JUS-CKGL  P-MON-CKP       P-TPT  \\\n",
+      "timestamp                                                                       \n",
+      "2017-02-01 01:02:07        0.0  12767730.0   1563422.0  1627884.0  10074540.0   \n",
+      "2017-02-01 01:02:08        0.0  12767730.0   1563422.0  1633397.0  10074540.0   \n",
+      "2017-02-01 01:02:09        0.0  12767730.0   1563422.0  1638909.0  10074540.0   \n",
+      "2017-02-01 01:02:10        0.0  12767730.0   1563422.0  1644422.0  10074540.0   \n",
+      "2017-02-01 01:02:11        0.0  12767730.0   1563423.0  1649934.0  10074540.0   \n",
+      "...                        ...         ...         ...        ...         ...   \n",
+      "2017-02-01 06:59:56        0.0  12667980.0   1567749.0  1504822.0  10014690.0   \n",
+      "2017-02-01 06:59:57        0.0  12667980.0   1567749.0  1510422.0  10014690.0   \n",
+      "2017-02-01 06:59:58        0.0  12667980.0   1567750.0  1516023.0  10014690.0   \n",
+      "2017-02-01 06:59:59        0.0  12667980.0   1567750.0  1521623.0  10014690.0   \n",
+      "2017-02-01 07:00:00        0.0  12667980.0   1567750.0  1527223.0  10014690.0   \n",
+      "\n",
+      "                     T-JUS-CKP     T-TPT  state  \n",
+      "timestamp                                        \n",
+      "2017-02-01 01:02:07   84.64463  119.0781   <NA>  \n",
+      "2017-02-01 01:02:08   84.63828  119.0781   <NA>  \n",
+      "2017-02-01 01:02:09   84.63194  119.0781   <NA>  \n",
+      "2017-02-01 01:02:10   84.62558  119.0781   <NA>  \n",
+      "2017-02-01 01:02:11   84.61923  119.0781   <NA>  \n",
+      "...                        ...       ...    ...  \n",
+      "2017-02-01 06:59:56   83.44021  119.0453      0  \n",
+      "2017-02-01 06:59:57   83.45413  119.0452      0  \n",
+      "2017-02-01 06:59:58   83.46806  119.0451      0  \n",
+      "2017-02-01 06:59:59   83.48199  119.0450      0  \n",
+      "2017-02-01 07:00:00   83.49591  119.0449      0  \n",
+      "\n",
+      "[21474 rows x 16 columns]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Columns after cleaning: {transformed_ds[0].signal.columns.tolist()}\")\n",
+    "print(f\"Event after cleaning: {transformed_ds[0].signal}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "661ba307",
+   "metadata": {},
+   "source": [
+    "_________"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c040dd56",
+   "metadata": {},
+   "source": [
+    "## Impute Missing Data\n",
+    "\n",
+    "Function to fill missing values in a **BaseDataset** using different imputation strategies\n",
+    "\n",
+    "The function accepts:  \n",
+    "- An imputation strategy (`strategy`) which can be:  \n",
+    "  - `\"mean\"` → fill value with the column mean  \n",
+    "  - `\"median\"` → fill value with the column median  \n",
+    "  - `\"constant\"` → fill values with a constant value\n",
+    "  - `\"ffill\"` → fill values with forward fill method\n",
+    "  - `\"bfill\"` → fill values with backward fill method \n",
+    "  - `\"interpolate\"` → fill values with interpolate fill method \n",
+    "- A constant value (`fill_value`, optional) required if the strategy is `\"constant\"`  "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "19f299f0",
+   "metadata": {},
+   "source": [
+    "The **CleanSignals** method will be used for convenience in the following demonstrations. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f7c6f50e",
+   "metadata": {},
+   "source": [
+    "Now we will select a single event, right on we can spot a lot of *NaN* values: "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "32646978",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Original event with missing values:\n",
+      "                     ABER-CKGL  ABER-CKP  ESTADO-DHSV  ESTADO-M1  ESTADO-M2  \\\n",
+      "timestamp                                                                     \n",
+      "2017-02-01 01:02:07        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:08        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:09        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:10        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:11        NaN       NaN          1.0        1.0        0.0   \n",
+      "...                        ...       ...          ...        ...        ...   \n",
+      "2017-02-01 06:59:56        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:57        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:58        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:59        NaN       NaN          1.0        1.0        0.0   \n",
+      "2017-02-01 07:00:00        NaN       NaN          1.0        1.0        0.0   \n",
+      "\n",
+      "                     ESTADO-PXO  ESTADO-SDV-GL  ESTADO-SDV-P  ESTADO-W1  \\\n",
+      "timestamp                                                                 \n",
+      "2017-02-01 01:02:07         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:08         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:09         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:10         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 01:02:11         0.0            0.0           1.0        1.0   \n",
+      "...                         ...            ...           ...        ...   \n",
+      "2017-02-01 06:59:56         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 06:59:57         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 06:59:58         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 06:59:59         0.0            0.0           1.0        1.0   \n",
+      "2017-02-01 07:00:00         0.0            0.0           1.0        1.0   \n",
+      "\n",
+      "                     ESTADO-W2  ...  P-PDG  PT-P       P-TPT  QBS  QGL  \\\n",
+      "timestamp                       ...                                      \n",
+      "2017-02-01 01:02:07        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:08        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:09        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:10        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "2017-02-01 01:02:11        0.0  ...    0.0   NaN  10074540.0  NaN  0.0   \n",
+      "...                        ...  ...    ...   ...         ...  ...  ...   \n",
+      "2017-02-01 06:59:56        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 06:59:57        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 06:59:58        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 06:59:59        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "2017-02-01 07:00:00        0.0  ...    0.0   NaN  10014690.0  NaN  0.0   \n",
+      "\n",
+      "                     T-JUS-CKP  T-MON-CKP  T-PDG     T-TPT  state  \n",
+      "timestamp                                                          \n",
+      "2017-02-01 01:02:07   84.64463        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:08   84.63828        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:09   84.63194        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:10   84.62558        NaN    0.0  119.0781   <NA>  \n",
+      "2017-02-01 01:02:11   84.61923        NaN    0.0  119.0781   <NA>  \n",
+      "...                        ...        ...    ...       ...    ...  \n",
+      "2017-02-01 06:59:56   83.44021        NaN    0.0  119.0453      0  \n",
+      "2017-02-01 06:59:57   83.45413        NaN    0.0  119.0452      0  \n",
+      "2017-02-01 06:59:58   83.46806        NaN    0.0  119.0451      0  \n",
+      "2017-02-01 06:59:59   83.48199        NaN    0.0  119.0450      0  \n",
+      "2017-02-01 07:00:00   83.49591        NaN    0.0  119.0449      0  \n",
+      "\n",
+      "[21474 rows x 28 columns]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Original event with missing values:\\n{ds[0].signal}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e5103335",
+   "metadata": {},
+   "source": [
+    "Applying `\"mean\"` imputation:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "8d0cae7a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "clean_signal = CleanSignalsConfig()\n",
+    "impute_missing = ImputeMissingConfig(strategy=\"mean\")\n",
+    "\n",
+    "transformer = TransformConfig(\n",
+    "    pre_processing=SequentialPreprocessingAdapterConfig(\n",
+    "        steps=[clean_signal, impute_missing]\n",
+    "    )\n",
+    ").build()\n",
+    "transformer.fit(ds)\n",
+    "transformed_ds = transformer.transform(ds)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "f52ca8b9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Values after mean imputation:                      ESTADO-DHSV  ESTADO-M1  ESTADO-M2  ESTADO-PXO  \\\n",
+      "timestamp                                                            \n",
+      "2017-02-01 01:02:07          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:08          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:09          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:10          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 01:02:11          1.0        1.0        0.0         0.0   \n",
+      "...                          ...        ...        ...         ...   \n",
+      "2017-02-01 06:59:56          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 06:59:57          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 06:59:58          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 06:59:59          1.0        1.0        0.0         0.0   \n",
+      "2017-02-01 07:00:00          1.0        1.0        0.0         0.0   \n",
+      "\n",
+      "                     ESTADO-SDV-GL  ESTADO-SDV-P  ESTADO-W1  ESTADO-W2  \\\n",
+      "timestamp                                                                \n",
+      "2017-02-01 01:02:07            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:08            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:09            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:10            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 01:02:11            0.0           1.0        1.0        0.0   \n",
+      "...                            ...           ...        ...        ...   \n",
+      "2017-02-01 06:59:56            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:57            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:58            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 06:59:59            0.0           1.0        1.0        0.0   \n",
+      "2017-02-01 07:00:00            0.0           1.0        1.0        0.0   \n",
+      "\n",
+      "                     ESTADO-XO    P-ANULAR  P-JUS-CKGL  P-MON-CKP       P-TPT  \\\n",
+      "timestamp                                                                       \n",
+      "2017-02-01 01:02:07        0.0  12767730.0   1563422.0  1627884.0  10074540.0   \n",
+      "2017-02-01 01:02:08        0.0  12767730.0   1563422.0  1633397.0  10074540.0   \n",
+      "2017-02-01 01:02:09        0.0  12767730.0   1563422.0  1638909.0  10074540.0   \n",
+      "2017-02-01 01:02:10        0.0  12767730.0   1563422.0  1644422.0  10074540.0   \n",
+      "2017-02-01 01:02:11        0.0  12767730.0   1563423.0  1649934.0  10074540.0   \n",
+      "...                        ...         ...         ...        ...         ...   \n",
+      "2017-02-01 06:59:56        0.0  12667980.0   1567749.0  1504822.0  10014690.0   \n",
+      "2017-02-01 06:59:57        0.0  12667980.0   1567749.0  1510422.0  10014690.0   \n",
+      "2017-02-01 06:59:58        0.0  12667980.0   1567750.0  1516023.0  10014690.0   \n",
+      "2017-02-01 06:59:59        0.0  12667980.0   1567750.0  1521623.0  10014690.0   \n",
+      "2017-02-01 07:00:00        0.0  12667980.0   1567750.0  1527223.0  10014690.0   \n",
+      "\n",
+      "                     T-JUS-CKP     T-TPT     state  \n",
+      "timestamp                                           \n",
+      "2017-02-01 01:02:07   84.64463  119.0781  0.270647  \n",
+      "2017-02-01 01:02:08   84.63828  119.0781  0.270647  \n",
+      "2017-02-01 01:02:09   84.63194  119.0781  0.270647  \n",
+      "2017-02-01 01:02:10   84.62558  119.0781  0.270647  \n",
+      "2017-02-01 01:02:11   84.61923  119.0781  0.270647  \n",
+      "...                        ...       ...       ...  \n",
+      "2017-02-01 06:59:56   83.44021  119.0453  0.000000  \n",
+      "2017-02-01 06:59:57   83.45413  119.0452  0.000000  \n",
+      "2017-02-01 06:59:58   83.46806  119.0451  0.000000  \n",
+      "2017-02-01 06:59:59   83.48199  119.0450  0.000000  \n",
+      "2017-02-01 07:00:00   83.49591  119.0449  0.000000  \n",
+      "\n",
+      "[21474 rows x 16 columns]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"\\nValues after mean imputation: {transformed_ds[0].signal}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dda42323",
+   "metadata": {},
+   "source": [
+    "________"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1c274623",
+   "metadata": {},
+   "source": [
+    "## Normalize\n",
+    "\n",
+    "Function to normalize input data using **L1**, **L2**, or **max** norm\n",
+    "\n",
+    "The function accepts:  \n",
+    "- A norm type (`norm`) which can be:  \n",
+    "  - `\"l1\"` → normalization using the L1 norm (sum of absolute values = 1)  \n",
+    "  - `\"l2\"` → normalization using the L2 norm (Euclidean length = 1)  \n",
+    "  - `\"max\"` → normalization by dividing by the maximum absolute value  "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4162bcbf",
+   "metadata": {},
+   "source": [
+    "Using column \"T-TPT\" to demonstrate this functionality.\n",
+    "\n",
+    "Checking column before normalization:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "ab273a24",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "timestamp\n",
+       "2017-02-01 01:02:07    119.0781\n",
+       "2017-02-01 01:02:08    119.0781\n",
+       "2017-02-01 01:02:09    119.0781\n",
+       "2017-02-01 01:02:10    119.0781\n",
+       "2017-02-01 01:02:11    119.0781\n",
+       "2017-02-01 01:02:12    119.0781\n",
+       "2017-02-01 01:02:13    119.0781\n",
+       "2017-02-01 01:02:14    119.0781\n",
+       "2017-02-01 01:02:15    119.0781\n",
+       "2017-02-01 01:02:16    119.0781\n",
+       "Name: T-TPT, dtype: float64"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ds[0].signal[\"T-TPT\"].head(10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bc9466fb",
+   "metadata": {},
+   "source": [
+    "Applying L2 normalization and checking results:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "ee1e50ac",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "normalize_step = NormalizeConfig(norm=\"l2\")\n",
+    "\n",
+    "transformer = TransformConfig(\n",
+    "    pre_processing=SequentialPreprocessingAdapterConfig(\n",
+    "        steps=[clean_signal, normalize_step]\n",
+    "    )\n",
+    ").build()\n",
+    "transformer.fit(ds)\n",
+    "transformed_ds = transformer.transform(ds)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "3b2675bc",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Values after normalization: timestamp\n",
+      "2017-02-01 01:02:07    0.736724\n",
+      "2017-02-01 01:02:08    0.736724\n",
+      "2017-02-01 01:02:09    0.736724\n",
+      "2017-02-01 01:02:10    0.736724\n",
+      "2017-02-01 01:02:11    0.736724\n",
+      "2017-02-01 01:02:12    0.736724\n",
+      "2017-02-01 01:02:13    0.736724\n",
+      "2017-02-01 01:02:14    0.736724\n",
+      "2017-02-01 01:02:15    0.736724\n",
+      "2017-02-01 01:02:16    0.736724\n",
+      "Name: T-TPT, dtype: float64\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"\\nValues after normalization: {transformed_ds[0].signal['T-TPT'].head(10)}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ec2aa0a4",
+   "metadata": {},
+   "source": [
+    "________"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e72a797f",
+   "metadata": {},
+   "source": [
+    "## Rename Columns\n",
+    "\n",
+    "Function to rename columns of a DataFrame using a mapping dictionary  \n",
+    "\n",
+    "The function accepts:  \n",
+    "- A dictionary (`columns_map`) where:  \n",
+    "  - Keys are the current column names  \n",
+    "  - Values are the new column names to assign  "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d2ae8679",
+   "metadata": {},
+   "source": [
+    "### Using 3W data as example\n",
+    "\n",
+    "Using the columns \"ABER-CKGL\" and \"ABER-CKP\" to demonstrate this functionality."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "448cbafd",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Original columns: ['ABER-CKGL', 'ABER-CKP', 'ESTADO-DHSV', 'ESTADO-M1', 'ESTADO-M2', 'ESTADO-PXO', 'ESTADO-SDV-GL', 'ESTADO-SDV-P', 'ESTADO-W1', 'ESTADO-W2', 'ESTADO-XO', 'P-ANULAR', 'P-JUS-BS', 'P-JUS-CKGL', 'P-JUS-CKP', 'P-MON-CKGL', 'P-MON-CKP', 'P-MON-SDV-P', 'P-PDG', 'PT-P', 'P-TPT', 'QBS', 'QGL', 'T-JUS-CKP', 'T-MON-CKP', 'T-PDG', 'T-TPT', 'state']\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"\\nOriginal columns: {ds[0].signal.columns.tolist()}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "659a8a00",
+   "metadata": {},
+   "source": [
+    "After renaming:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "d551bbaf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Columns after renaming: ['sensor_A', 'sensor_B', 'ESTADO-DHSV', 'ESTADO-M1', 'ESTADO-M2', 'ESTADO-PXO', 'ESTADO-SDV-GL', 'ESTADO-SDV-P', 'ESTADO-W1', 'ESTADO-W2', 'ESTADO-XO', 'P-ANULAR', 'P-JUS-BS', 'P-JUS-CKGL', 'P-JUS-CKP', 'P-MON-CKGL', 'P-MON-CKP', 'P-MON-SDV-P', 'P-PDG', 'PT-P', 'P-TPT', 'QBS', 'QGL', 'T-JUS-CKP', 'T-MON-CKP', 'T-PDG', 'T-TPT', 'state']\n"
+     ]
+    }
+   ],
+   "source": [
+    "columns_map = {\"ABER-CKGL\": \"sensor_A\", \"ABER-CKP\": \"sensor_B\"}\n",
+    "rename_step = RenameColumnsConfig(columns_map=columns_map)\n",
+    "\n",
+    "transformer = TransformConfig(pre_processing=rename_step).build()\n",
+    "transformer.fit(ds)\n",
+    "transformed_ds = transformer.transform(ds)\n",
+    "print(f\"\\nColumns after renaming: {transformed_ds[0].signal.columns.tolist()}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "12227852",
+   "metadata": {},
+   "source": [
+    "________"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "de04e070",
+   "metadata": {},
+   "source": [
+    "### FillLabels\n",
+    "\n",
+    "Function to fill missing labels in an event by propagating the available label information across the label sequence.\n",
+    "\n",
+    "This is useful when an event contains unlabeled rows but the annotation should remain continuous and consistent for downstream processing.\n",
+    "\n",
+    "In the example below, we first inspect the original labels, then apply `FillLabelsConfig`, and finally compare the result after filling the missing labels."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "4763d352",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Original signal with missing labels:\n",
+      "timestamp\n",
+      "2017-02-01 01:02:07    <NA>\n",
+      "2017-02-01 01:02:08    <NA>\n",
+      "2017-02-01 01:02:09    <NA>\n",
+      "2017-02-01 01:02:10    <NA>\n",
+      "2017-02-01 01:02:11    <NA>\n",
+      "                       ... \n",
+      "2017-02-01 06:59:56       0\n",
+      "2017-02-01 06:59:57       0\n",
+      "2017-02-01 06:59:58       0\n",
+      "2017-02-01 06:59:59       0\n",
+      "2017-02-01 07:00:00       0\n",
+      "Name: class, Length: 21474, dtype: Int16\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Original signal with missing labels:\\n{ds[0].label}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "a91c4ada",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fill_labels_step = FillLabelsConfig()\n",
+    "\n",
+    "transformer = TransformConfig(pre_processing=fill_labels_step).build()\n",
+    "transformer.fit(ds)\n",
+    "transformed_ds = transformer.transform(ds)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "018bc83e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Event with filled labels:\n",
+      "timestamp\n",
+      "2017-02-01 01:02:07    0.0\n",
+      "2017-02-01 01:02:08    0.0\n",
+      "2017-02-01 01:02:09    0.0\n",
+      "2017-02-01 01:02:10    0.0\n",
+      "2017-02-01 01:02:11    0.0\n",
+      "                      ... \n",
+      "2017-02-01 06:59:56    0.0\n",
+      "2017-02-01 06:59:57    0.0\n",
+      "2017-02-01 06:59:58    0.0\n",
+      "2017-02-01 06:59:59    0.0\n",
+      "2017-02-01 07:00:00    0.0\n",
+      "Name: class, Length: 21474, dtype: Float64\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Event with filled labels:\\n{transformed_ds[0].label}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0dedaa7e",
+   "metadata": {},
+   "source": [
+    "________"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "529ec9bb",
+   "metadata": {},
+   "source": [
+    "### RemapClass\n",
+    "\n",
+    "Function to remap class labels into the standardized class representation used by the toolkit.\n",
+    "\n",
+    "This is useful when different label names or intermediate annotations need to be converted into a consistent set of classes before training or evaluation.\n",
+    "\n",
+    "In the example below, we inspect the classes before remapping, apply `RemapClassConfig` together with `FillLabelsConfig`, and then compare the unique classes after transformation.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "1ae3854b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Classes before remapping: <FloatingArray>\n",
+      "[0.0, 101.0, 1.0]\n",
+      "Length: 3, dtype: Float64\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Classes before remapping: {transformed_ds[594].label.unique()}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "f0ce562f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "remap_class_step = RemapClassConfig()\n",
+    "\n",
+    "transformer = TransformConfig(\n",
+    "    pre_processing=SequentialPreprocessingAdapterConfig(\n",
+    "        steps=[fill_labels_step, remap_class_step]\n",
+    "    )\n",
+    ").build()\n",
+    "transformer.fit(ds)\n",
+    "transformed_ds = transformer.transform(ds)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "574f2b36",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Classes after remapping: [ 0 10  1]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Classes after remapping: {transformed_ds[594].label.unique()}\")"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "threewtoolkit",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.11"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

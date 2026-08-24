@@ -8,8 +8,8 @@ __pycache__/
 */.ipynb_checkpoints/*
 
 # 3W Toolkit documentation
-html/
-*.html
+# html/
+# *.html
 
 # Overrides
 !toolkit/ThreeWToolkit/reports/html/
@@ -20,7 +20,7 @@ html/
 
 # Distribution / packaging
 .Python
-build/
+# build/
 data/
 develop-eggs/
 dist/

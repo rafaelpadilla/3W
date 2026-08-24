@@ -1,0 +1,1708 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🤝 Contributing Guide &mdash; ThreeWToolkit 3.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=eb155f5e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Architecture" href="architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ThreeWToolkit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#direct-installation-via-pypi">Direct Installation via PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#development-installation-source">Development Installation (Source)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#fork-or-clone-the-repository">1. Fork or Clone the Repository</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-a-clone-official-repository">Option A: Clone Official Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-b-fork-and-clone">Option B: Fork and Clone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#install-in-editable-mode">2. Install in Editable Mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-pip">Using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-uv-fastest">Using <code class="docutils literal notranslate"><span class="pre">uv</span></code> (Fastest)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-conda">Using <code class="docutils literal notranslate"><span class="pre">conda</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#verifying-the-installation">Verifying the Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#architecture-pattern">Architecture Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#end-to-end-pipeline-example">End-to-End Pipeline Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/dataset.html">Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#dataset-structure">Dataset Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#configuration-ingestion">Configuration &amp; Ingestion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/preprocessing.html">Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#available-preprocessors">Available Preprocessors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#chaining-preprocessors">Chaining Preprocessors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/feature_extraction.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#feature-adapters">Feature Adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#combining-feature-extractor-steps">Combining Feature Extractor Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/models_and_training.html">Models and Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#model-architecture-specs">Model Architecture Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#training-execution">Training Execution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/00_overview.html">3W Toolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#Table-of-Contents-📑">Table of Contents 📑</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#🚀-1.-Introduction-to-3WToolkit">🚀 1. Introduction to 3WToolkit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#1.1.-Installation-with-pip-install">1.1. Installation with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#1.2.-Cloning-and-installing">1.2. Cloning and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#1.3.-Forking-and-installing">1.3. Forking and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#📂-2.-Dataset-3W">📂 2. Dataset 3W</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#2.1.-Loading-the-Dataset">2.1. Loading the Dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#2.2.-Filtering-&amp;-Exploring-the-Data">2.2. Filtering &amp; Exploring the Data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#3.-⚙️-Preprocessing">3. ⚙️ Preprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#3.1.-Cleaning-the-dataset">3.1. Cleaning the dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#3.2.-Handling-missing-values-(Imputation)">3.2. Handling missing values (Imputation)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#3.3.-Normalization">3.3. Normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#3.4.-Renaming-columns">3.4. Renaming columns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#3.5.-Building-preprocessing-pipelines">3.5. Building preprocessing pipelines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#4.-🔎-Feature-Extraction">4. 🔎 Feature Extraction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#⚠️-Important:-Windowing-comes-first">⚠️ Important: Windowing comes first</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#4.1.-Custom-feature-extraction-pipelines">4.1. Custom feature extraction pipelines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#4.2.-Windowing">4.2. Windowing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#4.3.-Statistical-Feature-Extraction">4.3. Statistical Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#4.4.-Wavelet-Feature-Extraction">4.4. Wavelet Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#4.5.-Exponentially-Weighted-Statistical-Feature-Extraction">4.5. Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#5.-📊-Exploratory-Analysis">5. 📊 Exploratory Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#5.1.-Visualization-Tools-Overview">5.1. Visualization Tools Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#6.-🤖-Model-Training-and-Evaluation">6. 🤖 Model Training and Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#6.1.-Dataset-loading-and-manual-split">6.1. Dataset loading and manual split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#6.2.-Preprocessing-and-feature-extraction">6.2. Preprocessing and feature extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#6.3.-Model-configuration">6.3. Model configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#6.4.-Training">6.4. Training</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#6.5.-Evaluation">6.5. Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#6.7.-Training-history-visualization">6.7. Training history visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#7.-🔗-Pipeline-Integration">7. 🔗 Pipeline Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#Pipeline-Execution-Flow">Pipeline Execution Flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#7.1-Creating-a-Basic-Pipeline">7.1 Creating a Basic Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#⚠️-Important-note-on-dataset-splitting">⚠️ Important note on dataset splitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#7.2.-Defining-the-pipeline">7.2. Defining the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#7.3.-Running-the-pipeline">7.3. Running the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#7.4.-Visualizing-training-results">7.4. Visualizing training results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#7.5.-Example-pipeline-configurations">7.5. Example pipeline configurations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/00_overview.html#7.6.-Best-Practices">7.6. Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/00_overview.html#8.-📄-Report-Generation">8. 📄 Report Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/01_dataset_examples.html">Dataset loading examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/01_dataset_examples.html#Download-from-figshare-if-not-on-local-yet">Download from figshare if not on local yet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/01_dataset_examples.html#Signal-and-label-split">Signal and label split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/01_dataset_examples.html#Customizable-label-selection">Customizable label selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/01_dataset_examples.html#Event-type-splitting">Event type splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/01_dataset_examples.html#Event-class-splitting">Event class splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/01_dataset_examples.html#File-list-splitting">File list splitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/02_data_visualization.html">Data Visualization using the 3W Toolkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Series">Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Time-Series-Visualization-with-plot_series">Time Series Visualization with <code class="docutils literal notranslate"><span class="pre">plot_series</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-1:-Random-Time-Series">Example 1: Random Time Series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-2:-Using-plot_series-with-multiple-subplots-(ax-provided)">Example 2: Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-3:-Using-3W-data---Simple-Time-Series-Plot">Example 3: Using 3W data - Simple Time Series Plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-4:-Using-3W-data---Using-plot_series-with-multiple-subplots-(ax-provided)">Example 4: Using 3W data - Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-5:-Using-3W-data---Time-Series-with-Missing-Values">Example 5: Using 3W data - Time Series with Missing Values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Multiple-Series">Multiple Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-1:-Simple-usage-with-multiple-time-series">Example 1: Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-2:-Using-subplots-for-different-groups">Example 2: Using subplots for different groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-3:-Using-3W-Data---Simple-usage-with-multiple-time-series">Example 3: Using 3W Data - Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-4:-Using-3W-Data---Using-subplots-for-different-groups">Example 4: Using 3W Data - Using subplots for different groups</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Heatmap">Heatmap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Correlation-Heatmap-Demonstration">Correlation Heatmap Demonstration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-1:-Basic-Usage">Example 1: Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-2:-Custom-Title-and-Annotations">Example 2: Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-3:-Multiple-Heatmaps-in-Subplots">Example 3: Multiple Heatmaps in Subplots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-4:-Using-3W-data---Basic-Usage">Example 4: Using 3W data - Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-5:-Using-3W-data---Custom-Title-and-Annotations">Example 5: Using 3W data - Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/02_data_visualization.html#Example-6:-Using-3W-data---Custom-Figure-Size-and-Color-Map">Example 6: Using 3W data - Custom Figure Size and Color Map</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/03_data_cleaning_examples.html">Exploring the 3W dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/03_data_cleaning_examples.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/03_data_cleaning_examples.html#Checking-missing-data">Checking missing data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/03_data_cleaning_examples.html#Distribution-of-Signal-Averages-Across-Events">Distribution of Signal Averages Across Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/03_data_cleaning_examples.html#Data-cleaning">Data cleaning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html">Preprocessing Demonstration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html#Clean-Signals">Clean Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html#Impute-Missing-Data">Impute Missing Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html#Normalize">Normalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html#Rename-Columns">Rename Columns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html#Using-3W-data-as-example">Using 3W data as example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html#FillLabels">FillLabels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/04_preprocessing_examples.html#RemapClass">RemapClass</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/05_feature_extraction_examples.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/05_feature_extraction_examples.html#Loading-3W-Dataset">Loading 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/05_feature_extraction_examples.html#Custom-feature-extraction-pipelines:">Custom feature extraction pipelines:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/05_feature_extraction_examples.html#Windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/05_feature_extraction_examples.html#Wavelet-Feature-Extraction">Wavelet Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/05_feature_extraction_examples.html#Statistical-Feature-Extraction">Statistical Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/05_feature_extraction_examples.html#Exponentially-Weighted-Statistical-Feature-Extraction">Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html">Clustering Pipeline Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#Objectives">Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#1.-Configuration-&amp;-Data-Loading">1. Configuration &amp; Data Loading</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#1.1-Data-Quality-Overview">1.1 Data Quality Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#2.-Univariate-Processing-Pipeline">2. Univariate Processing Pipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#2.1-Dendrogram-Visualization">2.1 Dendrogram Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#2.2-Cluster-Stability-Analysis">2.2 Cluster Stability Analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#2.3-Variable-Exclusion">2.3 Variable Exclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#3.-Multivariate-Consensus">3. Multivariate Consensus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#4.-Visualization">4. Visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#4.1-Selection-Heatmap">4.1 Selection Heatmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#4.2-Consensus-Cluster-Size-Curve">4.2 Consensus Cluster Size Curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#4.3-Time-Series-Clustering-Overlay">4.3 Time Series Clustering Overlay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/06_clustering_pipeline_examples.html#4.4-Ranked-Distance-Plot">4.4 Ranked Distance Plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/07_clustering_real_vs_simulated_examples.html">Real vs Simulated Data — Clustering Comparison</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/07_clustering_real_vs_simulated_examples.html#Reusable-Analysis-Pipeline">Reusable Analysis Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/07_clustering_real_vs_simulated_examples.html#Analysis-1:-Real-Data">Analysis 1: Real Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/07_clustering_real_vs_simulated_examples.html#Analysis-2:-Simulated-Data">Analysis 2: Simulated Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/07_clustering_real_vs_simulated_examples.html#Analysis-3:-Combined-Data-(Real-+-Simulated)">Analysis 3: Combined Data (Real + Simulated)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/08_sklearn_models_examples.html">Scikit-Learn Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/08_sklearn_models_examples.html#Loading-and-preparing-the-Dataset">Loading and preparing the Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/08_sklearn_models_examples.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/08_sklearn_models_examples.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/08_sklearn_models_examples.html#Training-Assessment-and-Results">Training Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/09_mlp_timeseries_example.html">Training an MLP on Time Series Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/09_mlp_timeseries_example.html#Imports">Imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/09_mlp_timeseries_example.html#Loading-and-preparing-the-dataset">Loading and preparing the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/09_mlp_timeseries_example.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/09_mlp_timeseries_example.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/09_mlp_timeseries_example.html#Test-Assessment-and-Results">Test Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/10_load_save_model_examples.html">Save/Load model examples:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/10_load_save_model_examples.html#Saving-and-Loading-a-PyTorch-model:">Saving and Loading a PyTorch model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/10_load_save_model_examples.html#Saving-and-Loading-a-SKLearn-model:">Saving and Loading a SKLearn model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html">Assessment Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Examples-with-plot_confusion_matrix:">Examples with <code class="docutils literal notranslate"><span class="pre">plot_confusion_matrix</span></code>:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Using-pandas-Series">Using <code class="docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">Series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Using-numpy-arrays">Using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Using-python-lists">Using python <code class="docutils literal notranslate"><span class="pre">lists</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Examples-with-feature_visualization">Examples with <code class="docutils literal notranslate"><span class="pre">feature_visualization</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Using-random-feature-importances">Using random feature importances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Customizing-our-plot">Customizing our plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/11_assessment_examples.html#Displaying-feature-importances-of-a-Random-Forest-classifier">Displaying feature importances of a Random Forest classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/12_using_metrics.html">Classification metrics with ThreeWToolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#What-you-will-do">What you will do</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#1.-Load-the-dataset">1. Load the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#2.-Train-/-validation-/-test-split">2. Train / validation / test split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#3.-Preprocessing-and-features">3. Preprocessing and features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#4.-Model-and-trainer">4. Model and trainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#5.-Training">5. Training</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#6.-Predictions-on-the-test-set">6. Predictions on the test set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#7.-Example-sample-weights">7. Example sample weights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#8.-Accuracy-(accuracy_score)">8. Accuracy (<code class="docutils literal notranslate"><span class="pre">accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#9.-Balanced-accuracy-(balanced_accuracy_score)">9. Balanced accuracy (<code class="docutils literal notranslate"><span class="pre">balanced_accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#10.-Average-precision-(average_precision_score)">10. Average precision (<code class="docutils literal notranslate"><span class="pre">average_precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#11.-Precision-(precision_score)">11. Precision (<code class="docutils literal notranslate"><span class="pre">precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#12.-Recall-(recall_score)">12. Recall (<code class="docutils literal notranslate"><span class="pre">recall_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#13.-F1-score-(f1_score)">13. F1 score (<code class="docutils literal notranslate"><span class="pre">f1_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#14.-ROC-AUC-(roc_auc_score)">14. ROC AUC (<code class="docutils literal notranslate"><span class="pre">roc_auc_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#15.-Matthews-Correlation-Coefficient-(matthews_corrcoef)">15. Matthews Correlation Coefficient (<code class="docutils literal notranslate"><span class="pre">matthews_corrcoef</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_demos_gen/12_using_metrics.html#Interpretation">Interpretation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/13_report_generation_examples.html">Report Generation Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/13_report_generation_examples.html#1.-Defining-a-Mock-Model">1. Defining a Mock Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/13_report_generation_examples.html#2.-Generating-a-signal">2. Generating a signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/13_report_generation_examples.html#3.-Data-Splitting">3. Data Splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/13_report_generation_examples.html#4.-Generating-a-Summary-Report">4. Generating a Summary Report</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/13_report_generation_examples.html#5.-Getting-model's-predictions-and-calculating-metrics">5. Getting model’s predictions and calculating metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../_demos_gen/14_three_w_chart_example.html">ThreeWChart class overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/14_three_w_chart_example.html#Visualizing-the-3W-Dataset">Visualizing the 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/14_three_w_chart_example.html#Viewing-specific-events">Viewing specific events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_demos_gen/14_three_w_chart_example.html#Viewing-Variables-via-the-Dropdown-Menu">Viewing Variables via the Dropdown Menu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#core-layer">Core Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html">ThreeWToolkit.core.BaseDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html#ThreeWToolkit.core.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html">ThreeWToolkit.core.BasePreprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html#ThreeWToolkit.core.BasePreprocessing"><code class="docutils literal notranslate"><span class="pre">BasePreprocessing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html">ThreeWToolkit.core.BaseFeatureExtractor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html#ThreeWToolkit.core.BaseFeatureExtractor"><code class="docutils literal notranslate"><span class="pre">BaseFeatureExtractor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html">ThreeWToolkit.core.BaseModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html#ThreeWToolkit.core.BaseModels"><code class="docutils literal notranslate"><span class="pre">BaseModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html">ThreeWToolkit.core.BaseTrainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html#ThreeWToolkit.core.BaseTrainer"><code class="docutils literal notranslate"><span class="pre">BaseTrainer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html">ThreeWToolkit.core.BasePipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html#ThreeWToolkit.core.BasePipeline"><code class="docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html">ThreeWToolkit.core.DatasetOutputs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html#ThreeWToolkit.core.DatasetOutputs"><code class="docutils literal notranslate"><span class="pre">DatasetOutputs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html">ThreeWToolkit.core.TrainingResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html#ThreeWToolkit.core.TrainingResult"><code class="docutils literal notranslate"><span class="pre">TrainingResult</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html">ThreeWToolkit.core.PredictionResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html#ThreeWToolkit.core.PredictionResult"><code class="docutils literal notranslate"><span class="pre">PredictionResult</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#data-preprocessing">Data &amp; Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html">ThreeWToolkit.preprocessing.CleanSignals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html#ThreeWToolkit.preprocessing.CleanSignals"><code class="docutils literal notranslate"><span class="pre">CleanSignals</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html">ThreeWToolkit.preprocessing.ImputeMissing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html#ThreeWToolkit.preprocessing.ImputeMissing"><code class="docutils literal notranslate"><span class="pre">ImputeMissing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html">ThreeWToolkit.preprocessing.Normalize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html#ThreeWToolkit.preprocessing.Normalize"><code class="docutils literal notranslate"><span class="pre">Normalize</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html">ThreeWToolkit.preprocessing.RenameColumns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html#ThreeWToolkit.preprocessing.RenameColumns"><code class="docutils literal notranslate"><span class="pre">RenameColumns</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#feature-extraction">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html">ThreeWToolkit.feature_extraction.Windowing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html#ThreeWToolkit.feature_extraction.Windowing"><code class="docutils literal notranslate"><span class="pre">Windowing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html">ThreeWToolkit.feature_extraction.StatisticalFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html#ThreeWToolkit.feature_extraction.StatisticalFeatures"><code class="docutils literal notranslate"><span class="pre">StatisticalFeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html">ThreeWToolkit.feature_extraction.WaveletFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html#ThreeWToolkit.feature_extraction.WaveletFeatures"><code class="docutils literal notranslate"><span class="pre">WaveletFeatures</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#models-training">Models &amp; Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html">ThreeWToolkit.models.SklearnModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html#ThreeWToolkit.models.SklearnModels"><code class="docutils literal notranslate"><span class="pre">SklearnModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html">ThreeWToolkit.models.TorchModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html#ThreeWToolkit.models.TorchModels"><code class="docutils literal notranslate"><span class="pre">TorchModels</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#assessment-evaluation">Assessment &amp; Evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html">ThreeWToolkit.assessment.ModelAssessment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html#ThreeWToolkit.assessment.ModelAssessment"><code class="docutils literal notranslate"><span class="pre">ModelAssessment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html">ThreeWToolkit.assessment.AssessmentVisualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html#ThreeWToolkit.assessment.AssessmentVisualization"><code class="docutils literal notranslate"><span class="pre">AssessmentVisualization</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#core-principles">Core Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#abstraction-layers">Abstraction Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html#core-layer-specification-contracts">1. Core Layer (Specification &amp; Contracts)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html#application-layer-concrete-implementations">2. Application Layer (Concrete Implementations)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#component-overview">Component Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html#data-management-processing">Data Management &amp; Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html#model-training-isolation">Model &amp; Training Isolation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="architecture.html#evaluation-orchestration">Evaluation &amp; Orchestration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="architecture.html#architecture-overview-diagram">Architecture Overview Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">🤝 Contributing Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary-of-the-guidelines">Summary of the Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-of-conduct">Code of Conduct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#architecture-overview">Architecture Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#core-principles">1. Core Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#base-class-hierarchy">2. Base Class Hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#key-patterns">3. Key Patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-contribute">How to Contribute</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fix-outstanding-issues">🐛 Fix Outstanding Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-new-models">🆕 Add New Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-preprocessing-steps">🔧 Create Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-feature-extractors">📊 Create Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-trainers">🚂 Create Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-assessment-strategies">📈 Create Assessment Strategies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#improve-documentation">📚 Improve Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#report-bugs">🐞 Report Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#request-features">💡 Request Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adding-a-new-model">Adding a New Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-preprocessing-steps">Creating Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-feature-extractors">Creating Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-trainers">Creating Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-assessment-strategies">Creating Assessment Strategies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#development-workflow">Development Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#branch-naming-convention">Branch Naming Convention</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#testing-guidelines">Testing Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#required-tests">Required Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-tests">Running Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-structure">Test Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fixtures">Fixtures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submitting-pull-requests">Submitting Pull Requests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#before-submitting">Before Submitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pr-description-template">PR Description Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#review-process">Review Process</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#code-style-guidelines">Code Style Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#python-style">Python Style</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#imports">Imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#type-hints">Type Hints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#docstrings">Docstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linting-and-formatting">Linting and Formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-help">Getting Help</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#resources">Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#contact">Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#recognition">Recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ThreeWToolkit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Developer Guide</a></li>
+      <li class="breadcrumb-item active">🤝 Contributing Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/developer_guide/contributing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="contributing-guide">
+<h1>🤝 Contributing Guide<a class="headerlink" href="#contributing-guide" title="Link to this heading"></a></h1>
+<p>Welcome to our <strong>3W Toolkit</strong>! 🎉 We’re excited that you’re interested in contributing. This guide will help you understand our modular architecture and how to extend the toolkit with new models, preprocessing steps, feature extractors, trainers, and assessments.</p>
+<p>We welcome contributions in all forms and truly appreciate every effort. 💙 Helping the community goes beyond writing code — answering questions, supporting other users, and improving documentation are just as important.</p>
+<p>You can also support the project by spreading the word. 📣 Share it in blog posts about projects built with the library, talk about it on social media when it helps you, or simply leave a ⭐️ on the repository to show your support.</p>
+<p>No matter how you choose to contribute, please be respectful and follow our <a class="reference internal" href="#code-of-conduct">code of conduct</a>. 📜</p>
+<section id="summary-of-the-guidelines">
+<h2>Summary of the Guidelines<a class="headerlink" href="#summary-of-the-guidelines" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>One pull request per feature or bug fix</strong> - Keep PRs focused and atomic</p></li>
+<li><p><strong>Follow the architecture patterns</strong> - Use base classes and existing implementations as templates</p></li>
+<li><p><strong>Use Pydantic configs</strong> - All new components should support configuration-driven instantiation</p></li>
+<li><p><strong>Include tests and documentation</strong> - Essential for all contributions</p></li>
+<li><p><strong>Run quality checks before submitting</strong> - Use <code class="docutils literal notranslate"><span class="pre">./bin/lint</span></code> and ensure <code class="docutils literal notranslate"><span class="pre">./bin/test</span></code> passes</p></li>
+<li><p><strong>Write clear commit messages</strong> - Follow conventional commits format</p></li>
+</ul>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#code-of-conduct">Code of Conduct</a></p></li>
+<li><p><a class="reference internal" href="#getting-started">Getting Started</a></p></li>
+<li><p><a class="reference internal" href="#architecture-overview">Architecture Overview</a></p></li>
+<li><p><a class="reference internal" href="#how-to-contribute">How to Contribute</a></p>
+<ul>
+<li><p><a class="reference internal" href="#adding-a-new-model">Adding a New Model</a></p></li>
+<li><p><a class="reference internal" href="#creating-preprocessing-steps">Creating Preprocessing Steps</a></p></li>
+<li><p><a class="reference internal" href="#creating-feature-extractors">Creating Feature Extractors</a></p></li>
+<li><p><a class="reference internal" href="#creating-trainers">Creating Trainers</a></p></li>
+<li><p><a class="reference internal" href="#creating-assessment-strategies">Creating Assessment Strategies</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#development-workflow">Development Workflow</a></p></li>
+<li><p><a class="reference internal" href="#testing-guidelines">Testing Guidelines</a></p></li>
+<li><p><a class="reference internal" href="#submitting-pull-requests">Submitting Pull Requests</a></p></li>
+<li><p><a class="reference internal" href="#code-style-guidelines">Code Style Guidelines</a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="code-of-conduct">
+<h2>Code of Conduct<a class="headerlink" href="#code-of-conduct" title="Link to this heading"></a></h2>
+<p>This project adheres to a <a class="reference external" href="https://github.com/petrobras/3W/blob/main/CODE_OF_CONDUCT.md">code of conduct</a> that we expect all contributors to follow. Please be respectful, inclusive, and considerate in all interactions.</p>
+</section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Python &gt;= 3.10</p></li>
+<li><p>Git and GitHub knowledge</p></li>
+<li><p>Familiarity with Pydantic for configuration</p></li>
+</ul>
+</section>
+<section id="setting-up-your-development-environment">
+<h3>Setting Up Your Development Environment<a class="headerlink" href="#setting-up-your-development-environment" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Clone and navigate to repository:</strong></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/petrobras/3W.git
+<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>3W
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Create a virtual environment:</strong></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="w"> </span><span class="nb">source</span><span class="w"> </span>venv/bin/activate<span class="w">  </span><span class="c1"># On Windows: venv\Scripts\activate</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Install development dependencies:</strong></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;.[dev]&#39;</span>
+<span class="w"> </span><span class="c1"># or with uv:</span>
+<span class="w"> </span>uv<span class="w"> </span>sync<span class="w"> </span>--all-extras
+</pre></div>
+</div>
+<p>3.1. <strong>Install additional tooling (required for linting):</strong></p>
+<p>Lychee is used for link checking in <code class="docutils literal notranslate"><span class="pre">./bin/lint</span></code>, but it is not installed via pip.</p>
+<ul>
+<li><p><strong>macOS / Linux (Homebrew):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>lychee
+</pre></div>
+</div>
+</li>
+<li><p>Using prebuilt binary (Linux / macOS):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://github.com/lycheeverse/lychee/releases/latest/download/lychee-x86_64-unknown-linux-gnu.tar.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>tar<span class="w"> </span>-xz
+sudo<span class="w"> </span>mv<span class="w"> </span>lychee<span class="w"> </span>/usr/local/bin/
+</pre></div>
+</div>
+</li>
+<li><p>Using Rust (cargo):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cargo<span class="w"> </span>install<span class="w"> </span>lychee
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Verify installation:</p>
+<ol class="arabic simple">
+<li><p><strong>Coding checks:</strong></p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>./bin/test<span class="w">  </span><span class="c1"># Run tests</span>
+<span class="w"> </span>./bin/lint<span class="w">  </span><span class="c1"># Run linting</span>
+</pre></div>
+</div>
+<p>These scripts are the same checks executed in the CI pipeline.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">./bin/test</span></code> runs the test suite (pytest) to verify that your changes do not break existing functionality.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./bin/lint</span></code> runs code quality checks, including formatting, linting, and link validation.</p></li>
+</ul>
+<p><strong>Please run both commands locally before opening a Pull Request.</strong>
+The CI pipeline will execute these checks automatically, and your PR will fail if any of them do not pass.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="architecture-overview">
+<h2>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading"></a></h2>
+<p>The 3W Toolkit follows a <strong>modular, plugin-based architecture</strong> using base classes and the <strong>Strategy Pattern</strong> to enable extensibility.</p>
+<section id="core-principles">
+<h3>1. Core Principles<a class="headerlink" href="#core-principles" title="Link to this heading"></a></h3>
+<p><strong>Separation of Concerns:</strong></p>
+<ul class="simple">
+<li><p><strong>Data Loading &amp; Management</strong> (<code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code>): Handles dataset operations</p></li>
+<li><p><strong>Preprocessing</strong> (<code class="docutils literal notranslate"><span class="pre">BasePreprocessing</span></code>): Data transformation steps (non-destructive)</p></li>
+<li><p><strong>Feature Extraction</strong> (<code class="docutils literal notranslate"><span class="pre">BaseFeatureExtractor</span></code>): Feature engineering</p></li>
+<li><p><strong>Models</strong> (<code class="docutils literal notranslate"><span class="pre">BaseModels</span></code>): Model architecture and inference</p></li>
+<li><p><strong>Training</strong> (<code class="docutils literal notranslate"><span class="pre">BaseTrainer</span></code>): Training logic and orchestration</p></li>
+<li><p><strong>Assessment</strong> (<code class="docutils literal notranslate"><span class="pre">BaseAssessment</span></code>): Evaluation and visualization</p></li>
+</ul>
+<p><strong>Configuration-Driven:</strong></p>
+<ul class="simple">
+<li><p>All components use <strong>Pydantic configs</strong> for type-safe configuration</p></li>
+<li><p>Configs support dynamic instantiation via <code class="docutils literal notranslate"><span class="pre">_target</span></code> attribute (Instantiable pattern)</p></li>
+<li><p>Field validators ensure configuration correctness</p></li>
+</ul>
+<p><strong>Lazy Evaluation:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code> and transformations support property-based lazy evaluation</p></li>
+<li><p>Prevents unnecessary data loading and copying</p></li>
+</ul>
+</section>
+<section id="base-class-hierarchy">
+<h3>2. Base Class Hierarchy<a class="headerlink" href="#base-class-hierarchy" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ThreeWToolkit/
+├── core/
+│   ├── base_models.py                    # BaseModels (abstract model interface)
+│   ├── base_trainer.py                   # BaseTrainer (training orchestration)
+│   ├── base_dataset.py                   # BaseDataset (data management)
+│   ├── base_preprocessing.py             # BasePreprocessing (transform steps)
+│   ├── base_feature_extractor.py         # BaseFeatureExtractor (feature engineering)
+│   ├── base_assessment.py                # BaseAssessment (evaluation)
+│   ├── base_pipeline.py                  # BasePipeline (pipeline orchestration)
+│   ├── base_transform.py                 # BaseTransform (transform interface)
+│   ├── base_instantiable.py              # Instantiable (config-driven instantiation)
+│   └── enums.py                          # Shared enums
+├── models/
+│   ├── mlp.py                            # PyTorch MLP
+│   ├── sklearn_models.py                 # Scikit-learn wrappers
+│   └── torch_models.py                   # Additional PyTorch models
+├── trainer/
+│   ├── sklearn_trainer.py                # Scikit-learn trainer
+│   └── torch_trainer.py                  # PyTorch trainer
+├── preprocessing/
+│   ├── clean_signals.py
+│   ├── impute_missing.py
+│   ├── normalize.py
+│   ├── remap.py
+│   ├── fill_labels.py
+│   └── ... (modular steps)
+├── feature_extraction/
+│   ├── statistical.py
+│   ├── wavelet.py
+│   ├── exponential_statistics.py
+│   ├── windowing.py
+│   └── adapters.py
+├── assessment/
+│   └── model_assess.py
+└── dataset/
+    ├── parquet_dataset.py
+    ├── subset_dataset.py
+    └── transform_dataset.py
+</pre></div>
+</div>
+</section>
+<section id="key-patterns">
+<h3>3. Key Patterns<a class="headerlink" href="#key-patterns" title="Link to this heading"></a></h3>
+<p><strong>BaseModels:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BaseModels</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;All models inherit from this.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save model to disk.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BaseModels&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load model from disk.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make predictions.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p><strong>BaseTrainer:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BaseTrainer</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Framework-agnostic training orchestration.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrainingResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Train the model.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p><strong>BasePreprocessing / BaseFeatureExtractor:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BasePreprocessing</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">BaseTransform</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Non-destructive data transformation.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit_and_transform</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">BaseDataset</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetOutputs</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fit and transform, returning new DatasetOutputs.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p><strong>Configuration with Pydantic:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Instantiable</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyComponentConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Instantiable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for custom component.&quot;&quot;&quot;</span>
+
+    <span class="n">_target</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;MyComponent&quot;</span><span class="p">]</span>  <span class="c1"># For dynamic instantiation</span>
+    <span class="n">param1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;First parameter&quot;</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">param2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Second parameter&quot;</span><span class="p">)</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;param1&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_param1</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;param1 must be &gt;= 1&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="how-to-contribute">
+<h2>How to Contribute<a class="headerlink" href="#how-to-contribute" title="Link to this heading"></a></h2>
+<p>There are several ways you can contribute to this toolkit:</p>
+<section id="fix-outstanding-issues">
+<h3>🐛 Fix Outstanding Issues<a class="headerlink" href="#fix-outstanding-issues" title="Link to this heading"></a></h3>
+<p>If you notice an issue with the existing code and have a fix in mind, feel free to <a class="reference internal" href="#submitting-pull-requests">start contributing</a> and open a Pull Request!</p>
+<p>We have labeled some issues as <strong>Good First Issue</strong> - these are beginner-friendly and a great way to start contributing to open-source.</p>
+</section>
+<section id="add-new-models">
+<h3>🆕 Add New Models<a class="headerlink" href="#add-new-models" title="Link to this heading"></a></h3>
+<p>New ML models are constantly being released. If you want to implement a new model:</p>
+<ul class="simple">
+<li><p>Check if someone is already working on it (search existing issues/PRs)</p></li>
+<li><p>Open an issue describing the model and link to the paper</p></li>
+<li><p>Follow our <a class="reference internal" href="#adding-a-new-model">Adding a New Model</a> guide</p></li>
+</ul>
+</section>
+<section id="create-preprocessing-steps">
+<h3>🔧 Create Preprocessing Steps<a class="headerlink" href="#create-preprocessing-steps" title="Link to this heading"></a></h3>
+<p>Implement new data preprocessing operations:</p>
+<ul class="simple">
+<li><p>Data cleaning, normalization, imputation, remapping</p></li>
+<li><p>Non-destructive transformations (create new data, don’t modify original)</p></li>
+<li><p>Follow our <a class="reference internal" href="#creating-preprocessing-steps">Creating Preprocessing Steps</a> guide</p></li>
+</ul>
+</section>
+<section id="create-feature-extractors">
+<h3>📊 Create Feature Extractors<a class="headerlink" href="#create-feature-extractors" title="Link to this heading"></a></h3>
+<p>Implement new feature engineering methods:</p>
+<ul class="simple">
+<li><p>Statistical features, wavelets, domain-specific features</p></li>
+<li><p>Support windowing and overlapping operations</p></li>
+<li><p>Follow our <a class="reference internal" href="#creating-feature-extractors">Creating Feature Extractors</a> guide</p></li>
+</ul>
+</section>
+<section id="create-trainers">
+<h3>🚂 Create Trainers<a class="headerlink" href="#create-trainers" title="Link to this heading"></a></h3>
+<p>Implement framework-specific training logic:</p>
+<ul class="simple">
+<li><p>Support for new ML frameworks (XGBoost, LightGBM, etc.)</p></li>
+<li><p>Cross-validation integration</p></li>
+<li><p>Follow our <a class="reference internal" href="#creating-trainers">Creating Trainers</a> guide</p></li>
+</ul>
+</section>
+<section id="create-assessment-strategies">
+<h3>📈 Create Assessment Strategies<a class="headerlink" href="#create-assessment-strategies" title="Link to this heading"></a></h3>
+<p>Implement new evaluation and visualization methods:</p>
+<ul class="simple">
+<li><p>Custom metrics and evaluation functions</p></li>
+<li><p>Specialized visualization strategies</p></li>
+<li><p>Follow our <a class="reference internal" href="#creating-assessment-strategies">Creating Assessment Strategies</a> guide</p></li>
+</ul>
+</section>
+<section id="improve-documentation">
+<h3>📚 Improve Documentation<a class="headerlink" href="#improve-documentation" title="Link to this heading"></a></h3>
+<p>Documentation improvements are always welcome:</p>
+<ul class="simple">
+<li><p>Fix typos or unclear explanations</p></li>
+<li><p>Add usage examples</p></li>
+<li><p>Improve docstrings</p></li>
+<li><p>Translate documentation</p></li>
+</ul>
+</section>
+<section id="report-bugs">
+<h3>🐞 Report Bugs<a class="headerlink" href="#report-bugs" title="Link to this heading"></a></h3>
+<p>Before reporting a bug:</p>
+<ol class="arabic simple">
+<li><p><strong>Search existing issues</strong> to avoid duplicates</p></li>
+<li><p><strong>Verify it’s not your code</strong> - Ask in Discussions if unsure</p></li>
+<li><p><strong>Provide minimal reproducible example</strong> (&lt; 30 lines if possible)</p></li>
+</ol>
+<p>Include in your bug report:</p>
+<ul class="simple">
+<li><p>OS and Python version</p></li>
+<li><p>Library version</p></li>
+<li><p>Full traceback</p></li>
+<li><p>Minimal code to reproduce</p></li>
+</ul>
+</section>
+<section id="request-features">
+<h3>💡 Request Features<a class="headerlink" href="#request-features" title="Link to this heading"></a></h3>
+<p>When requesting a new feature:</p>
+<ol class="arabic simple">
+<li><p>Describe the <strong>motivation</strong> - What problem does it solve?</p></li>
+<li><p>Provide <strong>detailed description</strong> of the proposed feature</p></li>
+<li><p>Include a <strong>code snippet</strong> showing desired usage</p></li>
+<li><p>Link to <strong>relevant papers</strong> if applicable</p></li>
+</ol>
+<blockquote>
+<div><p>All contributions are equally valuable to the community. 🥰</p>
+</div></blockquote>
+</section>
+<hr class="docutils" />
+<section id="adding-a-new-model">
+<h3>Adding a New Model<a class="headerlink" href="#adding-a-new-model" title="Link to this heading"></a></h3>
+<p>To add a new model (e.g., XGBoost, LightGBM, custom neural networks), follow these steps:</p>
+<section id="step-1-choose-model-category">
+<h4>Step 1: Choose Model Category<a class="headerlink" href="#step-1-choose-model-category" title="Link to this heading"></a></h4>
+<p>Determine which trainer your model needs:</p>
+<ul class="simple">
+<li><p><strong>Scikit-learn compatible</strong>: Use <code class="docutils literal notranslate"><span class="pre">SklearnTrainer</span></code> (models with <code class="docutils literal notranslate"><span class="pre">.fit()</span></code> and <code class="docutils literal notranslate"><span class="pre">.predict()</span></code>)</p></li>
+<li><p><strong>PyTorch</strong>: Use <code class="docutils literal notranslate"><span class="pre">TorchTrainer</span></code> (models extending <code class="docutils literal notranslate"><span class="pre">torch.nn.Module</span></code>)</p></li>
+<li><p><strong>Custom</strong>: Create custom trainer if needed</p></li>
+</ul>
+</section>
+<section id="step-2-create-a-configuration-class">
+<h4>Step 2: Create a Configuration Class<a class="headerlink" href="#step-2-create-a-configuration-class" title="Link to this heading"></a></h4>
+<p>Create a configuration class in your model file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelsConfig</span><span class="p">,</span> <span class="n">Instantiable</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourModelConfig</span><span class="p">(</span><span class="n">ModelsConfig</span><span class="p">,</span> <span class="n">Instantiable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for YourModel.&quot;&quot;&quot;</span>
+
+    <span class="n">_target</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;YourModel&quot;</span><span class="p">]</span>
+
+    <span class="n">param1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;First hyperparameter&quot;</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">param2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Second hyperparameter&quot;</span><span class="p">)</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Learning rate&quot;</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;param1&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_param1</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;param1 must be &gt;= 1&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-implement-the-model-class">
+<h4>Step 3: Implement the Model Class<a class="headerlink" href="#step-3-implement-the-model-class" title="Link to this heading"></a></h4>
+<p>Inherit from <code class="docutils literal notranslate"><span class="pre">BaseModels</span></code> and implement required methods:</p>
+<p><strong>For Scikit-learn models:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModels</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourModel</span><span class="p">(</span><span class="n">BaseModels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scikit-learn style model.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">YourModelConfig</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialize actual sklearn model</span>
+        <span class="c1"># self._model = SomeSklearnEstimator(param1=config.param1, ...)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;YourModel&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save model using pickle.&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">path</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;YourModel&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load model from pickle.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">YourModelConfig</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make predictions.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>For PyTorch models:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModels</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourTorchModel</span><span class="p">(</span><span class="n">BaseModels</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;PyTorch model.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">YourModelConfig</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="c1"># Define layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">param1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">param1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;YourTorchModel&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass.&quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save model state dict.&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">path</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;YourTorchModel&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load model from state dict.&quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">YourModelConfig</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make predictions.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-register-in-models-module">
+<h4>Step 4: Register in Models Module<a class="headerlink" href="#step-4-register-in-models-module" title="Link to this heading"></a></h4>
+<p>Add to <code class="docutils literal notranslate"><span class="pre">toolkit/ThreeWToolkit/models/__init__.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.your_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">YourModel</span><span class="p">,</span> <span class="n">YourModelConfig</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;YourModel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;YourModelConfig&quot;</span><span class="p">,</span>
+    <span class="c1"># ... existing exports</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-add-tests">
+<h4>Step 5: Add Tests<a class="headerlink" href="#step-5-add-tests" title="Link to this heading"></a></h4>
+<p>Create <code class="docutils literal notranslate"><span class="pre">tests/models/test_your_model.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">YourModel</span><span class="p">,</span> <span class="n">YourModelConfig</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestYourModel</span><span class="p">:</span>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">YourModelConfig</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">param2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">YourModel</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_initialization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test model initialization.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">model</span><span class="o">.</span><span class="n">model_name</span> <span class="o">==</span> <span class="s2">&quot;YourModel&quot;</span>
+        <span class="k">assert</span> <span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">param1</span> <span class="o">==</span> <span class="mi">10</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test prediction.&quot;&quot;&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">predictions</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">5</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_save_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">tmp_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test save and load.&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;model.pkl&quot;</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">loaded</span> <span class="o">=</span> <span class="n">YourModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">loaded</span><span class="o">.</span><span class="n">model_name</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">model_name</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="creating-preprocessing-steps">
+<h3>Creating Preprocessing Steps<a class="headerlink" href="#creating-preprocessing-steps" title="Link to this heading"></a></h3>
+<p>Preprocessing steps perform non-destructive data transformations. Create a new step by inheriting from <code class="docutils literal notranslate"><span class="pre">BasePreprocessing</span></code>:</p>
+<section id="step-1-create-configuration">
+<h4>Step 1: Create Configuration<a class="headerlink" href="#step-1-create-configuration" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasePreprocessingConfig</span><span class="p">,</span> <span class="n">Instantiable</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourPreprocessingConfig</span><span class="p">(</span><span class="n">BasePreprocessingConfig</span><span class="p">,</span> <span class="n">Instantiable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for YourPreprocessing.&quot;&quot;&quot;</span>
+
+    <span class="n">_target</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;YourPreprocessing&quot;</span><span class="p">]</span>
+    <span class="n">param1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Threshold&quot;</span><span class="p">)</span>
+    <span class="n">column_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Columns to process&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-implement-the-class">
+<h4>Step 2: Implement the Class<a class="headerlink" href="#step-2-implement-the-class" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasePreprocessing</span><span class="p">,</span> <span class="n">DatasetOutputs</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourPreprocessing</span><span class="p">(</span><span class="n">BasePreprocessing</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom preprocessing step.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">YourPreprocessingConfig</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitted_stats</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit_and_transform</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">BaseDataset</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetOutputs</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit and transform data (non-destructive).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DatasetOutputs with transformed data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">signal_df</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">signal_df</span>
+        <span class="n">label_df</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">label_df</span>
+
+        <span class="c1"># Compute statistics on original data (fit)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitted_stats</span> <span class="o">=</span> <span class="n">signal_df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+        <span class="c1"># Create transformed copy (non-destructive)</span>
+        <span class="n">transformed_signal</span> <span class="o">=</span> <span class="n">signal_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># Apply transformation...</span>
+
+        <span class="k">return</span> <span class="n">DatasetOutputs</span><span class="p">(</span>
+            <span class="n">signal</span><span class="o">=</span><span class="n">transformed_signal</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">label_df</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">metadata</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-add-tests">
+<h4>Step 3: Add Tests<a class="headerlink" href="#step-3-add-tests" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_your_preprocessing</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test preprocessing step.&quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">YourPreprocessingConfig</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">preprocessing</span> <span class="o">=</span> <span class="n">YourPreprocessing</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">fit_and_transform</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+    <span class="c1"># Original dataset unchanged</span>
+    <span class="k">assert</span> <span class="n">dataset</span><span class="o">.</span><span class="n">signal_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">signal</span>
+
+    <span class="c1"># Result has correct shape</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">dataset</span><span class="o">.</span><span class="n">signal_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="creating-feature-extractors">
+<h3>Creating Feature Extractors<a class="headerlink" href="#creating-feature-extractors" title="Link to this heading"></a></h3>
+<p>Feature extractors inherit from <code class="docutils literal notranslate"><span class="pre">BaseFeatureExtractor</span></code>. They should support windowing and overlap operations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseFeatureExtractor</span><span class="p">,</span>
+    <span class="n">WindowSizeMixin</span><span class="p">,</span>
+    <span class="n">OverlapOffsetMixin</span><span class="p">,</span>
+    <span class="n">Instantiable</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourFeatureExtractorConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Instantiable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for feature extractor.&quot;&quot;&quot;</span>
+
+    <span class="n">_target</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;YourFeatureExtractor&quot;</span><span class="p">]</span>
+    <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Window size&quot;</span><span class="p">)</span>
+    <span class="n">overlap_offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Overlap offset&quot;</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourFeatureExtractor</span><span class="p">(</span>
+    <span class="n">BaseFeatureExtractor</span><span class="p">,</span>
+    <span class="n">WindowSizeMixin</span><span class="p">,</span>
+    <span class="n">OverlapOffsetMixin</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract custom features from windowed data.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">YourFeatureExtractorConfig</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">overlap_offset</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">overlap_offset</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal_df</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract features from signal.&quot;&quot;&quot;</span>
+        <span class="c1"># Apply windowing and feature extraction</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="creating-trainers">
+<h3>Creating Trainers<a class="headerlink" href="#creating-trainers" title="Link to this heading"></a></h3>
+<p>Create framework-specific trainers by inheriting from <code class="docutils literal notranslate"><span class="pre">BaseTrainer</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTrainer</span><span class="p">,</span> <span class="n">TrainingResult</span><span class="p">,</span> <span class="n">TrainingHistory</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourFrameworkTrainer</span><span class="p">(</span><span class="n">BaseTrainer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trainer for YourFramework models.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">BaseModels</span><span class="p">,</span>
+        <span class="n">X_train</span><span class="p">,</span>
+        <span class="n">y_train</span><span class="p">,</span>
+        <span class="n">X_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_val</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrainingResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Train the model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model: Model instance to train</span>
+<span class="sd">            X_train: Training features</span>
+<span class="sd">            y_train: Training labels</span>
+<span class="sd">            X_val: Validation features</span>
+<span class="sd">            y_val: Validation labels</span>
+<span class="sd">            **kwargs: Additional training parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TrainingResult with trained model and history</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Training logic here</span>
+        <span class="n">history</span> <span class="o">=</span> <span class="n">TrainingHistory</span><span class="p">(</span>
+            <span class="n">train_loss</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
+            <span class="n">val_loss</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">TrainingResult</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">history</span><span class="o">=</span><span class="n">history</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">{}</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="creating-assessment-strategies">
+<h3>Creating Assessment Strategies<a class="headerlink" href="#creating-assessment-strategies" title="Link to this heading"></a></h3>
+<p>Assessment strategies evaluate model performance:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseAssessment</span><span class="p">,</span> <span class="n">AssessmentOutput</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">YourAssessment</span><span class="p">(</span><span class="n">BaseAssessment</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom assessment strategy.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">assess</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">y_true</span><span class="p">,</span>
+        <span class="n">y_pred</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AssessmentOutput</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assess model predictions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            AssessmentOutput with metrics and visualizations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_true</span> <span class="o">==</span> <span class="n">y_pred</span><span class="p">),</span>
+            <span class="c1"># ... more metrics</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">AssessmentOutput</span><span class="p">(</span>
+            <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+            <span class="n">visualizations</span><span class="o">=</span><span class="p">{}</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="development-workflow">
+<h2>Development Workflow<a class="headerlink" href="#development-workflow" title="Link to this heading"></a></h2>
+<section id="branch-naming-convention">
+<h3>Branch Naming Convention<a class="headerlink" href="#branch-naming-convention" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature/model-name</span></code> - For new models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature/preprocessing-name</span></code> - For new preprocessing steps</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature/feature-extractor-name</span></code> - For new feature extractors</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bugfix/issue-description</span></code> - For bug fixes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/topic</span></code> - For documentation updates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">refactor/component-name</span></code> - For refactoring</p></li>
+</ul>
+</section>
+<section id="commit-messages">
+<h3>Commit Messages<a class="headerlink" href="#commit-messages" title="Link to this heading"></a></h3>
+<p>Follow conventional commits format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">scope</span><span class="p">):</span> <span class="n">brief</span> <span class="n">description</span>
+
+<span class="n">Longer</span> <span class="n">description</span> <span class="k">if</span> <span class="n">needed</span><span class="o">.</span>
+<span class="n">List</span> <span class="n">key</span> <span class="n">changes</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">Change</span> <span class="mi">1</span>
+<span class="o">-</span> <span class="n">Change</span> <span class="mi">2</span>
+
+<span class="n">Fixes</span> <span class="c1">#issue_number</span>
+</pre></div>
+</div>
+<p><strong>Types:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feat</span></code> - New feature or component</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fix</span></code> - Bug fix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs</span></code> - Documentation only</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">style</span></code> - Code style changes (formatting, imports)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">refactor</span></code> - Code refactoring</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test</span></code> - Adding or updating tests</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chore</span></code> - Maintenance tasks</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">perf</span></code> - Performance improvements</p></li>
+</ul>
+<p><strong>Examples:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feat</span><span class="p">(</span><span class="n">models</span><span class="p">):</span> <span class="n">add</span> <span class="n">XGBoost</span> <span class="n">model</span> <span class="n">implementation</span>
+
+<span class="o">-</span> <span class="n">Create</span> <span class="n">XGBoostConfig</span> <span class="k">with</span> <span class="n">hyperparameter</span> <span class="n">validation</span>
+<span class="o">-</span> <span class="n">Implement</span> <span class="n">XGBoostModel</span> <span class="n">wrapper</span> <span class="k">for</span> <span class="n">sklearn</span> <span class="n">interface</span>
+<span class="o">-</span> <span class="n">Add</span> <span class="n">sklearn_trainer</span> <span class="n">support</span>
+<span class="o">-</span> <span class="n">Include</span> <span class="n">comprehensive</span> <span class="n">tests</span> <span class="k">for</span> <span class="n">training</span> <span class="ow">and</span> <span class="n">prediction</span>
+
+<span class="n">Closes</span> <span class="c1">#42</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fix</span><span class="p">(</span><span class="n">preprocessing</span><span class="p">):</span> <span class="n">prevent</span> <span class="ow">in</span><span class="o">-</span><span class="n">place</span> <span class="n">modifications</span> <span class="ow">in</span> <span class="n">normalize</span>
+
+<span class="o">-</span> <span class="n">Clone</span> <span class="n">data</span> <span class="n">before</span> <span class="n">normalization</span>
+<span class="o">-</span> <span class="n">Add</span> <span class="n">epsilon</span> <span class="n">handling</span> <span class="k">for</span> <span class="n">zero</span> <span class="n">divisions</span>
+<span class="o">-</span> <span class="n">Update</span> <span class="n">tests</span> <span class="n">to</span> <span class="n">verify</span> <span class="n">non</span><span class="o">-</span><span class="n">destructive</span> <span class="n">behavior</span>
+
+<span class="n">Fixes</span> <span class="c1">#135</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="testing-guidelines">
+<h2>Testing Guidelines<a class="headerlink" href="#testing-guidelines" title="Link to this heading"></a></h2>
+<section id="required-tests">
+<h3>Required Tests<a class="headerlink" href="#required-tests" title="Link to this heading"></a></h3>
+<p>Every contribution should include tests:</p>
+<ol class="arabic simple">
+<li><p><strong>Unit Tests</strong> for your component:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Configuration validation</p></li>
+<li><p>Initialization with various parameters</p></li>
+<li><p>Core functionality</p></li>
+<li><p>Error handling for edge cases</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Integration Tests</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Full pipeline execution</p></li>
+<li><p>Cross-validation (if supported)</p></li>
+<li><p>Model training and prediction together</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Data Integrity Tests</strong> (important for preprocessing/feature extraction):</p></li>
+</ol>
+<ul class="simple">
+<li><p>Original data is not modified (for transformations)</p></li>
+<li><p>Output shapes and types are correct</p></li>
+<li><p>Handles missing/invalid data gracefully</p></li>
+</ul>
+</section>
+<section id="running-tests">
+<h3>Running Tests<a class="headerlink" href="#running-tests" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run all tests with coverage</span>
+./bin/test
+
+<span class="c1"># Run specific test file</span>
+pytest<span class="w"> </span>tests/models/test_your_model.py
+
+<span class="c1"># Run single test</span>
+pytest<span class="w"> </span>tests/models/test_your_model.py::TestYourModel::test_predict
+
+<span class="c1"># Run with verbose output</span>
+pytest<span class="w"> </span>tests/models/test_your_model.py<span class="w"> </span>-v
+
+<span class="c1"># Run with coverage report</span>
+pytest<span class="w"> </span>tests/models/test_your_model.py<span class="w"> </span>--cov<span class="o">=</span>toolkit/ThreeWToolkit/models
+</pre></div>
+</div>
+</section>
+<section id="test-structure">
+<h3>Test Structure<a class="headerlink" href="#test-structure" title="Link to this heading"></a></h3>
+<p>Place tests alongside the module they test:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">toolkit</span><span class="o">/</span><span class="n">ThreeWToolkit</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">your_model</span><span class="o">.</span><span class="n">py</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">test_your_model</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Use class-based organization for related tests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TestYourModel</span><span class="p">:</span>
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">YourModelConfig</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+    <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">YourModel</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_initialization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="o">...</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestYourModelConfig</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="fixtures">
+<h3>Fixtures<a class="headerlink" href="#fixtures" title="Link to this heading"></a></h3>
+<p>Common fixtures are defined in <code class="docutils literal notranslate"><span class="pre">tests/conftest.py</span></code>. Create local fixtures in test files as needed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_dataset</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create sample dataset for testing.&quot;&quot;&quot;</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BaseDataset</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="submitting-pull-requests">
+<h2>Submitting Pull Requests<a class="headerlink" href="#submitting-pull-requests" title="Link to this heading"></a></h2>
+<section id="before-submitting">
+<h3>Before Submitting<a class="headerlink" href="#before-submitting" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Code follows style guidelines (<code class="docutils literal notranslate"><span class="pre">./bin/lint</span></code> passes)</p></li>
+<li><p>All tests pass (<code class="docutils literal notranslate"><span class="pre">./bin/test</span></code>)</p></li>
+<li><p>New tests added for new functionality</p></li>
+<li><p>Documentation updated and docstrings complete</p></li>
+<li><p>No merge conflicts with main/dev branch</p></li>
+<li><p>Commit messages follow convention</p></li>
+<li><p>Related issues are linked</p></li>
+</ul>
+</section>
+<section id="pr-description-template">
+<h3>PR Description Template<a class="headerlink" href="#pr-description-template" title="Link to this heading"></a></h3>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gu">## Description</span>
+Brief description of what this PR does.
+
+<span class="gu">## Type of Change</span>
+<span class="k">- [ ]</span> New model
+<span class="k">- [ ]</span> New preprocessing step
+<span class="k">- [ ]</span> New feature extractor
+<span class="k">- [ ]</span> New trainer
+<span class="k">- [ ]</span> Bug fix
+<span class="k">- [ ]</span> Documentation update
+<span class="k">- [ ]</span> Refactoring
+<span class="k">- [ ]</span> Performance improvement
+
+<span class="gu">## Component Details</span>
+<span class="k">-</span><span class="w"> </span><span class="gs">**Component Name**</span>: [Name of model/extractor/etc.]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Base Class**</span>: [BaseModels/BasePreprocessing/etc.]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Framework**</span>: [PyTorch/Scikit-learn/Other]
+<span class="k">-</span><span class="w"> </span><span class="gs">**Supported Tasks**</span>: [Classification/Regression/Both]
+
+<span class="gu">## Testing</span>
+<span class="k">- [ ]</span> Unit tests added and passing
+<span class="k">- [ ]</span> Integration tests added and passing
+<span class="k">- [ ]</span> Edge cases handled
+<span class="k">- [ ]</span> Data integrity verified (for transformations)
+
+<span class="gu">## Checklist</span>
+<span class="k">- [ ]</span> Code follows project style guidelines
+<span class="k">- [ ]</span> Type hints are complete
+<span class="k">- [ ]</span> Documentation/docstrings updated
+<span class="k">- [ ]</span> No breaking changes (or justified breaking changes)
+<span class="k">- [ ]</span> Related issues linked
+<span class="k">- [ ]</span> <span class="sb">`./bin/lint`</span> passes
+<span class="k">- [ ]</span> <span class="sb">`./bin/test`</span> passes
+
+<span class="gu">## Notes for Reviewers</span>
+Any additional context or notes for reviewers.
+</pre></div>
+</div>
+</section>
+<section id="review-process">
+<h3>Review Process<a class="headerlink" href="#review-process" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Automated Checks</strong>: Tests, linting, type checking run automatically</p></li>
+<li><p><strong>Code Review</strong>: Maintainers review code for:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Architecture alignment</p></li>
+<li><p>Code quality and style</p></li>
+<li><p>Test coverage</p></li>
+<li><p>Documentation completeness</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Address Comments</strong>: Respond to review comments</p></li>
+<li><p><strong>Approval &amp; Merge</strong>: Maintainers approve and merge</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="code-style-guidelines">
+<h2>Code Style Guidelines<a class="headerlink" href="#code-style-guidelines" title="Link to this heading"></a></h2>
+<section id="python-style">
+<h3>Python Style<a class="headerlink" href="#python-style" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Follow <strong>PEP 8</strong></p></li>
+<li><p>Use <strong>type hints</strong> for all function parameters and returns</p></li>
+<li><p>Maximum line length: <strong>88 characters</strong> (Black formatter)</p></li>
+<li><p>Use <strong>meaningful variable names</strong></p></li>
+<li><p>Prefer <strong>explicit over implicit</strong></p></li>
+</ul>
+</section>
+<section id="imports">
+<h3>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h3>
+<p>Organize imports in three groups (separated by blank lines):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Standard library</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="c1"># 2. Third-party libraries</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="c1"># 3. Local imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModels</span><span class="p">,</span> <span class="n">BaseModelsConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">general_utils</span>
+</pre></div>
+</div>
+</section>
+<section id="type-hints">
+<h3>Type Hints<a class="headerlink" href="#type-hints" title="Link to this heading"></a></h3>
+<p>Always include type hints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ❌ Bad</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_and_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">dataset</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+
+<span class="c1"># ✅ Good</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fit_and_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">BaseDataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DatasetOutputs</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fit and transform dataset.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">DatasetOutputs</span><span class="p">(</span><span class="n">signal</span><span class="o">=</span><span class="n">transformed</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">label_df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">TypeAlias</span></code> for complex types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeAlias</span>
+
+<span class="n">SignalType</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span>
+</pre></div>
+</div>
+</section>
+<section id="docstrings">
+<h3>Docstrings<a class="headerlink" href="#docstrings" title="Link to this heading"></a></h3>
+<p>Use <strong>Google-style docstrings</strong> (3 empty lines after class definition):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">YourClass</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Brief one-liner description.</span>
+
+<span class="sd">    Longer description if needed, explaining the purpose and usage.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        param1: Description of param1.</span>
+<span class="sd">        param2: Description of param2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Brief description of method.</span>
+
+<span class="sd">        Longer description explaining what the method does.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Description of x parameter.</span>
+<span class="sd">            y: Description of y parameter.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Description of return value.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: When x is negative.</span>
+<span class="sd">            TypeError: When y is not a string.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; obj = YourClass()</span>
+<span class="sd">            &gt;&gt;&gt; result = obj.method(5, &quot;hello&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; print(result)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="linting-and-formatting">
+<h3>Linting and Formatting<a class="headerlink" href="#linting-and-formatting" title="Link to this heading"></a></h3>
+<p>Before committing, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Format code with Black and fix with Ruff</span>
+./bin/lint
+
+<span class="c1"># Or manually:</span>
+black<span class="w"> </span>--extend-exclude<span class="w"> </span><span class="s1">&#39;\.ipynb$&#39;</span><span class="w"> </span>toolkit<span class="w"> </span>tests
+ruff<span class="w"> </span>check<span class="w"> </span>--fix<span class="w"> </span>toolkit<span class="w"> </span>tests
+mypy<span class="w"> </span>toolkit<span class="w"> </span>tests
+</pre></div>
+</div>
+<p><strong>Key tools:</strong></p>
+<ul class="simple">
+<li><p><strong>Black</strong> - Code formatter (line length: 88)</p></li>
+<li><p><strong>Ruff</strong> - Fast linter and auto-fixer</p></li>
+<li><p><strong>Mypy</strong> - Static type checker</p></li>
+</ul>
+</section>
+<section id="configuration-examples">
+<h3>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ✅ Good Pydantic config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyConfig</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for MyComponent.&quot;&quot;&quot;</span>
+
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Learning rate for optimization&quot;</span><span class="p">,</span>
+        <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">le</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Batch size for training&quot;</span><span class="p">,</span>
+        <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">le</span><span class="o">=</span><span class="mi">512</span>
+    <span class="p">)</span>
+    <span class="n">num_epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of training epochs&quot;</span><span class="p">,</span>
+        <span class="n">ge</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_lr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;learning_rate should typically be &lt;= 0.1&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading"></a></h2>
+<section id="resources">
+<h3>Resources<a class="headerlink" href="#resources" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Documentation</strong>: Check <code class="docutils literal notranslate"><span class="pre">/docs</span></code> folder and README files</p></li>
+<li><p><strong>Examples</strong>: See <code class="docutils literal notranslate"><span class="pre">/toolkit/demos/</span></code> for usage examples</p></li>
+<li><p><strong>Tests</strong>: Review existing tests for patterns and best practices</p></li>
+<li><p><strong>Core Classes</strong>: Study <code class="docutils literal notranslate"><span class="pre">toolkit/ThreeWToolkit/core/</span></code> for interfaces</p></li>
+</ul>
+</section>
+<section id="contact">
+<h3>Contact<a class="headerlink" href="#contact" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Issues</strong>: Open a GitHub issue for bugs or feature requests</p></li>
+<li><p><strong>Discussions</strong>: Use GitHub Discussions for questions and ideas</p></li>
+<li><p><strong>Pull Requests</strong>: For code contributions</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="recognition">
+<h2>Recognition<a class="headerlink" href="#recognition" title="Link to this heading"></a></h2>
+<p>Contributors will be:</p>
+<ul class="simple">
+<li><p>Listed in CONTRIBUTORS.md</p></li>
+<li><p>Mentioned in release notes</p></li>
+<li><p>Credited in relevant documentation</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>By contributing, you agree that your contributions will be licensed under the same license as the project (Apache 2.0 for code, CC BY 4.0 for data).</p>
+<hr class="docutils" />
+<p>Thank you for contributing! 🎉</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="architecture.html" class="btn btn-neutral float-left" title="Architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Ricardo Emanuel Vaz Vargas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

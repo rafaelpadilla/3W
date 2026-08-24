@@ -1,0 +1,1321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classification metrics with ThreeWToolkit &mdash; ThreeWToolkit 3.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=eb155f5e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Report Generation Examples" href="13_report_generation_examples.html" />
+    <link rel="prev" title="Assessment Examples" href="11_assessment_examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ThreeWToolkit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#direct-installation-via-pypi">Direct Installation via PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#development-installation-source">Development Installation (Source)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#fork-or-clone-the-repository">1. Fork or Clone the Repository</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-a-clone-official-repository">Option A: Clone Official Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-b-fork-and-clone">Option B: Fork and Clone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#install-in-editable-mode">2. Install in Editable Mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-pip">Using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-uv-fastest">Using <code class="docutils literal notranslate"><span class="pre">uv</span></code> (Fastest)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-conda">Using <code class="docutils literal notranslate"><span class="pre">conda</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#verifying-the-installation">Verifying the Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#architecture-pattern">Architecture Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#end-to-end-pipeline-example">End-to-End Pipeline Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/dataset.html">Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#dataset-structure">Dataset Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#configuration-ingestion">Configuration &amp; Ingestion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/preprocessing.html">Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#available-preprocessors">Available Preprocessors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#chaining-preprocessors">Chaining Preprocessors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/feature_extraction.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#feature-adapters">Feature Adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#combining-feature-extractor-steps">Combining Feature Extractor Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/models_and_training.html">Models and Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#model-architecture-specs">Model Architecture Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#training-execution">Training Execution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00_overview.html">3W Toolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#Table-of-Contents-📑">Table of Contents 📑</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#🚀-1.-Introduction-to-3WToolkit">🚀 1. Introduction to 3WToolkit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.1.-Installation-with-pip-install">1.1. Installation with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.2.-Cloning-and-installing">1.2. Cloning and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.3.-Forking-and-installing">1.3. Forking and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#📂-2.-Dataset-3W">📂 2. Dataset 3W</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#2.1.-Loading-the-Dataset">2.1. Loading the Dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#2.2.-Filtering-&amp;-Exploring-the-Data">2.2. Filtering &amp; Exploring the Data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#3.-⚙️-Preprocessing">3. ⚙️ Preprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.1.-Cleaning-the-dataset">3.1. Cleaning the dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.2.-Handling-missing-values-(Imputation)">3.2. Handling missing values (Imputation)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.3.-Normalization">3.3. Normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.4.-Renaming-columns">3.4. Renaming columns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.5.-Building-preprocessing-pipelines">3.5. Building preprocessing pipelines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#4.-🔎-Feature-Extraction">4. 🔎 Feature Extraction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#⚠️-Important:-Windowing-comes-first">⚠️ Important: Windowing comes first</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.1.-Custom-feature-extraction-pipelines">4.1. Custom feature extraction pipelines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.2.-Windowing">4.2. Windowing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.3.-Statistical-Feature-Extraction">4.3. Statistical Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.4.-Wavelet-Feature-Extraction">4.4. Wavelet Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.5.-Exponentially-Weighted-Statistical-Feature-Extraction">4.5. Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#5.-📊-Exploratory-Analysis">5. 📊 Exploratory Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#5.1.-Visualization-Tools-Overview">5.1. Visualization Tools Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#6.-🤖-Model-Training-and-Evaluation">6. 🤖 Model Training and Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.1.-Dataset-loading-and-manual-split">6.1. Dataset loading and manual split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.2.-Preprocessing-and-feature-extraction">6.2. Preprocessing and feature extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.3.-Model-configuration">6.3. Model configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.4.-Training">6.4. Training</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.5.-Evaluation">6.5. Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.7.-Training-history-visualization">6.7. Training history visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#7.-🔗-Pipeline-Integration">7. 🔗 Pipeline Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#Pipeline-Execution-Flow">Pipeline Execution Flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.1-Creating-a-Basic-Pipeline">7.1 Creating a Basic Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#⚠️-Important-note-on-dataset-splitting">⚠️ Important note on dataset splitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.2.-Defining-the-pipeline">7.2. Defining the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.3.-Running-the-pipeline">7.3. Running the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.4.-Visualizing-training-results">7.4. Visualizing training results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.5.-Example-pipeline-configurations">7.5. Example pipeline configurations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.6.-Best-Practices">7.6. Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#8.-📄-Report-Generation">8. 📄 Report Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01_dataset_examples.html">Dataset loading examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Download-from-figshare-if-not-on-local-yet">Download from figshare if not on local yet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Signal-and-label-split">Signal and label split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Customizable-label-selection">Customizable label selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Event-type-splitting">Event type splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Event-class-splitting">Event class splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#File-list-splitting">File list splitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html">Data Visualization using the 3W Toolkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html#Series">Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Time-Series-Visualization-with-plot_series">Time Series Visualization with <code class="docutils literal notranslate"><span class="pre">plot_series</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-1:-Random-Time-Series">Example 1: Random Time Series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-2:-Using-plot_series-with-multiple-subplots-(ax-provided)">Example 2: Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-3:-Using-3W-data---Simple-Time-Series-Plot">Example 3: Using 3W data - Simple Time Series Plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-4:-Using-3W-data---Using-plot_series-with-multiple-subplots-(ax-provided)">Example 4: Using 3W data - Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-5:-Using-3W-data---Time-Series-with-Missing-Values">Example 5: Using 3W data - Time Series with Missing Values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html#Multiple-Series">Multiple Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-1:-Simple-usage-with-multiple-time-series">Example 1: Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-2:-Using-subplots-for-different-groups">Example 2: Using subplots for different groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-3:-Using-3W-Data---Simple-usage-with-multiple-time-series">Example 3: Using 3W Data - Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-4:-Using-3W-Data---Using-subplots-for-different-groups">Example 4: Using 3W Data - Using subplots for different groups</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html#Heatmap">Heatmap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Correlation-Heatmap-Demonstration">Correlation Heatmap Demonstration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-1:-Basic-Usage">Example 1: Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-2:-Custom-Title-and-Annotations">Example 2: Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-3:-Multiple-Heatmaps-in-Subplots">Example 3: Multiple Heatmaps in Subplots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-4:-Using-3W-data---Basic-Usage">Example 4: Using 3W data - Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-5:-Using-3W-data---Custom-Title-and-Annotations">Example 5: Using 3W data - Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-6:-Using-3W-data---Custom-Figure-Size-and-Color-Map">Example 6: Using 3W data - Custom Figure Size and Color Map</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03_data_cleaning_examples.html">Exploring the 3W dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Checking-missing-data">Checking missing data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Distribution-of-Signal-Averages-Across-Events">Distribution of Signal Averages Across Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Data-cleaning">Data cleaning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04_preprocessing_examples.html">Preprocessing Demonstration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Clean-Signals">Clean Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Impute-Missing-Data">Impute Missing Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Normalize">Normalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Rename-Columns">Rename Columns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#Using-3W-data-as-example">Using 3W data as example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#FillLabels">FillLabels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#RemapClass">RemapClass</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05_feature_extraction_examples.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Loading-3W-Dataset">Loading 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Custom-feature-extraction-pipelines:">Custom feature extraction pipelines:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Wavelet-Feature-Extraction">Wavelet Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Statistical-Feature-Extraction">Statistical Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Exponentially-Weighted-Statistical-Feature-Extraction">Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="06_clustering_pipeline_examples.html">Clustering Pipeline Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#Objectives">Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#1.-Configuration-&amp;-Data-Loading">1. Configuration &amp; Data Loading</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#1.1-Data-Quality-Overview">1.1 Data Quality Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.-Univariate-Processing-Pipeline">2. Univariate Processing Pipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.1-Dendrogram-Visualization">2.1 Dendrogram Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.2-Cluster-Stability-Analysis">2.2 Cluster Stability Analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.3-Variable-Exclusion">2.3 Variable Exclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#3.-Multivariate-Consensus">3. Multivariate Consensus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.-Visualization">4. Visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.1-Selection-Heatmap">4.1 Selection Heatmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.2-Consensus-Cluster-Size-Curve">4.2 Consensus Cluster Size Curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.3-Time-Series-Clustering-Overlay">4.3 Time Series Clustering Overlay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.4-Ranked-Distance-Plot">4.4 Ranked Distance Plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html">Real vs Simulated Data — Clustering Comparison</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Reusable-Analysis-Pipeline">Reusable Analysis Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-1:-Real-Data">Analysis 1: Real Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-2:-Simulated-Data">Analysis 2: Simulated Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-3:-Combined-Data-(Real-+-Simulated)">Analysis 3: Combined Data (Real + Simulated)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="08_sklearn_models_examples.html">Scikit-Learn Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Loading-and-preparing-the-Dataset">Loading and preparing the Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Training-Assessment-and-Results">Training Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="09_mlp_timeseries_example.html">Training an MLP on Time Series Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Imports">Imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Loading-and-preparing-the-dataset">Loading and preparing the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Test-Assessment-and-Results">Test Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html">Save/Load model examples:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html#Saving-and-Loading-a-PyTorch-model:">Saving and Loading a PyTorch model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html#Saving-and-Loading-a-SKLearn-model:">Saving and Loading a SKLearn model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_assessment_examples.html">Assessment Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="11_assessment_examples.html#Examples-with-plot_confusion_matrix:">Examples with <code class="docutils literal notranslate"><span class="pre">plot_confusion_matrix</span></code>:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-pandas-Series">Using <code class="docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">Series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-numpy-arrays">Using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-python-lists">Using python <code class="docutils literal notranslate"><span class="pre">lists</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11_assessment_examples.html#Examples-with-feature_visualization">Examples with <code class="docutils literal notranslate"><span class="pre">feature_visualization</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-random-feature-importances">Using random feature importances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Customizing-our-plot">Customizing our plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Displaying-feature-importances-of-a-Random-Forest-classifier">Displaying feature importances of a Random Forest classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Classification metrics with ThreeWToolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#What-you-will-do">What you will do</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#1.-Load-the-dataset">1. Load the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#2.-Train-/-validation-/-test-split">2. Train / validation / test split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#3.-Preprocessing-and-features">3. Preprocessing and features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#4.-Model-and-trainer">4. Model and trainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#5.-Training">5. Training</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#6.-Predictions-on-the-test-set">6. Predictions on the test set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#7.-Example-sample-weights">7. Example sample weights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#8.-Accuracy-(accuracy_score)">8. Accuracy (<code class="docutils literal notranslate"><span class="pre">accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#9.-Balanced-accuracy-(balanced_accuracy_score)">9. Balanced accuracy (<code class="docutils literal notranslate"><span class="pre">balanced_accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#10.-Average-precision-(average_precision_score)">10. Average precision (<code class="docutils literal notranslate"><span class="pre">average_precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#11.-Precision-(precision_score)">11. Precision (<code class="docutils literal notranslate"><span class="pre">precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#12.-Recall-(recall_score)">12. Recall (<code class="docutils literal notranslate"><span class="pre">recall_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#13.-F1-score-(f1_score)">13. F1 score (<code class="docutils literal notranslate"><span class="pre">f1_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#14.-ROC-AUC-(roc_auc_score)">14. ROC AUC (<code class="docutils literal notranslate"><span class="pre">roc_auc_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#15.-Matthews-Correlation-Coefficient-(matthews_corrcoef)">15. Matthews Correlation Coefficient (<code class="docutils literal notranslate"><span class="pre">matthews_corrcoef</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Interpretation">Interpretation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="13_report_generation_examples.html">Report Generation Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#1.-Defining-a-Mock-Model">1. Defining a Mock Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#2.-Generating-a-signal">2. Generating a signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#3.-Data-Splitting">3. Data Splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#4.-Generating-a-Summary-Report">4. Generating a Summary Report</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#5.-Getting-model's-predictions-and-calculating-metrics">5. Getting model’s predictions and calculating metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="14_three_w_chart_example.html">ThreeWChart class overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Visualizing-the-3W-Dataset">Visualizing the 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Viewing-specific-events">Viewing specific events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Viewing-Variables-via-the-Dropdown-Menu">Viewing Variables via the Dropdown Menu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#core-layer">Core Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html">ThreeWToolkit.core.BaseDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html#ThreeWToolkit.core.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html">ThreeWToolkit.core.BasePreprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html#ThreeWToolkit.core.BasePreprocessing"><code class="docutils literal notranslate"><span class="pre">BasePreprocessing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html">ThreeWToolkit.core.BaseFeatureExtractor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html#ThreeWToolkit.core.BaseFeatureExtractor"><code class="docutils literal notranslate"><span class="pre">BaseFeatureExtractor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html">ThreeWToolkit.core.BaseModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html#ThreeWToolkit.core.BaseModels"><code class="docutils literal notranslate"><span class="pre">BaseModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html">ThreeWToolkit.core.BaseTrainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html#ThreeWToolkit.core.BaseTrainer"><code class="docutils literal notranslate"><span class="pre">BaseTrainer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html">ThreeWToolkit.core.BasePipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html#ThreeWToolkit.core.BasePipeline"><code class="docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html">ThreeWToolkit.core.DatasetOutputs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html#ThreeWToolkit.core.DatasetOutputs"><code class="docutils literal notranslate"><span class="pre">DatasetOutputs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html">ThreeWToolkit.core.TrainingResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html#ThreeWToolkit.core.TrainingResult"><code class="docutils literal notranslate"><span class="pre">TrainingResult</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html">ThreeWToolkit.core.PredictionResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html#ThreeWToolkit.core.PredictionResult"><code class="docutils literal notranslate"><span class="pre">PredictionResult</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#data-preprocessing">Data &amp; Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html">ThreeWToolkit.preprocessing.CleanSignals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html#ThreeWToolkit.preprocessing.CleanSignals"><code class="docutils literal notranslate"><span class="pre">CleanSignals</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html">ThreeWToolkit.preprocessing.ImputeMissing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html#ThreeWToolkit.preprocessing.ImputeMissing"><code class="docutils literal notranslate"><span class="pre">ImputeMissing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html">ThreeWToolkit.preprocessing.Normalize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html#ThreeWToolkit.preprocessing.Normalize"><code class="docutils literal notranslate"><span class="pre">Normalize</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html">ThreeWToolkit.preprocessing.RenameColumns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html#ThreeWToolkit.preprocessing.RenameColumns"><code class="docutils literal notranslate"><span class="pre">RenameColumns</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#feature-extraction">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html">ThreeWToolkit.feature_extraction.Windowing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html#ThreeWToolkit.feature_extraction.Windowing"><code class="docutils literal notranslate"><span class="pre">Windowing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html">ThreeWToolkit.feature_extraction.StatisticalFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html#ThreeWToolkit.feature_extraction.StatisticalFeatures"><code class="docutils literal notranslate"><span class="pre">StatisticalFeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html">ThreeWToolkit.feature_extraction.WaveletFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html#ThreeWToolkit.feature_extraction.WaveletFeatures"><code class="docutils literal notranslate"><span class="pre">WaveletFeatures</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#models-training">Models &amp; Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html">ThreeWToolkit.models.SklearnModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html#ThreeWToolkit.models.SklearnModels"><code class="docutils literal notranslate"><span class="pre">SklearnModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html">ThreeWToolkit.models.TorchModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html#ThreeWToolkit.models.TorchModels"><code class="docutils literal notranslate"><span class="pre">TorchModels</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#assessment-evaluation">Assessment &amp; Evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html">ThreeWToolkit.assessment.ModelAssessment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html#ThreeWToolkit.assessment.ModelAssessment"><code class="docutils literal notranslate"><span class="pre">ModelAssessment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html">ThreeWToolkit.assessment.AssessmentVisualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html#ThreeWToolkit.assessment.AssessmentVisualization"><code class="docutils literal notranslate"><span class="pre">AssessmentVisualization</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide/index.html">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/architecture.html">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#core-principles">Core Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#abstraction-layers">Abstraction Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#core-layer-specification-contracts">1. Core Layer (Specification &amp; Contracts)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#application-layer-concrete-implementations">2. Application Layer (Concrete Implementations)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#component-overview">Component Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#data-management-processing">Data Management &amp; Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#model-training-isolation">Model &amp; Training Isolation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#evaluation-orchestration">Evaluation &amp; Orchestration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#architecture-overview-diagram">Architecture Overview Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/contributing.html">🤝 Contributing Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#summary-of-the-guidelines">Summary of the Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#code-of-conduct">Code of Conduct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#architecture-overview">Architecture Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#core-principles">1. Core Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#base-class-hierarchy">2. Base Class Hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#key-patterns">3. Key Patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#how-to-contribute">How to Contribute</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#fix-outstanding-issues">🐛 Fix Outstanding Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#add-new-models">🆕 Add New Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-preprocessing-steps">🔧 Create Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-feature-extractors">📊 Create Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-trainers">🚂 Create Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-assessment-strategies">📈 Create Assessment Strategies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#improve-documentation">📚 Improve Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#report-bugs">🐞 Report Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#request-features">💡 Request Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#adding-a-new-model">Adding a New Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-preprocessing-steps">Creating Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-feature-extractors">Creating Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-trainers">Creating Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-assessment-strategies">Creating Assessment Strategies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#development-workflow">Development Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#branch-naming-convention">Branch Naming Convention</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#testing-guidelines">Testing Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#required-tests">Required Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#test-structure">Test Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#fixtures">Fixtures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#submitting-pull-requests">Submitting Pull Requests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#before-submitting">Before Submitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#pr-description-template">PR Description Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#review-process">Review Process</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#code-style-guidelines">Code Style Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#python-style">Python Style</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#imports">Imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#type-hints">Type Hints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#docstrings">Docstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#linting-and-formatting">Linting and Formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#getting-help">Getting Help</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#resources">Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#contact">Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#recognition">Recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ThreeWToolkit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorials/index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Classification metrics with ThreeWToolkit</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_demos_gen/12_using_metrics.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Classification-metrics-with-ThreeWToolkit">
+<h1>Classification metrics with ThreeWToolkit<a class="headerlink" href="#Classification-metrics-with-ThreeWToolkit" title="Link to this heading"></a></h1>
+<p>This notebook walks through <strong>loading the 3W dataset</strong>, <strong>building a preprocessing and feature pipeline</strong>, <strong>training an MLP</strong>, and <strong>evaluating predictions</strong> with the metrics exposed in <code class="docutils literal notranslate"><span class="pre">ThreeWToolkit.metrics</span></code>.</p>
+<section id="What-you-will-do">
+<h2>What you will do<a class="headerlink" href="#What-you-will-do" title="Link to this heading"></a></h2>
+<p>This notebook is divided into steps (data → split → features → train → evaluate), that encompases:</p>
+<ol class="arabic simple">
+<li><p><strong>Load</strong> parquet events and pick a sensor column and target classes.</p></li>
+<li><p><strong>Split</strong> the dataset into train, validation, and test subsets (random indices).</p></li>
+<li><p><strong>Fit</strong> <code class="docutils literal notranslate"><span class="pre">TransformConfig</span></code> pipeline on the full dataset, then <strong>transform</strong> each split.</p></li>
+<li><p><strong>Train</strong> on the training / validation sets and <strong>predict</strong> on the test set.</p></li>
+<li><p><strong>Compute metrics</strong>: accuracy, balanced accuracy, AP, precision, recall, F1, and ROC AUC.</p></li>
+</ol>
+<section id="Imports">
+<h3>Imports<a class="headerlink" href="#Imports" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CleanSignalsConfig</span><span class="p">,</span>
+    <span class="n">FillLabelsConfig</span><span class="p">,</span>
+    <span class="n">ImputeMissingConfig</span><span class="p">,</span>
+    <span class="n">NormalizeConfig</span><span class="p">,</span>
+    <span class="n">RemapClassConfig</span><span class="p">,</span>
+    <span class="n">SequentialPreprocessingAdapterConfig</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.trainer</span><span class="w"> </span><span class="kn">import</span> <span class="n">TorchTrainerConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.random</span><span class="w"> </span><span class="kn">import</span> <span class="n">shuffle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.feature_extraction</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ConcatFeatureAdapterConfig</span><span class="p">,</span>
+    <span class="n">SequentialFeatureAdapterConfig</span><span class="p">,</span>
+    <span class="n">StatisticalConfig</span><span class="p">,</span>
+    <span class="n">WindowingConfig</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.models.mlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">MLPConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParquetDatasetConfig</span><span class="p">,</span> <span class="n">TransformConfig</span><span class="p">,</span> <span class="n">SubsetDataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">accuracy_score</span><span class="p">,</span>
+    <span class="n">average_precision_score</span><span class="p">,</span>
+    <span class="n">balanced_accuracy_score</span><span class="p">,</span>
+    <span class="n">f1_score</span><span class="p">,</span>
+    <span class="n">precision_score</span><span class="p">,</span>
+    <span class="n">recall_score</span><span class="p">,</span>
+    <span class="n">roc_auc_score</span><span class="p">,</span>
+    <span class="n">matthews_corrcoef</span>
+<span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s tell Python to <strong>not print</strong> warnings that match the filter (here, modules under <code class="docutils literal notranslate"><span class="pre">sklearn.metrics</span></code>). This only affects <strong>console output</strong>; it does <strong>not</strong> change numeric metric results.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span>
+    <span class="s2">&quot;ignore&quot;</span><span class="p">,</span>
+    <span class="n">module</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;sklearn\.metrics.*&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="1.-Load-the-dataset">
+<h2>1. Load the dataset<a class="headerlink" href="#1.-Load-the-dataset" title="Link to this heading"></a></h2>
+<p>Let’s load the dataset with <strong>``ParquetDataset``</strong> class.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_path</span> <span class="o">=</span> <span class="s2">&quot;../../dataset&quot;</span>
+<span class="n">selected_col</span> <span class="o">=</span> <span class="s2">&quot;T-TPT&quot;</span>
+
+<span class="n">ds_config</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span>
+    <span class="n">target_class</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">selected_col</span><span class="p">],</span>
+    <span class="n">event_type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;real&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds_config</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="n">ds</span><span class="p">[</span><span class="mi">19</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-06-12 17:47:08,694 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ..\..\dataset
+2026-06-12 17:47:08,695 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-06-12 17:47:08,697 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+DatasetOutputs(signal=                        T-TPT
+timestamp
+2017-04-24 22:01:56  116.5984
+2017-04-24 22:01:57  116.5984
+2017-04-24 22:01:58  116.5984
+2017-04-24 22:01:59  116.5984
+2017-04-24 22:02:00  116.5984
+...                       ...
+2017-04-25 03:59:56  116.4890
+2017-04-25 03:59:57  116.4890
+2017-04-25 03:59:58  116.4889
+2017-04-25 03:59:59  116.4888
+2017-04-25 04:00:00  116.4887
+
+[21485 rows x 1 columns], label=timestamp
+2017-04-24 22:01:56    &lt;NA&gt;
+2017-04-24 22:01:57    &lt;NA&gt;
+2017-04-24 22:01:58    &lt;NA&gt;
+2017-04-24 22:01:59    &lt;NA&gt;
+2017-04-24 22:02:00    &lt;NA&gt;
+                       ...
+2017-04-25 03:59:56       0
+2017-04-25 03:59:57       0
+2017-04-25 03:59:58       0
+2017-04-25 03:59:59       0
+2017-04-25 04:00:00       0
+Name: class, Length: 21485, dtype: Int16, metadata={&#39;file_name&#39;: WindowsPath(&#39;0/WELL-00001_20170424220156.parquet&#39;), &#39;event_class&#39;: 0, &#39;event_type&#39;: &#39;real&#39;})
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="2.-Train-/-validation-/-test-split">
+<h2>2. Train / validation / test split<a class="headerlink" href="#2.-Train-/-validation-/-test-split" title="Link to this heading"></a></h2>
+<p>Let’s apply the split into train (80%), validation (10%), and test (10%) using <code class="docutils literal notranslate"><span class="pre">SubsetDataset</span></code> (views over the same underlying data).</p>
+<p>Note that first we shuffle <strong>indices</strong> (not rows in memory) and build <code class="docutils literal notranslate"><span class="pre">SubsetDataset</span></code> views.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">split_dataset</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">,</span> <span class="n">size_training</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">size_validation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SubsetDataset</span><span class="p">,</span> <span class="n">SubsetDataset</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">size_training</span> <span class="o">+</span> <span class="n">size_validation</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The sum of the sizes must be 1&quot;</span><span class="p">)</span>
+
+    <span class="n">len_dataset</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">lst_indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">len_dataset</span><span class="p">))</span>
+    <span class="n">shuffle</span><span class="p">(</span><span class="n">lst_indices</span><span class="p">)</span>
+
+    <span class="n">training_indices</span> <span class="o">=</span> <span class="n">lst_indices</span><span class="p">[:</span> <span class="nb">int</span><span class="p">(</span><span class="n">len_dataset</span> <span class="o">*</span> <span class="n">size_training</span><span class="p">)]</span>
+    <span class="n">validation_indices</span> <span class="o">=</span> <span class="n">lst_indices</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">len_dataset</span> <span class="o">*</span> <span class="n">size_training</span><span class="p">)</span> <span class="p">:]</span>
+    <span class="n">training_set</span> <span class="o">=</span> <span class="n">SubsetDataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">training_indices</span><span class="p">)</span>
+    <span class="n">validation_set</span> <span class="o">=</span> <span class="n">SubsetDataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">validation_indices</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">training_set</span><span class="p">,</span> <span class="n">validation_set</span>
+
+
+<span class="n">ds_train</span><span class="p">,</span> <span class="n">ds_val_test</span> <span class="o">=</span> <span class="n">split_dataset</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">size_training</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">size_validation</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">ds_val</span><span class="p">,</span> <span class="n">ds_test</span> <span class="o">=</span> <span class="n">split_dataset</span><span class="p">(</span><span class="n">ds_val_test</span><span class="p">,</span> <span class="n">size_training</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">size_validation</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="3.-Preprocessing-and-features">
+<h2>3. Preprocessing and features<a class="headerlink" href="#3.-Preprocessing-and-features" title="Link to this heading"></a></h2>
+<p>We will use the <strong>``TransformConfig`` pipeline</strong> to apply:</p>
+<ul class="simple">
+<li><p><strong>Preprocessing:</strong> clean, impute, normalize, fill labels, remap classes.</p></li>
+<li><p><strong>Features:</strong> sliding windows (<code class="docutils literal notranslate"><span class="pre">WindowingConfig</span></code>) then concatenated statistical descriptors (<code class="docutils literal notranslate"><span class="pre">StatisticalConfig</span></code> via <code class="docutils literal notranslate"><span class="pre">ConcatFeatureAdapterConfig</span></code>).</p></li>
+</ul>
+<p><strong>Important:</strong> <code class="docutils literal notranslate"><span class="pre">fit(ds)</span></code> uses the <strong>full</strong> dataset so normalization and any statistics are <strong>global</strong>.</p>
+<p>Then <code class="docutils literal notranslate"><span class="pre">transform</span></code> each split to get tensor-ready datasets for the MLP.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">window_size</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">dataset_processor</span> <span class="o">=</span> <span class="n">TransformConfig</span><span class="p">(</span>
+    <span class="n">pre_processing</span><span class="o">=</span><span class="n">SequentialPreprocessingAdapterConfig</span><span class="p">(</span>
+        <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">CleanSignalsConfig</span><span class="p">(</span><span class="n">missing_column_threshold</span><span class="o">=</span><span class="mf">1.1</span><span class="p">),</span>
+            <span class="n">ImputeMissingConfig</span><span class="p">(),</span>
+            <span class="n">NormalizeConfig</span><span class="p">(),</span>
+            <span class="n">FillLabelsConfig</span><span class="p">(),</span>
+            <span class="n">RemapClassConfig</span><span class="p">(),</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">feature_extraction</span><span class="o">=</span><span class="n">SequentialFeatureAdapterConfig</span><span class="p">(</span>
+        <span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">WindowingConfig</span><span class="p">(</span><span class="n">window_size</span><span class="o">=</span><span class="n">window_size</span><span class="p">),</span>
+            <span class="n">ConcatFeatureAdapterConfig</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="n">StatisticalConfig</span><span class="p">()]),</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+<span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="n">dataset_processor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">ds_train_transformed</span> <span class="o">=</span> <span class="n">dataset_processor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ds_train</span><span class="p">)</span>
+<span class="n">ds_val_transformed</span> <span class="o">=</span> <span class="n">dataset_processor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ds_val</span><span class="p">)</span>
+<span class="n">ds_test_transformed</span> <span class="o">=</span> <span class="n">dataset_processor</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">ds_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="4.-Model-and-trainer">
+<h2>4. Model and trainer<a class="headerlink" href="#4.-Model-and-trainer" title="Link to this heading"></a></h2>
+<p>Let’s define an <strong>MLP</strong> classifier (<code class="docutils literal notranslate"><span class="pre">MLPConfig</span></code>). We use <code class="docutils literal notranslate"><span class="pre">build()</span></code> to create a <strong>trainer</strong> object (optimizer, loss, epochs, batches). Weights are initialized when training begins.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+
+<span class="n">mlp_config</span> <span class="o">=</span> <span class="n">MLPConfig</span><span class="p">(</span>
+    <span class="n">hidden_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="n">activation_function</span><span class="o">=</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">output_size</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">TorchTrainerConfig</span><span class="p">(</span>
+    <span class="n">config_model</span><span class="o">=</span><span class="n">mlp_config</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-06-12 17:47:41,044 | INFO | ThreeWToolkit.core.base_trainer | Initialized TorchTrainer with seed=42
+2026-06-12 17:47:41,046 | INFO | ThreeWToolkit.trainer.torch_trainer | TorchTrainer initialized | device=cuda | epochs=100 | batch_size=64
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="5.-Training">
+<h2>5. Training<a class="headerlink" href="#5.-Training" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">ds_train_transformed</span><span class="p">,</span> <span class="n">val_dataset</span><span class="o">=</span><span class="n">ds_val_transformed</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-06-12 17:47:41,062 | INFO | ThreeWToolkit.core.base_trainer | Starting training | train_size=496 | val_size=62
+2026-06-12 17:47:41,106 | INFO | ThreeWToolkit.core.base_trainer | Dataset validation passed
+2026-06-12 17:47:41,107 | INFO | ThreeWToolkit.core.base_trainer | Preparing training data...
+2026-06-12 17:47:41,108 | INFO | ThreeWToolkit.trainer.torch_trainer | Converting dataset to DataLoader (size=496)
+2026-06-12 17:47:49,919 | INFO | ThreeWToolkit.trainer.torch_trainer | Created DataLoader | batches=160
+2026-06-12 17:47:49,923 | INFO | ThreeWToolkit.core.base_trainer | Preparing validation data...
+2026-06-12 17:47:49,924 | INFO | ThreeWToolkit.trainer.torch_trainer | Converting dataset to DataLoader (size=62)
+2026-06-12 17:47:50,992 | INFO | ThreeWToolkit.trainer.torch_trainer | Created DataLoader | batches=23
+2026-06-12 17:47:50,993 | INFO | ThreeWToolkit.core.base_trainer | Initializing training state...
+2026-06-12 17:47:50,994 | INFO | ThreeWToolkit.trainer.torch_trainer | Initializing model with input_size=10
+2026-06-12 17:47:52,562 | INFO | ThreeWToolkit.core.base_trainer | Executing training...
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "684a16820e2a4b39ade7acde1e218932", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-06-12 17:48:30,732 | INFO | ThreeWToolkit.core.base_trainer | Training completed successfully
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="6.-Predictions-on-the-test-set">
+<h2>6. Predictions on the test set<a class="headerlink" href="#6.-Predictions-on-the-test-set" title="Link to this heading"></a></h2>
+<p>Inference on held-out data. <code class="docutils literal notranslate"><span class="pre">trainer.predict</span></code> applies the model and, for multi-class, <strong>``argmax`` on logits</strong> → <strong>integer class labels</strong> <code class="docutils literal notranslate"><span class="pre">y_pred</span></code>. <code class="docutils literal notranslate"><span class="pre">trainer.predict_proba</span></code> applies <strong>softmax</strong> to logits → <strong>class probabilities</strong> <code class="docutils literal notranslate"><span class="pre">y_proba</span></code> (rows sum to 1), i.e. the <strong>``y_score``</strong> input expected by AP and ROC AUC.</p>
+<p>Metrics based on <strong>confusion counts</strong> (accuracy, precision, recall, F1, balanced accuracy) can use <strong>hard</strong> <code class="docutils literal notranslate"><span class="pre">y_pred</span></code>. <strong>Average precision</strong> and <strong>ROC AUC</strong> require <strong>continuous scores</strong>—use <strong>``y_proba``</strong>, not argmax labels.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">ds_test_transformed</span><span class="p">)</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">test_results</span><span class="o">.</span><span class="n">y_true</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">test_results</span><span class="o">.</span><span class="n">y_pred</span>
+
+<span class="c1"># We call `predict_proba` to get the softmax probabilities</span>
+<span class="n">y_proba</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">ds_test_transformed</span><span class="p">)</span><span class="o">.</span><span class="n">y_pred</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-06-12 17:48:30,765 | INFO | ThreeWToolkit.trainer.torch_trainer | Converting dataset to DataLoader (size=62)
+2026-06-12 17:48:31,802 | INFO | ThreeWToolkit.trainer.torch_trainer | Created DataLoader | batches=22
+2026-06-12 17:48:31,837 | INFO | ThreeWToolkit.trainer.torch_trainer | Converting dataset to DataLoader (size=62)
+2026-06-12 17:48:32,917 | INFO | ThreeWToolkit.trainer.torch_trainer | Created DataLoader | batches=22
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="7.-Example-sample-weights">
+<h2>7. Example sample weights<a class="headerlink" href="#7.-Example-sample-weights" title="Link to this heading"></a></h2>
+<p>We use a vector called sample_weight, with length n_samples, to assign a weight to each sample when computing weighted metrics. Each sample contributes proportionally to its assigned weight.</p>
+<p>In this example, samples belonging to true class 0 are given a higher importance by assigning them a weight of 2, while all other samples keep the default weight of 1.</p>
+<p>Many metrics support sample_weight, which allows you to emphasize specific samples. This is especially useful for handling imbalanced datasets or giving more importance to rare classes.</p>
+<p>Here, all samples start with a weight of 1, and only those whose true label is class 0 are increased to weight 2.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_weight</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">))</span>
+<span class="n">sample_weight</span><span class="p">[</span><span class="n">y_true</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Random weights (for demonstration only)</strong></p>
+<p>We can also assign random weights in the range <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">1)</span></code> to each sample to demonstrate how the <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code> works. This approach is only for illustration purposes and should not be used as a proper evaluation method in real experiments.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_weight_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_true</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="8.-Accuracy-(accuracy_score)">
+<h2>8. Accuracy (<code class="docutils literal notranslate"><span class="pre">accuracy_score</span></code>)<a class="headerlink" href="#8.-Accuracy-(accuracy_score)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> It is the <strong>fraction of correct predictions</strong> among all samples when <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code> (default); when <code class="docutils literal notranslate"><span class="pre">normalize=False</span></code>, it returns the <strong>count</strong> of correct predictions.</p>
+<p>Weighted accuracy uses <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code> to change each sample’s contribution to that fraction.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+<span class="n">acc_weighted</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">)</span>
+<span class="n">acc</span><span class="p">,</span> <span class="n">acc_weighted</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(0.9918518518518519, 0.995909259947936)
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="9.-Balanced-accuracy-(balanced_accuracy_score)">
+<h2>9. Balanced accuracy (<code class="docutils literal notranslate"><span class="pre">balanced_accuracy_score</span></code>)<a class="headerlink" href="#9.-Balanced-accuracy-(balanced_accuracy_score)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> It is the <strong>average of recall obtained on each class</strong>. For multiclass, that is the <strong>unweighted mean of per-class recall</strong> (true positives divided by support for that class). It equals ordinary accuracy when classes are balanced; when they are not, it is typically <strong>less optimistic</strong> than raw accuracy if one class dominates.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">balanced_acc</span> <span class="o">=</span> <span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+<span class="n">balanced_acc_weighted</span> <span class="o">=</span> <span class="n">balanced_accuracy_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight_random</span>
+<span class="p">)</span>
+<span class="n">balanced_acc</span><span class="p">,</span> <span class="n">balanced_acc_weighted</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(np.float64(0.3333333333333333), np.float64(0.3333333333333333))
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="10.-Average-precision-(average_precision_score)">
+<h2>10. Average precision (<code class="docutils literal notranslate"><span class="pre">average_precision_score</span></code>)<a class="headerlink" href="#10.-Average-precision-(average_precision_score)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> It summarizes a <strong>precision–recall curve</strong>: the weighted mean of precisions at successive decision thresholds, where the weight is the <strong>increase in recall</strong> from the previous threshold.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ap</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ap_weighted</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ap</span><span class="p">,</span> <span class="n">ap_weighted</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(np.float64(0.9895384312843788), np.float64(0.20196354451471796))
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="11.-Precision-(precision_score)">
+<h2>11. Precision (<code class="docutils literal notranslate"><span class="pre">precision_score</span></code>)<a class="headerlink" href="#11.-Precision-(precision_score)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> It is <strong>TP / (TP + FP)</strong> for a class (multiclass uses <strong>one-vs-rest</strong> per label unless otherwise specified). It answers: <em>among all predictions of class k, what fraction were correct?</em></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Multi-class: set `average` explicitly (sklearn default `binary` is only for two classes).</span>
+<span class="c1"># - `None`: one precision per class (one-vs-rest)</span>
+<span class="c1"># - `macro`: unweighted mean of per-class precisions</span>
+<span class="c1"># - `micro`: global TP / (TP + FP) pooled over all classes and samples</span>
+<span class="c1"># - `weighted`: mean of per-class precisions weighted by support</span>
+<span class="n">precision_per_class</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">precision_per_class</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Precision for class </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="n">precision_macro_with_weight</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;macro (with sample_weight): </span><span class="si">{</span><span class="p">(</span><span class="n">precision_macro_with_weight</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="n">precision_macro</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)</span>
+<span class="n">precision_micro</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;micro&quot;</span><span class="p">)</span>
+<span class="n">precision_weighted_avg</span> <span class="o">=</span> <span class="n">precision_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;macro: </span><span class="si">{</span><span class="p">(</span><span class="n">precision_macro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;micro: </span><span class="si">{</span><span class="p">(</span><span class="n">precision_micro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;weighted: </span><span class="si">{</span><span class="p">(</span><span class="n">precision_weighted_avg</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Precision for class 0: 99.185%
+Precision for class 1: 0.000%
+Precision for class 2: 0.000%
+macro (with sample_weight): 33.197%
+macro: 33.062%
+micro: 99.185%
+weighted: 98.377%
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="12.-Recall-(recall_score)">
+<h2>12. Recall (<code class="docutils literal notranslate"><span class="pre">recall_score</span></code>)<a class="headerlink" href="#12.-Recall-(recall_score)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> (sensitivity, true positive rate) is <strong>TP / (TP + FN)</strong> for each class: <em>among all true instances of class k, what fraction did we retrieve?</em></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">recall_per_class</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recall_per_class</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recall for class </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="n">recall_macro_sw</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;macro (with sample_weight): </span><span class="si">{</span><span class="p">(</span><span class="n">recall_macro_sw</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="n">recall_macro</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)</span>
+<span class="n">recall_micro</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;micro&quot;</span><span class="p">)</span>
+<span class="n">recall_weighted_avg</span> <span class="o">=</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;macro: </span><span class="si">{</span><span class="p">(</span><span class="n">recall_macro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;micro: </span><span class="si">{</span><span class="p">(</span><span class="n">recall_micro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;weighted: </span><span class="si">{</span><span class="p">(</span><span class="n">recall_weighted_avg</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Recall for class 0: 100.000%
+Recall for class 1: 0.000%
+Recall for class 2: 0.000%
+macro (with sample_weight): 33.333%
+macro: 33.333%
+micro: 99.185%
+weighted: 99.185%
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="13.-F1-score-(f1_score)">
+<h2>13. F1 score (<code class="docutils literal notranslate"><span class="pre">f1_score</span></code>)<a class="headerlink" href="#13.-F1-score-(f1_score)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> The <strong>F1 score</strong> is the <strong>harmonic mean</strong> of precision and recall: F1 = 2PR / (P + R) (per class or aggregated via <strong>``average``</strong>).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1_per_class</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f1_per_class</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;F1 for class </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="n">f1_macro</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">)</span>
+<span class="n">f1_micro</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;micro&quot;</span><span class="p">)</span>
+<span class="n">f1_weighted</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;macro: </span><span class="si">{</span><span class="p">(</span><span class="n">f1_macro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;micro: </span><span class="si">{</span><span class="p">(</span><span class="n">f1_micro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;weighted: </span><span class="si">{</span><span class="p">(</span><span class="n">f1_weighted</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="n">f1_weighted_sw</span> <span class="o">=</span> <span class="n">f1_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;weighted (with sample_weight): </span><span class="si">{</span><span class="p">(</span><span class="n">f1_weighted_sw</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+F1 for class 0: 99.795%
+F1 for class 1: 0.000%
+F1 for class 2: 0.000%
+macro: 33.197%
+micro: 99.185%
+weighted: 98.779%
+weighted (with sample_weight): 99.387%
+</pre></div></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="14.-ROC-AUC-(roc_auc_score)">
+<h2>14. ROC AUC (<code class="docutils literal notranslate"><span class="pre">roc_auc_score</span></code>)<a class="headerlink" href="#14.-ROC-AUC-(roc_auc_score)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> It is the <strong>area under the receiver operating characteristic curve</strong>: <strong>true positive rate vs. false positive rate</strong> as the classification threshold varies.</p>
+<p>It requires <strong>continuous scores</strong> (<code class="docutils literal notranslate"><span class="pre">y_score</span></code>), so we pass <strong>``y_proba``</strong>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">roc_auc_per_class</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">average</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovr&quot;</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">roc_auc_per_class</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROC AUC for class </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="n">roc_auc_sw</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span>
+    <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovr&quot;</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OVR (with sample_weight): </span><span class="si">{</span><span class="p">(</span><span class="n">roc_auc_sw</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Aggregated multi-class ROC AUC:&quot;</span><span class="p">)</span>
+<span class="n">roc_auc_ovr_macro</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovr&quot;</span><span class="p">,</span>
+    <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">roc_auc_ovr_weighted</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovr&quot;</span><span class="p">,</span>
+    <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">roc_auc_ovo_macro</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovo&quot;</span><span class="p">,</span>
+    <span class="n">average</span><span class="o">=</span><span class="s2">&quot;macro&quot;</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">roc_auc_ovo_weighted</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_proba</span><span class="p">,</span>
+    <span class="n">multi_class</span><span class="o">=</span><span class="s2">&quot;ovo&quot;</span><span class="p">,</span>
+    <span class="n">average</span><span class="o">=</span><span class="s2">&quot;weighted&quot;</span><span class="p">,</span>
+    <span class="n">num_classes</span><span class="o">=</span><span class="n">dataset_processor</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OVR macro: </span><span class="si">{</span><span class="p">(</span><span class="n">roc_auc_ovr_macro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OVR weighted: </span><span class="si">{</span><span class="p">(</span><span class="n">roc_auc_ovr_weighted</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OVO macro: </span><span class="si">{</span><span class="p">(</span><span class="n">roc_auc_ovo_macro</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OVO weighted: </span><span class="si">{</span><span class="p">(</span><span class="n">roc_auc_ovo_weighted</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ROC AUC for class 0: 73.759%
+ROC AUC for class 1: 81.913%
+ROC AUC for class 2: nan%
+ROC AUC for class 3: 78.321%
+ROC AUC for class 4: nan%
+OVR (with sample_weight): nan%
+
+Aggregated multi-class ROC AUC:
+OVR macro: nan%
+OVR weighted: 73.799%
+OVO macro: nan%
+OVO weighted: 73.799%
+</pre></div></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="15.-Matthews-Correlation-Coefficient-(matthews_corrcoef)">
+<h2>15. Matthews Correlation Coefficient (<code class="docutils literal notranslate"><span class="pre">matthews_corrcoef</span></code>)<a class="headerlink" href="#15.-Matthews-Correlation-Coefficient-(matthews_corrcoef)" title="Link to this heading"></a></h2>
+<p><strong>What it is:</strong> The Matthews Correlation Coefficient (MCC) is a classification metric that measures the quality of predictions by considering <strong>true positives, true negatives, false positives, and false negatives simultaneously</strong>.</p>
+<p>Unlike accuracy, MCC remains informative even when the classes are highly imbalanced.</p>
+<p>The coefficient ranges from:</p>
+<ul class="simple">
+<li><p><strong>+1</strong> → Perfect prediction</p></li>
+<li><p><strong>0</strong> → Performance no better than random guessing</p></li>
+<li><p><strong>−1</strong> → Complete disagreement between predictions and true labels</p></li>
+</ul>
+<p>MCC is often recommended as a single summary metric for binary and multiclass classification tasks, especially when class distributions are uneven.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcc</span> <span class="o">=</span> <span class="n">matthews_corrcoef</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+<span class="n">mcc</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.0
+</pre></div></div>
+</div>
+<p><strong>Example with sample weights</strong></p>
+<p>The contribution of each sample can be adjusted through sample_weight.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcc_weighted</span> <span class="o">=</span> <span class="n">matthews_corrcoef</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span>
+    <span class="n">sample_weight</span><span class="o">=</span><span class="n">sample_weight</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">mcc_weighted</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.0
+</pre></div></div>
+</div>
+<section id="Interpretation">
+<h3>Interpretation<a class="headerlink" href="#Interpretation" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>MCC Value</p></th>
+<th class="head"><p>Interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>+1.0</p></td>
+<td><p>Perfect classification</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.5 to 1.0</p></td>
+<td><p>Strong predictive performance</p></td>
+</tr>
+<tr class="row-even"><td><p>Around 0</p></td>
+<td><p>Random-like performance</p></td>
+</tr>
+<tr class="row-odd"><td><p>-0.5 to 0</p></td>
+<td><p>Systematically poor predictions</p></td>
+</tr>
+<tr class="row-even"><td><p>-1.0</p></td>
+<td><p>Complete disagreement</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="11_assessment_examples.html" class="btn btn-neutral float-left" title="Assessment Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="13_report_generation_examples.html" class="btn btn-neutral float-right" title="Report Generation Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Ricardo Emanuel Vaz Vargas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

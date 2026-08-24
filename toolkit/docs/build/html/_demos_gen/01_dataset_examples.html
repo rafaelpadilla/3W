@@ -1,0 +1,2061 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dataset loading examples &mdash; ThreeWToolkit 3.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=eb155f5e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Visualization using the 3W Toolkit" href="02_data_visualization.html" />
+    <link rel="prev" title="3W Toolkit" href="00_overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ThreeWToolkit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#direct-installation-via-pypi">Direct Installation via PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#development-installation-source">Development Installation (Source)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#fork-or-clone-the-repository">1. Fork or Clone the Repository</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-a-clone-official-repository">Option A: Clone Official Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-b-fork-and-clone">Option B: Fork and Clone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#install-in-editable-mode">2. Install in Editable Mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-pip">Using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-uv-fastest">Using <code class="docutils literal notranslate"><span class="pre">uv</span></code> (Fastest)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-conda">Using <code class="docutils literal notranslate"><span class="pre">conda</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#verifying-the-installation">Verifying the Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#architecture-pattern">Architecture Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#end-to-end-pipeline-example">End-to-End Pipeline Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/dataset.html">Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#dataset-structure">Dataset Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#configuration-ingestion">Configuration &amp; Ingestion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/preprocessing.html">Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#available-preprocessors">Available Preprocessors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#chaining-preprocessors">Chaining Preprocessors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/feature_extraction.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#feature-adapters">Feature Adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#combining-feature-extractor-steps">Combining Feature Extractor Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/models_and_training.html">Models and Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#model-architecture-specs">Model Architecture Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#training-execution">Training Execution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00_overview.html">3W Toolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#Table-of-Contents-📑">Table of Contents 📑</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#🚀-1.-Introduction-to-3WToolkit">🚀 1. Introduction to 3WToolkit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.1.-Installation-with-pip-install">1.1. Installation with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.2.-Cloning-and-installing">1.2. Cloning and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.3.-Forking-and-installing">1.3. Forking and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#📂-2.-Dataset-3W">📂 2. Dataset 3W</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#2.1.-Loading-the-Dataset">2.1. Loading the Dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#2.2.-Filtering-&amp;-Exploring-the-Data">2.2. Filtering &amp; Exploring the Data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#3.-⚙️-Preprocessing">3. ⚙️ Preprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.1.-Cleaning-the-dataset">3.1. Cleaning the dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.2.-Handling-missing-values-(Imputation)">3.2. Handling missing values (Imputation)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.3.-Normalization">3.3. Normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.4.-Renaming-columns">3.4. Renaming columns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.5.-Building-preprocessing-pipelines">3.5. Building preprocessing pipelines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#4.-🔎-Feature-Extraction">4. 🔎 Feature Extraction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#⚠️-Important:-Windowing-comes-first">⚠️ Important: Windowing comes first</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.1.-Custom-feature-extraction-pipelines">4.1. Custom feature extraction pipelines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.2.-Windowing">4.2. Windowing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.3.-Statistical-Feature-Extraction">4.3. Statistical Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.4.-Wavelet-Feature-Extraction">4.4. Wavelet Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.5.-Exponentially-Weighted-Statistical-Feature-Extraction">4.5. Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#5.-📊-Exploratory-Analysis">5. 📊 Exploratory Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#5.1.-Visualization-Tools-Overview">5.1. Visualization Tools Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#6.-🤖-Model-Training-and-Evaluation">6. 🤖 Model Training and Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.1.-Dataset-loading-and-manual-split">6.1. Dataset loading and manual split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.2.-Preprocessing-and-feature-extraction">6.2. Preprocessing and feature extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.3.-Model-configuration">6.3. Model configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.4.-Training">6.4. Training</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.5.-Evaluation">6.5. Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.7.-Training-history-visualization">6.7. Training history visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#7.-🔗-Pipeline-Integration">7. 🔗 Pipeline Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#Pipeline-Execution-Flow">Pipeline Execution Flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.1-Creating-a-Basic-Pipeline">7.1 Creating a Basic Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#⚠️-Important-note-on-dataset-splitting">⚠️ Important note on dataset splitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.2.-Defining-the-pipeline">7.2. Defining the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.3.-Running-the-pipeline">7.3. Running the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.4.-Visualizing-training-results">7.4. Visualizing training results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.5.-Example-pipeline-configurations">7.5. Example pipeline configurations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.6.-Best-Practices">7.6. Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#8.-📄-Report-Generation">8. 📄 Report Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dataset loading examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Download-from-figshare-if-not-on-local-yet">Download from figshare if not on local yet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Signal-and-label-split">Signal and label split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Customizable-label-selection">Customizable label selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Event-type-splitting">Event type splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Event-class-splitting">Event class splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#File-list-splitting">File list splitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html">Data Visualization using the 3W Toolkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html#Series">Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Time-Series-Visualization-with-plot_series">Time Series Visualization with <code class="docutils literal notranslate"><span class="pre">plot_series</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-1:-Random-Time-Series">Example 1: Random Time Series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-2:-Using-plot_series-with-multiple-subplots-(ax-provided)">Example 2: Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-3:-Using-3W-data---Simple-Time-Series-Plot">Example 3: Using 3W data - Simple Time Series Plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-4:-Using-3W-data---Using-plot_series-with-multiple-subplots-(ax-provided)">Example 4: Using 3W data - Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-5:-Using-3W-data---Time-Series-with-Missing-Values">Example 5: Using 3W data - Time Series with Missing Values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html#Multiple-Series">Multiple Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-1:-Simple-usage-with-multiple-time-series">Example 1: Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-2:-Using-subplots-for-different-groups">Example 2: Using subplots for different groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-3:-Using-3W-Data---Simple-usage-with-multiple-time-series">Example 3: Using 3W Data - Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Example-4:-Using-3W-Data---Using-subplots-for-different-groups">Example 4: Using 3W Data - Using subplots for different groups</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="02_data_visualization.html#Heatmap">Heatmap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="02_data_visualization.html#Correlation-Heatmap-Demonstration">Correlation Heatmap Demonstration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-1:-Basic-Usage">Example 1: Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-2:-Custom-Title-and-Annotations">Example 2: Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-3:-Multiple-Heatmaps-in-Subplots">Example 3: Multiple Heatmaps in Subplots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-4:-Using-3W-data---Basic-Usage">Example 4: Using 3W data - Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-5:-Using-3W-data---Custom-Title-and-Annotations">Example 5: Using 3W data - Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="02_data_visualization.html#Example-6:-Using-3W-data---Custom-Figure-Size-and-Color-Map">Example 6: Using 3W data - Custom Figure Size and Color Map</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03_data_cleaning_examples.html">Exploring the 3W dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Checking-missing-data">Checking missing data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Distribution-of-Signal-Averages-Across-Events">Distribution of Signal Averages Across Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Data-cleaning">Data cleaning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04_preprocessing_examples.html">Preprocessing Demonstration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Clean-Signals">Clean Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Impute-Missing-Data">Impute Missing Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Normalize">Normalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Rename-Columns">Rename Columns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#Using-3W-data-as-example">Using 3W data as example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#FillLabels">FillLabels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#RemapClass">RemapClass</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05_feature_extraction_examples.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Loading-3W-Dataset">Loading 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Custom-feature-extraction-pipelines:">Custom feature extraction pipelines:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Wavelet-Feature-Extraction">Wavelet Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Statistical-Feature-Extraction">Statistical Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Exponentially-Weighted-Statistical-Feature-Extraction">Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="06_clustering_pipeline_examples.html">Clustering Pipeline Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#Objectives">Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#1.-Configuration-&amp;-Data-Loading">1. Configuration &amp; Data Loading</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#1.1-Data-Quality-Overview">1.1 Data Quality Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.-Univariate-Processing-Pipeline">2. Univariate Processing Pipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.1-Dendrogram-Visualization">2.1 Dendrogram Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.2-Cluster-Stability-Analysis">2.2 Cluster Stability Analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.3-Variable-Exclusion">2.3 Variable Exclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#3.-Multivariate-Consensus">3. Multivariate Consensus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.-Visualization">4. Visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.1-Selection-Heatmap">4.1 Selection Heatmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.2-Consensus-Cluster-Size-Curve">4.2 Consensus Cluster Size Curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.3-Time-Series-Clustering-Overlay">4.3 Time Series Clustering Overlay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.4-Ranked-Distance-Plot">4.4 Ranked Distance Plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html">Real vs Simulated Data — Clustering Comparison</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Reusable-Analysis-Pipeline">Reusable Analysis Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-1:-Real-Data">Analysis 1: Real Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-2:-Simulated-Data">Analysis 2: Simulated Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-3:-Combined-Data-(Real-+-Simulated)">Analysis 3: Combined Data (Real + Simulated)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="08_sklearn_models_examples.html">Scikit-Learn Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Loading-and-preparing-the-Dataset">Loading and preparing the Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Training-Assessment-and-Results">Training Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="09_mlp_timeseries_example.html">Training an MLP on Time Series Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Imports">Imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Loading-and-preparing-the-dataset">Loading and preparing the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Test-Assessment-and-Results">Test Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html">Save/Load model examples:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html#Saving-and-Loading-a-PyTorch-model:">Saving and Loading a PyTorch model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html#Saving-and-Loading-a-SKLearn-model:">Saving and Loading a SKLearn model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_assessment_examples.html">Assessment Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="11_assessment_examples.html#Examples-with-plot_confusion_matrix:">Examples with <code class="docutils literal notranslate"><span class="pre">plot_confusion_matrix</span></code>:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-pandas-Series">Using <code class="docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">Series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-numpy-arrays">Using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-python-lists">Using python <code class="docutils literal notranslate"><span class="pre">lists</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11_assessment_examples.html#Examples-with-feature_visualization">Examples with <code class="docutils literal notranslate"><span class="pre">feature_visualization</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-random-feature-importances">Using random feature importances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Customizing-our-plot">Customizing our plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Displaying-feature-importances-of-a-Random-Forest-classifier">Displaying feature importances of a Random Forest classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="12_using_metrics.html">Classification metrics with ThreeWToolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#What-you-will-do">What you will do</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12_using_metrics.html#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#1.-Load-the-dataset">1. Load the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#2.-Train-/-validation-/-test-split">2. Train / validation / test split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#3.-Preprocessing-and-features">3. Preprocessing and features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#4.-Model-and-trainer">4. Model and trainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#5.-Training">5. Training</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#6.-Predictions-on-the-test-set">6. Predictions on the test set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#7.-Example-sample-weights">7. Example sample weights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#8.-Accuracy-(accuracy_score)">8. Accuracy (<code class="docutils literal notranslate"><span class="pre">accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#9.-Balanced-accuracy-(balanced_accuracy_score)">9. Balanced accuracy (<code class="docutils literal notranslate"><span class="pre">balanced_accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#10.-Average-precision-(average_precision_score)">10. Average precision (<code class="docutils literal notranslate"><span class="pre">average_precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#11.-Precision-(precision_score)">11. Precision (<code class="docutils literal notranslate"><span class="pre">precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#12.-Recall-(recall_score)">12. Recall (<code class="docutils literal notranslate"><span class="pre">recall_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#13.-F1-score-(f1_score)">13. F1 score (<code class="docutils literal notranslate"><span class="pre">f1_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#14.-ROC-AUC-(roc_auc_score)">14. ROC AUC (<code class="docutils literal notranslate"><span class="pre">roc_auc_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#15.-Matthews-Correlation-Coefficient-(matthews_corrcoef)">15. Matthews Correlation Coefficient (<code class="docutils literal notranslate"><span class="pre">matthews_corrcoef</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12_using_metrics.html#Interpretation">Interpretation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="13_report_generation_examples.html">Report Generation Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#1.-Defining-a-Mock-Model">1. Defining a Mock Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#2.-Generating-a-signal">2. Generating a signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#3.-Data-Splitting">3. Data Splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#4.-Generating-a-Summary-Report">4. Generating a Summary Report</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#5.-Getting-model's-predictions-and-calculating-metrics">5. Getting model’s predictions and calculating metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="14_three_w_chart_example.html">ThreeWChart class overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Visualizing-the-3W-Dataset">Visualizing the 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Viewing-specific-events">Viewing specific events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Viewing-Variables-via-the-Dropdown-Menu">Viewing Variables via the Dropdown Menu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#core-layer">Core Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html">ThreeWToolkit.core.BaseDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html#ThreeWToolkit.core.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html">ThreeWToolkit.core.BasePreprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html#ThreeWToolkit.core.BasePreprocessing"><code class="docutils literal notranslate"><span class="pre">BasePreprocessing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html">ThreeWToolkit.core.BaseFeatureExtractor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html#ThreeWToolkit.core.BaseFeatureExtractor"><code class="docutils literal notranslate"><span class="pre">BaseFeatureExtractor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html">ThreeWToolkit.core.BaseModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html#ThreeWToolkit.core.BaseModels"><code class="docutils literal notranslate"><span class="pre">BaseModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html">ThreeWToolkit.core.BaseTrainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html#ThreeWToolkit.core.BaseTrainer"><code class="docutils literal notranslate"><span class="pre">BaseTrainer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html">ThreeWToolkit.core.BasePipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html#ThreeWToolkit.core.BasePipeline"><code class="docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html">ThreeWToolkit.core.DatasetOutputs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html#ThreeWToolkit.core.DatasetOutputs"><code class="docutils literal notranslate"><span class="pre">DatasetOutputs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html">ThreeWToolkit.core.TrainingResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html#ThreeWToolkit.core.TrainingResult"><code class="docutils literal notranslate"><span class="pre">TrainingResult</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html">ThreeWToolkit.core.PredictionResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html#ThreeWToolkit.core.PredictionResult"><code class="docutils literal notranslate"><span class="pre">PredictionResult</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#data-preprocessing">Data &amp; Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html">ThreeWToolkit.preprocessing.CleanSignals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html#ThreeWToolkit.preprocessing.CleanSignals"><code class="docutils literal notranslate"><span class="pre">CleanSignals</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html">ThreeWToolkit.preprocessing.ImputeMissing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html#ThreeWToolkit.preprocessing.ImputeMissing"><code class="docutils literal notranslate"><span class="pre">ImputeMissing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html">ThreeWToolkit.preprocessing.Normalize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html#ThreeWToolkit.preprocessing.Normalize"><code class="docutils literal notranslate"><span class="pre">Normalize</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html">ThreeWToolkit.preprocessing.RenameColumns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html#ThreeWToolkit.preprocessing.RenameColumns"><code class="docutils literal notranslate"><span class="pre">RenameColumns</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#feature-extraction">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html">ThreeWToolkit.feature_extraction.Windowing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html#ThreeWToolkit.feature_extraction.Windowing"><code class="docutils literal notranslate"><span class="pre">Windowing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html">ThreeWToolkit.feature_extraction.StatisticalFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html#ThreeWToolkit.feature_extraction.StatisticalFeatures"><code class="docutils literal notranslate"><span class="pre">StatisticalFeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html">ThreeWToolkit.feature_extraction.WaveletFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html#ThreeWToolkit.feature_extraction.WaveletFeatures"><code class="docutils literal notranslate"><span class="pre">WaveletFeatures</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#models-training">Models &amp; Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html">ThreeWToolkit.models.SklearnModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html#ThreeWToolkit.models.SklearnModels"><code class="docutils literal notranslate"><span class="pre">SklearnModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html">ThreeWToolkit.models.TorchModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html#ThreeWToolkit.models.TorchModels"><code class="docutils literal notranslate"><span class="pre">TorchModels</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#assessment-evaluation">Assessment &amp; Evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html">ThreeWToolkit.assessment.ModelAssessment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html#ThreeWToolkit.assessment.ModelAssessment"><code class="docutils literal notranslate"><span class="pre">ModelAssessment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html">ThreeWToolkit.assessment.AssessmentVisualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html#ThreeWToolkit.assessment.AssessmentVisualization"><code class="docutils literal notranslate"><span class="pre">AssessmentVisualization</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide/index.html">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/architecture.html">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#core-principles">Core Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#abstraction-layers">Abstraction Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#core-layer-specification-contracts">1. Core Layer (Specification &amp; Contracts)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#application-layer-concrete-implementations">2. Application Layer (Concrete Implementations)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#component-overview">Component Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#data-management-processing">Data Management &amp; Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#model-training-isolation">Model &amp; Training Isolation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#evaluation-orchestration">Evaluation &amp; Orchestration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#architecture-overview-diagram">Architecture Overview Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/contributing.html">🤝 Contributing Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#summary-of-the-guidelines">Summary of the Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#code-of-conduct">Code of Conduct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#architecture-overview">Architecture Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#core-principles">1. Core Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#base-class-hierarchy">2. Base Class Hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#key-patterns">3. Key Patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#how-to-contribute">How to Contribute</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#fix-outstanding-issues">🐛 Fix Outstanding Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#add-new-models">🆕 Add New Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-preprocessing-steps">🔧 Create Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-feature-extractors">📊 Create Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-trainers">🚂 Create Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-assessment-strategies">📈 Create Assessment Strategies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#improve-documentation">📚 Improve Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#report-bugs">🐞 Report Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#request-features">💡 Request Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#adding-a-new-model">Adding a New Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-preprocessing-steps">Creating Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-feature-extractors">Creating Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-trainers">Creating Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-assessment-strategies">Creating Assessment Strategies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#development-workflow">Development Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#branch-naming-convention">Branch Naming Convention</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#testing-guidelines">Testing Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#required-tests">Required Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#test-structure">Test Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#fixtures">Fixtures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#submitting-pull-requests">Submitting Pull Requests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#before-submitting">Before Submitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#pr-description-template">PR Description Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#review-process">Review Process</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#code-style-guidelines">Code Style Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#python-style">Python Style</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#imports">Imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#type-hints">Type Hints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#docstrings">Docstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#linting-and-formatting">Linting and Formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#getting-help">Getting Help</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#resources">Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#contact">Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#recognition">Recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ThreeWToolkit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorials/index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Dataset loading examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_demos_gen/01_dataset_examples.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Dataset-loading-examples">
+<h1>Dataset loading examples<a class="headerlink" href="#Dataset-loading-examples" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParquetDatasetConfig</span>
+</pre></div>
+</div>
+</div>
+<section id="Download-from-figshare-if-not-on-local-yet">
+<h2>Download from figshare if not on local yet<a class="headerlink" href="#Download-from-figshare-if-not-on-local-yet" title="Link to this heading"></a></h2>
+<p>If the dataset is not found at the given <code class="docutils literal notranslate"><span class="pre">path</span></code>, it will be downloaded automatically.</p>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">force_download=True</span></code>, the dataset will be downloaded regardless of whether it already exists locally. If it exists locally, it will be replaced by the new one. <code class="docutils literal notranslate"><span class="pre">force_download</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<p>It may take a while to download from figshare (1.79GB) takes about 2-3 minutes to download.</p>
+<p>Only dataset v2.0.0 is supported.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modify this path to the folder where your dataset is downloaded</span>
+<span class="n">dataset_path</span> <span class="o">=</span> <span class="s2">&quot;../../dataset&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load all files, selecting two classes (0 and 4), build() class from the ParquetDatasetConfig config.</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:23,046 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:23,047 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:23,048 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<p>Get the number of events:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dataset size: 937
+</pre></div></div>
+</div>
+</section>
+<section id="Signal-and-label-split">
+<h2>Signal and label split<a class="headerlink" href="#Signal-and-label-split" title="Link to this heading"></a></h2>
+<p>Our dataset object is a list of DatasetOutputs object, found at the Core directory in our toolkit.</p>
+<p>Let’s see the components of the first element (Each event is a single DatasetOutputs).</p>
+<p>This object contains “signal”, “label” and a “metadata” field.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+DatasetOutputs(signal=                     ABER-CKGL  ABER-CKP  ESTADO-DHSV  ESTADO-M1  ESTADO-M2  \
+timestamp
+2017-02-01 01:02:07        NaN       NaN          1.0        1.0        0.0
+2017-02-01 01:02:08        NaN       NaN          1.0        1.0        0.0
+2017-02-01 01:02:09        NaN       NaN          1.0        1.0        0.0
+2017-02-01 01:02:10        NaN       NaN          1.0        1.0        0.0
+2017-02-01 01:02:11        NaN       NaN          1.0        1.0        0.0
+...                        ...       ...          ...        ...        ...
+2017-02-01 06:59:56        NaN       NaN          1.0        1.0        0.0
+2017-02-01 06:59:57        NaN       NaN          1.0        1.0        0.0
+2017-02-01 06:59:58        NaN       NaN          1.0        1.0        0.0
+2017-02-01 06:59:59        NaN       NaN          1.0        1.0        0.0
+2017-02-01 07:00:00        NaN       NaN          1.0        1.0        0.0
+
+                     ESTADO-PXO  ESTADO-SDV-GL  ESTADO-SDV-P  ESTADO-W1  \
+timestamp
+2017-02-01 01:02:07         0.0            0.0           1.0        1.0
+2017-02-01 01:02:08         0.0            0.0           1.0        1.0
+2017-02-01 01:02:09         0.0            0.0           1.0        1.0
+2017-02-01 01:02:10         0.0            0.0           1.0        1.0
+2017-02-01 01:02:11         0.0            0.0           1.0        1.0
+...                         ...            ...           ...        ...
+2017-02-01 06:59:56         0.0            0.0           1.0        1.0
+2017-02-01 06:59:57         0.0            0.0           1.0        1.0
+2017-02-01 06:59:58         0.0            0.0           1.0        1.0
+2017-02-01 06:59:59         0.0            0.0           1.0        1.0
+2017-02-01 07:00:00         0.0            0.0           1.0        1.0
+
+                     ESTADO-W2  ...  P-PDG  PT-P       P-TPT  QBS  QGL  \
+timestamp                       ...
+2017-02-01 01:02:07        0.0  ...    0.0   NaN  10074540.0  NaN  0.0
+2017-02-01 01:02:08        0.0  ...    0.0   NaN  10074540.0  NaN  0.0
+2017-02-01 01:02:09        0.0  ...    0.0   NaN  10074540.0  NaN  0.0
+2017-02-01 01:02:10        0.0  ...    0.0   NaN  10074540.0  NaN  0.0
+2017-02-01 01:02:11        0.0  ...    0.0   NaN  10074540.0  NaN  0.0
+...                        ...  ...    ...   ...         ...  ...  ...
+2017-02-01 06:59:56        0.0  ...    0.0   NaN  10014690.0  NaN  0.0
+2017-02-01 06:59:57        0.0  ...    0.0   NaN  10014690.0  NaN  0.0
+2017-02-01 06:59:58        0.0  ...    0.0   NaN  10014690.0  NaN  0.0
+2017-02-01 06:59:59        0.0  ...    0.0   NaN  10014690.0  NaN  0.0
+2017-02-01 07:00:00        0.0  ...    0.0   NaN  10014690.0  NaN  0.0
+
+                     T-JUS-CKP  T-MON-CKP  T-PDG     T-TPT  state
+timestamp
+2017-02-01 01:02:07   84.64463        NaN    0.0  119.0781   &lt;NA&gt;
+2017-02-01 01:02:08   84.63828        NaN    0.0  119.0781   &lt;NA&gt;
+2017-02-01 01:02:09   84.63194        NaN    0.0  119.0781   &lt;NA&gt;
+2017-02-01 01:02:10   84.62558        NaN    0.0  119.0781   &lt;NA&gt;
+2017-02-01 01:02:11   84.61923        NaN    0.0  119.0781   &lt;NA&gt;
+...                        ...        ...    ...       ...    ...
+2017-02-01 06:59:56   83.44021        NaN    0.0  119.0453      0
+2017-02-01 06:59:57   83.45413        NaN    0.0  119.0452      0
+2017-02-01 06:59:58   83.46806        NaN    0.0  119.0451      0
+2017-02-01 06:59:59   83.48199        NaN    0.0  119.0450      0
+2017-02-01 07:00:00   83.49591        NaN    0.0  119.0449      0
+
+[21474 rows x 28 columns], label=timestamp
+2017-02-01 01:02:07    &lt;NA&gt;
+2017-02-01 01:02:08    &lt;NA&gt;
+2017-02-01 01:02:09    &lt;NA&gt;
+2017-02-01 01:02:10    &lt;NA&gt;
+2017-02-01 01:02:11    &lt;NA&gt;
+                       ...
+2017-02-01 06:59:56       0
+2017-02-01 06:59:57       0
+2017-02-01 06:59:58       0
+2017-02-01 06:59:59       0
+2017-02-01 07:00:00       0
+Name: class, Length: 21474, dtype: Int16, metadata={&#39;file_name&#39;: PosixPath(&#39;0/WELL-00001_20170201010207.parquet&#39;), &#39;event_class&#39;: 0, &#39;event_type&#39;: &#39;real&#39;})
+</pre></div></div>
+</div>
+<p>What is in the “signal” key?</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">signal</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ABER-CKGL</th>
+      <th>ABER-CKP</th>
+      <th>ESTADO-DHSV</th>
+      <th>ESTADO-M1</th>
+      <th>ESTADO-M2</th>
+      <th>ESTADO-PXO</th>
+      <th>ESTADO-SDV-GL</th>
+      <th>ESTADO-SDV-P</th>
+      <th>ESTADO-W1</th>
+      <th>ESTADO-W2</th>
+      <th>...</th>
+      <th>P-PDG</th>
+      <th>PT-P</th>
+      <th>P-TPT</th>
+      <th>QBS</th>
+      <th>QGL</th>
+      <th>T-JUS-CKP</th>
+      <th>T-MON-CKP</th>
+      <th>T-PDG</th>
+      <th>T-TPT</th>
+      <th>state</th>
+    </tr>
+    <tr>
+      <th>timestamp</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-02-01 01:02:07</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.64463</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:08</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.63828</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:09</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.63194</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:10</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.62558</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:11</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.61923</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:56</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.44021</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0453</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:57</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.45413</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0452</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:58</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.46806</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0451</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:59</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.48199</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0450</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 07:00:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.49591</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0449</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>21474 rows × 28 columns</p>
+</div></div>
+</div>
+<p>Let’s see the ids of the classes that we have in our loaded dataset:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_of_labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">set_of_labels</span> <span class="o">=</span> <span class="n">set_of_labels</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">set_of_labels</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{np.int16(0), np.int16(4), &lt;NA&gt;}
+</pre></div></div>
+</div>
+</section>
+<section id="Customizable-label-selection">
+<h2>Customizable label selection<a class="headerlink" href="#Customizable-label-selection" title="Link to this heading"></a></h2>
+<p>Let’s reload the dataset ommiting the target column:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:29,290 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:29,291 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:29,292 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<p>We expect not to have the “label” key.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<p>The signal should contain ‘class’ column:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">signal</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ABER-CKGL</th>
+      <th>ABER-CKP</th>
+      <th>ESTADO-DHSV</th>
+      <th>ESTADO-M1</th>
+      <th>ESTADO-M2</th>
+      <th>ESTADO-PXO</th>
+      <th>ESTADO-SDV-GL</th>
+      <th>ESTADO-SDV-P</th>
+      <th>ESTADO-W1</th>
+      <th>ESTADO-W2</th>
+      <th>...</th>
+      <th>PT-P</th>
+      <th>P-TPT</th>
+      <th>QBS</th>
+      <th>QGL</th>
+      <th>T-JUS-CKP</th>
+      <th>T-MON-CKP</th>
+      <th>T-PDG</th>
+      <th>T-TPT</th>
+      <th>class</th>
+      <th>state</th>
+    </tr>
+    <tr>
+      <th>timestamp</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2017-02-01 01:02:07</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.64463</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:08</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.63828</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:09</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.63194</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:10</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.62558</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 01:02:11</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10074540.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>84.61923</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0781</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:56</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.44021</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0453</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:57</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.45413</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0452</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:58</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.46806</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0451</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 06:59:59</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.48199</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0450</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2017-02-01 07:00:00</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>10014690.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>83.49591</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>119.0449</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>21474 rows × 29 columns</p>
+</div></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="Event-type-splitting">
+<h2>Event type splitting<a class="headerlink" href="#Event-type-splitting" title="Link to this heading"></a></h2>
+<p>Defining 2 types of events: drawn and simulated</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">event_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;drawn&quot;</span><span class="p">,</span> <span class="s2">&quot;simulated&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">event_type</span><span class="o">=</span><span class="n">event_types</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering events of types </span><span class="si">{</span><span class="n">event_types</span><span class="si">}</span><span class="s2">, there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:29,461 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:29,462 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:29,464 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------------------------
+Filtering events of types [&#39;drawn&#39;, &#39;simulated&#39;], there are 1109 events
+</pre></div></div>
+</div>
+<p>Only real events now:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">event_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;real&quot;</span><span class="p">]</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">event_type</span><span class="o">=</span><span class="n">event_types</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering events of types </span><span class="si">{</span><span class="n">event_types</span><span class="si">}</span><span class="s2">, there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:29,517 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:29,518 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:29,519 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------------------------
+Filtering events of types [&#39;real&#39;], there are 1119 events
+</pre></div></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="Event-class-splitting">
+<h2>Event class splitting<a class="headerlink" href="#Event-class-splitting" title="Link to this heading"></a></h2>
+<p>We can select any combination of class events.</p>
+<p>First, let’s see how many events the whole dataset has.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If no target class is provided (equivalent to `target_class=None`), all classes are loaded</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading all classes, there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:29,569 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:29,570 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:29,571 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------------------------
+Loading all classes, there are 2228 events
+</pre></div></div>
+</div>
+<p>Now, let’s select only events of one class (4):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Only loading events from class 4</span>
+<span class="n">target_class</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">ds_config</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="n">target_class</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering events of class </span><span class="si">{</span><span class="n">target_class</span><span class="si">}</span><span class="s2">, there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds_config</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:29,620 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:29,621 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:29,622 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------------------------
+Filtering events of class [4], there are 343 events
+</pre></div></div>
+</div>
+<p>Of 2 classes (0, 4):</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">target_class</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">ds_config</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">target_class</span><span class="o">=</span><span class="n">target_class</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtering events of class </span><span class="si">{</span><span class="n">target_class</span><span class="si">}</span><span class="s2">, there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds_config</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:29,675 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:29,677 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:29,678 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------------------------
+Filtering events of class [0, 4], there are 937 events
+</pre></div></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="File-list-splitting">
+<h2>File list splitting<a class="headerlink" href="#File-list-splitting" title="Link to this heading"></a></h2>
+<p>We can use a list to select loaded events. This is useful for customized train/val/test splitting.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">split</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;6/SIMULATED_00012.parquet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;6/SIMULATED_00049.parquet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;0/WELL-00001_20170201010207.parquet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;4/WELL-00001_20170316110203.parquet&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># To get only files in split, we need to set split=&quot;list&quot;</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="n">file_list</span><span class="o">=</span><span class="n">split</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading files in split, there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-06 13:18:29,748 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-06 13:18:29,749 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-06 13:18:29,750 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--------------------------------
+Loading files in split, there are 4 events
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">signal</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ABER-CKGL</th>
+      <th>ABER-CKP</th>
+      <th>ESTADO-DHSV</th>
+      <th>ESTADO-M1</th>
+      <th>ESTADO-M2</th>
+      <th>ESTADO-PXO</th>
+      <th>ESTADO-SDV-GL</th>
+      <th>ESTADO-SDV-P</th>
+      <th>ESTADO-W1</th>
+      <th>ESTADO-W2</th>
+      <th>...</th>
+      <th>P-PDG</th>
+      <th>PT-P</th>
+      <th>P-TPT</th>
+      <th>QBS</th>
+      <th>QGL</th>
+      <th>T-JUS-CKP</th>
+      <th>T-MON-CKP</th>
+      <th>T-PDG</th>
+      <th>T-TPT</th>
+      <th>state</th>
+    </tr>
+    <tr>
+      <th>timestamp</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-04-01 18:45:12</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>24065160.0</td>
+      <td>NaN</td>
+      <td>1.662989e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>87.216250</td>
+      <td>92.587820</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-01 18:45:13</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>24065160.0</td>
+      <td>NaN</td>
+      <td>1.662990e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>87.216250</td>
+      <td>92.587820</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-01 18:45:14</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>24065160.0</td>
+      <td>NaN</td>
+      <td>1.662990e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>87.216250</td>
+      <td>92.587810</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-01 18:45:15</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>24065160.0</td>
+      <td>NaN</td>
+      <td>1.662990e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>87.216240</td>
+      <td>92.587810</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-01 18:45:16</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>24065160.0</td>
+      <td>NaN</td>
+      <td>1.662989e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>87.216240</td>
+      <td>92.587810</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-04-02 02:15:06</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>28374390.0</td>
+      <td>NaN</td>
+      <td>2.152077e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>74.687747</td>
+      <td>82.148137</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-02 02:15:07</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>28374390.0</td>
+      <td>NaN</td>
+      <td>2.152077e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>74.687721</td>
+      <td>82.148111</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-02 02:15:08</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>28374390.0</td>
+      <td>NaN</td>
+      <td>2.152077e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>74.687683</td>
+      <td>82.148073</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-02 02:15:09</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>28374390.0</td>
+      <td>NaN</td>
+      <td>2.152077e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>74.687654</td>
+      <td>82.148044</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2018-04-02 02:15:10</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>28374390.0</td>
+      <td>NaN</td>
+      <td>2.152077e+07</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>74.687626</td>
+      <td>82.148008</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>26999 rows × 28 columns</p>
+</div></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="00_overview.html" class="btn btn-neutral float-left" title="3W Toolkit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="02_data_visualization.html" class="btn btn-neutral float-right" title="Data Visualization using the 3W Toolkit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Ricardo Emanuel Vaz Vargas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

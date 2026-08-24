@@ -1,0 +1,1130 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Visualization using the 3W Toolkit &mdash; ThreeWToolkit 3.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=eb155f5e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exploring the 3W dataset" href="03_data_cleaning_examples.html" />
+    <link rel="prev" title="Dataset loading examples" href="01_dataset_examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ThreeWToolkit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#direct-installation-via-pypi">Direct Installation via PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#development-installation-source">Development Installation (Source)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#fork-or-clone-the-repository">1. Fork or Clone the Repository</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-a-clone-official-repository">Option A: Clone Official Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#option-b-fork-and-clone">Option B: Fork and Clone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../installation.html#install-in-editable-mode">2. Install in Editable Mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-pip">Using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-uv-fastest">Using <code class="docutils literal notranslate"><span class="pre">uv</span></code> (Fastest)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation.html#using-conda">Using <code class="docutils literal notranslate"><span class="pre">conda</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#verifying-the-installation">Verifying the Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#architecture-pattern">Architecture Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#end-to-end-pipeline-example">End-to-End Pipeline Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/dataset.html">Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#dataset-structure">Dataset Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/dataset.html#configuration-ingestion">Configuration &amp; Ingestion</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/preprocessing.html">Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#available-preprocessors">Available Preprocessors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/preprocessing.html#chaining-preprocessors">Chaining Preprocessors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/feature_extraction.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#feature-adapters">Feature Adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/feature_extraction.html#combining-feature-extractor-steps">Combining Feature Extractor Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/models_and_training.html">Models and Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#model-architecture-specs">Model Architecture Specs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide/models_and_training.html#training-execution">Training Execution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="00_overview.html">3W Toolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#Table-of-Contents-📑">Table of Contents 📑</a></li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#🚀-1.-Introduction-to-3WToolkit">🚀 1. Introduction to 3WToolkit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.1.-Installation-with-pip-install">1.1. Installation with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.2.-Cloning-and-installing">1.2. Cloning and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#1.3.-Forking-and-installing">1.3. Forking and installing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#📂-2.-Dataset-3W">📂 2. Dataset 3W</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#2.1.-Loading-the-Dataset">2.1. Loading the Dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#2.2.-Filtering-&amp;-Exploring-the-Data">2.2. Filtering &amp; Exploring the Data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#3.-⚙️-Preprocessing">3. ⚙️ Preprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.1.-Cleaning-the-dataset">3.1. Cleaning the dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.2.-Handling-missing-values-(Imputation)">3.2. Handling missing values (Imputation)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.3.-Normalization">3.3. Normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.4.-Renaming-columns">3.4. Renaming columns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#3.5.-Building-preprocessing-pipelines">3.5. Building preprocessing pipelines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#4.-🔎-Feature-Extraction">4. 🔎 Feature Extraction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#⚠️-Important:-Windowing-comes-first">⚠️ Important: Windowing comes first</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.1.-Custom-feature-extraction-pipelines">4.1. Custom feature extraction pipelines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.2.-Windowing">4.2. Windowing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.3.-Statistical-Feature-Extraction">4.3. Statistical Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.4.-Wavelet-Feature-Extraction">4.4. Wavelet Feature Extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#4.5.-Exponentially-Weighted-Statistical-Feature-Extraction">4.5. Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#5.-📊-Exploratory-Analysis">5. 📊 Exploratory Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#5.1.-Visualization-Tools-Overview">5.1. Visualization Tools Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#6.-🤖-Model-Training-and-Evaluation">6. 🤖 Model Training and Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.1.-Dataset-loading-and-manual-split">6.1. Dataset loading and manual split</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.2.-Preprocessing-and-feature-extraction">6.2. Preprocessing and feature extraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.3.-Model-configuration">6.3. Model configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.4.-Training">6.4. Training</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.5.-Evaluation">6.5. Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#6.7.-Training-history-visualization">6.7. Training history visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#7.-🔗-Pipeline-Integration">7. 🔗 Pipeline Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#Pipeline-Execution-Flow">Pipeline Execution Flow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.1-Creating-a-Basic-Pipeline">7.1 Creating a Basic Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#⚠️-Important-note-on-dataset-splitting">⚠️ Important note on dataset splitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.2.-Defining-the-pipeline">7.2. Defining the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.3.-Running-the-pipeline">7.3. Running the pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.4.-Visualizing-training-results">7.4. Visualizing training results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.5.-Example-pipeline-configurations">7.5. Example pipeline configurations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="00_overview.html#7.6.-Best-Practices">7.6. Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="00_overview.html#8.-📄-Report-Generation">8. 📄 Report Generation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="01_dataset_examples.html">Dataset loading examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Download-from-figshare-if-not-on-local-yet">Download from figshare if not on local yet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Signal-and-label-split">Signal and label split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Customizable-label-selection">Customizable label selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Event-type-splitting">Event type splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#Event-class-splitting">Event class splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="01_dataset_examples.html#File-list-splitting">File list splitting</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data Visualization using the 3W Toolkit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Series">Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Time-Series-Visualization-with-plot_series">Time Series Visualization with <code class="docutils literal notranslate"><span class="pre">plot_series</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Example-1:-Random-Time-Series">Example 1: Random Time Series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-2:-Using-plot_series-with-multiple-subplots-(ax-provided)">Example 2: Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-3:-Using-3W-data---Simple-Time-Series-Plot">Example 3: Using 3W data - Simple Time Series Plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-4:-Using-3W-data---Using-plot_series-with-multiple-subplots-(ax-provided)">Example 4: Using 3W data - Using plot_series with multiple subplots (ax provided)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-5:-Using-3W-data---Time-Series-with-Missing-Values">Example 5: Using 3W data - Time Series with Missing Values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Multiple-Series">Multiple Series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Example-1:-Simple-usage-with-multiple-time-series">Example 1: Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Example-2:-Using-subplots-for-different-groups">Example 2: Using subplots for different groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Example-3:-Using-3W-Data---Simple-usage-with-multiple-time-series">Example 3: Using 3W Data - Simple usage with multiple time series</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Example-4:-Using-3W-Data---Using-subplots-for-different-groups">Example 4: Using 3W Data - Using subplots for different groups</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Heatmap">Heatmap</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Correlation-Heatmap-Demonstration">Correlation Heatmap Demonstration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Example-1:-Basic-Usage">Example 1: Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-2:-Custom-Title-and-Annotations">Example 2: Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-3:-Multiple-Heatmaps-in-Subplots">Example 3: Multiple Heatmaps in Subplots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-4:-Using-3W-data---Basic-Usage">Example 4: Using 3W data - Basic Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-5:-Using-3W-data---Custom-Title-and-Annotations">Example 5: Using 3W data - Custom Title and Annotations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Example-6:-Using-3W-data---Custom-Figure-Size-and-Color-Map">Example 6: Using 3W data - Custom Figure Size and Color Map</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="03_data_cleaning_examples.html">Exploring the 3W dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Loading-the-dataset">Loading the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Checking-missing-data">Checking missing data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Distribution-of-Signal-Averages-Across-Events">Distribution of Signal Averages Across Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03_data_cleaning_examples.html#Data-cleaning">Data cleaning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="04_preprocessing_examples.html">Preprocessing Demonstration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Clean-Signals">Clean Signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Impute-Missing-Data">Impute Missing Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Normalize">Normalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04_preprocessing_examples.html#Rename-Columns">Rename Columns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#Using-3W-data-as-example">Using 3W data as example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#FillLabels">FillLabels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="04_preprocessing_examples.html#RemapClass">RemapClass</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="05_feature_extraction_examples.html">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Loading-3W-Dataset">Loading 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Custom-feature-extraction-pipelines:">Custom feature extraction pipelines:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Windowing">Windowing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Wavelet-Feature-Extraction">Wavelet Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Statistical-Feature-Extraction">Statistical Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05_feature_extraction_examples.html#Exponentially-Weighted-Statistical-Feature-Extraction">Exponentially Weighted Statistical Feature Extraction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="06_clustering_pipeline_examples.html">Clustering Pipeline Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#Objectives">Objectives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#1.-Configuration-&amp;-Data-Loading">1. Configuration &amp; Data Loading</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#1.1-Data-Quality-Overview">1.1 Data Quality Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.-Univariate-Processing-Pipeline">2. Univariate Processing Pipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.1-Dendrogram-Visualization">2.1 Dendrogram Visualization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.2-Cluster-Stability-Analysis">2.2 Cluster Stability Analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#2.3-Variable-Exclusion">2.3 Variable Exclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#3.-Multivariate-Consensus">3. Multivariate Consensus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.-Visualization">4. Visualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.1-Selection-Heatmap">4.1 Selection Heatmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.2-Consensus-Cluster-Size-Curve">4.2 Consensus Cluster Size Curve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.3-Time-Series-Clustering-Overlay">4.3 Time Series Clustering Overlay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="06_clustering_pipeline_examples.html#4.4-Ranked-Distance-Plot">4.4 Ranked Distance Plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html">Real vs Simulated Data — Clustering Comparison</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Reusable-Analysis-Pipeline">Reusable Analysis Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-1:-Real-Data">Analysis 1: Real Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-2:-Simulated-Data">Analysis 2: Simulated Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="07_clustering_real_vs_simulated_examples.html#Analysis-3:-Combined-Data-(Real-+-Simulated)">Analysis 3: Combined Data (Real + Simulated)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="08_sklearn_models_examples.html">Scikit-Learn Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Loading-and-preparing-the-Dataset">Loading and preparing the Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="08_sklearn_models_examples.html#Training-Assessment-and-Results">Training Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="09_mlp_timeseries_example.html">Training an MLP on Time Series Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Imports">Imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Loading-and-preparing-the-dataset">Loading and preparing the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Model-Trainer-Configurations">Model Trainer Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Training-the-model">Training the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="09_mlp_timeseries_example.html#Test-Assessment-and-Results">Test Assessment and Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html">Save/Load model examples:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html#Saving-and-Loading-a-PyTorch-model:">Saving and Loading a PyTorch model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="10_load_save_model_examples.html#Saving-and-Loading-a-SKLearn-model:">Saving and Loading a SKLearn model:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="11_assessment_examples.html">Assessment Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="11_assessment_examples.html#Examples-with-plot_confusion_matrix:">Examples with <code class="docutils literal notranslate"><span class="pre">plot_confusion_matrix</span></code>:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-pandas-Series">Using <code class="docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">Series</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-numpy-arrays">Using <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-python-lists">Using python <code class="docutils literal notranslate"><span class="pre">lists</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="11_assessment_examples.html#Examples-with-feature_visualization">Examples with <code class="docutils literal notranslate"><span class="pre">feature_visualization</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Using-random-feature-importances">Using random feature importances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Customizing-our-plot">Customizing our plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="11_assessment_examples.html#Displaying-feature-importances-of-a-Random-Forest-classifier">Displaying feature importances of a Random Forest classifier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="12_using_metrics.html">Classification metrics with ThreeWToolkit</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#What-you-will-do">What you will do</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12_using_metrics.html#Imports">Imports</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#1.-Load-the-dataset">1. Load the dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#2.-Train-/-validation-/-test-split">2. Train / validation / test split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#3.-Preprocessing-and-features">3. Preprocessing and features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#4.-Model-and-trainer">4. Model and trainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#5.-Training">5. Training</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#6.-Predictions-on-the-test-set">6. Predictions on the test set</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#7.-Example-sample-weights">7. Example sample weights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#8.-Accuracy-(accuracy_score)">8. Accuracy (<code class="docutils literal notranslate"><span class="pre">accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#9.-Balanced-accuracy-(balanced_accuracy_score)">9. Balanced accuracy (<code class="docutils literal notranslate"><span class="pre">balanced_accuracy_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#10.-Average-precision-(average_precision_score)">10. Average precision (<code class="docutils literal notranslate"><span class="pre">average_precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#11.-Precision-(precision_score)">11. Precision (<code class="docutils literal notranslate"><span class="pre">precision_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#12.-Recall-(recall_score)">12. Recall (<code class="docutils literal notranslate"><span class="pre">recall_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#13.-F1-score-(f1_score)">13. F1 score (<code class="docutils literal notranslate"><span class="pre">f1_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#14.-ROC-AUC-(roc_auc_score)">14. ROC AUC (<code class="docutils literal notranslate"><span class="pre">roc_auc_score</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="12_using_metrics.html#15.-Matthews-Correlation-Coefficient-(matthews_corrcoef)">15. Matthews Correlation Coefficient (<code class="docutils literal notranslate"><span class="pre">matthews_corrcoef</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="12_using_metrics.html#Interpretation">Interpretation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="13_report_generation_examples.html">Report Generation Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#1.-Defining-a-Mock-Model">1. Defining a Mock Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#2.-Generating-a-signal">2. Generating a signal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#3.-Data-Splitting">3. Data Splitting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#4.-Generating-a-Summary-Report">4. Generating a Summary Report</a></li>
+<li class="toctree-l3"><a class="reference internal" href="13_report_generation_examples.html#5.-Getting-model's-predictions-and-calculating-metrics">5. Getting model’s predictions and calculating metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="14_three_w_chart_example.html">ThreeWChart class overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Visualizing-the-3W-Dataset">Visualizing the 3W Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Viewing-specific-events">Viewing specific events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="14_three_w_chart_example.html#Viewing-Variables-via-the-Dropdown-Menu">Viewing Variables via the Dropdown Menu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#core-layer">Core Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html">ThreeWToolkit.core.BaseDataset</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseDataset.html#ThreeWToolkit.core.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html">ThreeWToolkit.core.BasePreprocessing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePreprocessing.html#ThreeWToolkit.core.BasePreprocessing"><code class="docutils literal notranslate"><span class="pre">BasePreprocessing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html">ThreeWToolkit.core.BaseFeatureExtractor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseFeatureExtractor.html#ThreeWToolkit.core.BaseFeatureExtractor"><code class="docutils literal notranslate"><span class="pre">BaseFeatureExtractor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html">ThreeWToolkit.core.BaseModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseModels.html#ThreeWToolkit.core.BaseModels"><code class="docutils literal notranslate"><span class="pre">BaseModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html">ThreeWToolkit.core.BaseTrainer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BaseTrainer.html#ThreeWToolkit.core.BaseTrainer"><code class="docutils literal notranslate"><span class="pre">BaseTrainer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html">ThreeWToolkit.core.BasePipeline</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.BasePipeline.html#ThreeWToolkit.core.BasePipeline"><code class="docutils literal notranslate"><span class="pre">BasePipeline</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html">ThreeWToolkit.core.DatasetOutputs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.DatasetOutputs.html#ThreeWToolkit.core.DatasetOutputs"><code class="docutils literal notranslate"><span class="pre">DatasetOutputs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html">ThreeWToolkit.core.TrainingResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.TrainingResult.html#ThreeWToolkit.core.TrainingResult"><code class="docutils literal notranslate"><span class="pre">TrainingResult</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html">ThreeWToolkit.core.PredictionResult</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.core.PredictionResult.html#ThreeWToolkit.core.PredictionResult"><code class="docutils literal notranslate"><span class="pre">PredictionResult</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#data-preprocessing">Data &amp; Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html">ThreeWToolkit.preprocessing.CleanSignals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.CleanSignals.html#ThreeWToolkit.preprocessing.CleanSignals"><code class="docutils literal notranslate"><span class="pre">CleanSignals</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html">ThreeWToolkit.preprocessing.ImputeMissing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.ImputeMissing.html#ThreeWToolkit.preprocessing.ImputeMissing"><code class="docutils literal notranslate"><span class="pre">ImputeMissing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html">ThreeWToolkit.preprocessing.Normalize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.Normalize.html#ThreeWToolkit.preprocessing.Normalize"><code class="docutils literal notranslate"><span class="pre">Normalize</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html">ThreeWToolkit.preprocessing.RenameColumns</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.preprocessing.RenameColumns.html#ThreeWToolkit.preprocessing.RenameColumns"><code class="docutils literal notranslate"><span class="pre">RenameColumns</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#feature-extraction">Feature Extraction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html">ThreeWToolkit.feature_extraction.Windowing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.Windowing.html#ThreeWToolkit.feature_extraction.Windowing"><code class="docutils literal notranslate"><span class="pre">Windowing</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html">ThreeWToolkit.feature_extraction.StatisticalFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.StatisticalFeatures.html#ThreeWToolkit.feature_extraction.StatisticalFeatures"><code class="docutils literal notranslate"><span class="pre">StatisticalFeatures</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html">ThreeWToolkit.feature_extraction.WaveletFeatures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.feature_extraction.WaveletFeatures.html#ThreeWToolkit.feature_extraction.WaveletFeatures"><code class="docutils literal notranslate"><span class="pre">WaveletFeatures</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#models-training">Models &amp; Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html">ThreeWToolkit.models.SklearnModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.SklearnModels.html#ThreeWToolkit.models.SklearnModels"><code class="docutils literal notranslate"><span class="pre">SklearnModels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html">ThreeWToolkit.models.TorchModels</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.models.TorchModels.html#ThreeWToolkit.models.TorchModels"><code class="docutils literal notranslate"><span class="pre">TorchModels</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#assessment-evaluation">Assessment &amp; Evaluation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html">ThreeWToolkit.assessment.ModelAssessment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.ModelAssessment.html#ThreeWToolkit.assessment.ModelAssessment"><code class="docutils literal notranslate"><span class="pre">ModelAssessment</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html">ThreeWToolkit.assessment.AssessmentVisualization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/ThreeWToolkit.assessment.AssessmentVisualization.html#ThreeWToolkit.assessment.AssessmentVisualization"><code class="docutils literal notranslate"><span class="pre">AssessmentVisualization</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide/index.html">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/architecture.html">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#core-principles">Core Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#abstraction-layers">Abstraction Layers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#core-layer-specification-contracts">1. Core Layer (Specification &amp; Contracts)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#application-layer-concrete-implementations">2. Application Layer (Concrete Implementations)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#component-overview">Component Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#data-management-processing">Data Management &amp; Processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#model-training-isolation">Model &amp; Training Isolation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/architecture.html#evaluation-orchestration">Evaluation &amp; Orchestration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/architecture.html#architecture-overview-diagram">Architecture Overview Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_guide/contributing.html">🤝 Contributing Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#summary-of-the-guidelines">Summary of the Guidelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#code-of-conduct">Code of Conduct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#getting-started">Getting Started</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#architecture-overview">Architecture Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#core-principles">1. Core Principles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#base-class-hierarchy">2. Base Class Hierarchy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#key-patterns">3. Key Patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#how-to-contribute">How to Contribute</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#fix-outstanding-issues">🐛 Fix Outstanding Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#add-new-models">🆕 Add New Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-preprocessing-steps">🔧 Create Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-feature-extractors">📊 Create Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-trainers">🚂 Create Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#create-assessment-strategies">📈 Create Assessment Strategies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#improve-documentation">📚 Improve Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#report-bugs">🐞 Report Bugs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#request-features">💡 Request Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#adding-a-new-model">Adding a New Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-preprocessing-steps">Creating Preprocessing Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-feature-extractors">Creating Feature Extractors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-trainers">Creating Trainers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#creating-assessment-strategies">Creating Assessment Strategies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#development-workflow">Development Workflow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#branch-naming-convention">Branch Naming Convention</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#testing-guidelines">Testing Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#required-tests">Required Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#test-structure">Test Structure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#fixtures">Fixtures</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#submitting-pull-requests">Submitting Pull Requests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#before-submitting">Before Submitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#pr-description-template">PR Description Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#review-process">Review Process</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#code-style-guidelines">Code Style Guidelines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#python-style">Python Style</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#imports">Imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#type-hints">Type Hints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#docstrings">Docstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#linting-and-formatting">Linting and Formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#getting-help">Getting Help</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#resources">Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../developer_guide/contributing.html#contact">Contact</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#recognition">Recognition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../developer_guide/contributing.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ThreeWToolkit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorials/index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Data Visualization using the 3W Toolkit</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_demos_gen/02_data_visualization.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Data-Visualization-using-the-3W-Toolkit">
+<h1>Data Visualization using the 3W Toolkit<a class="headerlink" href="#Data-Visualization-using-the-3W-Toolkit" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.data_visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataVisualization</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ThreeWToolkit.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParquetDatasetConfig</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Series">
+<h1>Series<a class="headerlink" href="#Series" title="Link to this heading"></a></h1>
+<section id="Time-Series-Visualization-with-plot_series">
+<h2>Time Series Visualization with <code class="docutils literal notranslate"><span class="pre">plot_series</span></code><a class="headerlink" href="#Time-Series-Visualization-with-plot_series" title="Link to this heading"></a></h2>
+<p>This section demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">plot_series</span></code> method from the <code class="docutils literal notranslate"><span class="pre">DataVisualization</span></code> class to visualize time series data, including:</p>
+<ul class="simple">
+<li><p>Random time series,</p></li>
+<li><p>Trends,</p></li>
+<li><p>Seasonality and noise,</p></li>
+<li><p>Missing values (events).</p></li>
+</ul>
+<p>The function returns a <code class="docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code> object and is useful for exploratory data analysis and visual</p>
+<section id="Example-1:-Random-Time-Series">
+<h3>Example 1: Random Time Series<a class="headerlink" href="#Example-1:-Random-Time-Series" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
+<span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_series</span><span class="p">(</span>
+    <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Random Time Series&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="n">overlay_events</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_5_0.png" src="../_images/_demos_gen_02_data_visualization_5_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-2:-Using-plot_series-with-multiple-subplots-(ax-provided)">
+<h3>Example 2: Using plot_series with multiple subplots (ax provided)<a class="headerlink" href="#Example-2:-Using-plot_series-with-multiple-subplots-(ax-provided)" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create two sample series</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">series1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+<span class="n">series2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+
+<span class="c1"># Create subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Use plot_series with specified Axes</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_series</span><span class="p">(</span>
+    <span class="n">series1</span><span class="p">,</span> <span class="s2">&quot;Plot 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span>
+<span class="p">)</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_series</span><span class="p">(</span>
+    <span class="n">series2</span><span class="p">,</span> <span class="s2">&quot;Plot 2&quot;</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_7_0.png" src="../_images/_demos_gen_02_data_visualization_7_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-3:-Using-3W-data---Simple-Time-Series-Plot">
+<h3>Example 3: Using 3W data - Simple Time Series Plot<a class="headerlink" href="#Example-3:-Using-3W-data---Simple-Time-Series-Plot" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">ParquetDatasetConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;../../dataset&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset length: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="mi">123</span><span class="p">]</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+2026-04-17 13:38:35,186 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset found at ../../dataset
+2026-04-17 13:38:35,187 | INFO | ThreeWToolkit.dataset.parquet_dataset | Validating dataset integrity...
+2026-04-17 13:38:35,188 | INFO | ThreeWToolkit.dataset.parquet_dataset | Dataset integrity check passed!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dataset length: 2228
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-TPT&quot;</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_series</span><span class="p">(</span>
+    <span class="n">series</span><span class="o">=</span><span class="n">series</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;P-TPT&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Timestamp&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;P-TPT&quot;</span><span class="p">,</span>
+    <span class="n">overlay_events</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_10_0.png" src="../_images/_demos_gen_02_data_visualization_10_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-4:-Using-3W-data---Using-plot_series-with-multiple-subplots-(ax-provided)">
+<h3>Example 4: Using 3W data - Using plot_series with multiple subplots (ax provided)<a class="headerlink" href="#Example-4:-Using-3W-data---Using-plot_series-with-multiple-subplots-(ax-provided)" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series_P_TPT</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-TPT&quot;</span><span class="p">]</span>
+<span class="n">series_P_ANULAR</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">]</span>
+
+<span class="c1"># create subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># use plot_series with specified Axes</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_series</span><span class="p">(</span>
+    <span class="n">series_P_TPT</span><span class="p">,</span> <span class="s2">&quot;P-TPT&quot;</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span>
+<span class="p">)</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_series</span><span class="p">(</span>
+    <span class="n">series_P_ANULAR</span><span class="p">,</span> <span class="s2">&quot;P-ANULAR&quot;</span><span class="p">,</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_12_0.png" src="../_images/_demos_gen_02_data_visualization_12_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-5:-Using-3W-data---Time-Series-with-Missing-Values">
+<h3>Example 5: Using 3W data - Time Series with Missing Values<a class="headerlink" href="#Example-5:-Using-3W-data---Time-Series-with-Missing-Values" title="Link to this heading"></a></h3>
+<p>We introduce some missing values (<code class="docutils literal notranslate"><span class="pre">NaN</span></code>) at specific positions. When <code class="docutils literal notranslate"><span class="pre">overlay_events=True</span></code>, the function overlays vertical dashed lines to highlight these missing data points — useful for anomaly or outage detection.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series_P_TPT</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-TPT&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">series_P_TPT</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">456</span><span class="p">,</span> <span class="mi">1567</span><span class="p">,</span> <span class="mi">2678</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># adding NaNs</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_series</span><span class="p">(</span>
+    <span class="n">series</span><span class="o">=</span><span class="n">series_P_TPT</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Event Series (with NaN values)&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="n">overlay_events</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_14_0.png" src="../_images/_demos_gen_02_data_visualization_14_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Multiple-Series">
+<h1>Multiple Series<a class="headerlink" href="#Multiple-Series" title="Link to this heading"></a></h1>
+<p>This section demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">plot_multiple_series</span></code> method from the <code class="docutils literal notranslate"><span class="pre">DataVisualization</span></code> class to visualize time series data, including:</p>
+<ul class="simple">
+<li><p>Simple usage with multiple time series,</p></li>
+<li><p>Using subplots for different groups,</p></li>
+<li><p>Trends, Seasonality and noise,</p></li>
+<li><p>Missing values (events).</p></li>
+</ul>
+<p>The function returns a <code class="docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code> object and is useful for exploratory data analysis and visual reports.</p>
+<section id="Example-1:-Simple-usage-with-multiple-time-series">
+<h2>Example 1: Simple usage with multiple time series<a class="headerlink" href="#Example-1:-Simple-usage-with-multiple-time-series" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create example time series</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;2024-01-01&quot;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">series_a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+<span class="n">series_b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+
+<span class="c1"># Create subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_multiple_series</span><span class="p">(</span>
+    <span class="n">series_list</span><span class="o">=</span><span class="p">[</span><span class="n">series_a</span><span class="p">,</span> <span class="n">series_b</span><span class="p">],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sensor A&quot;</span><span class="p">,</span> <span class="s2">&quot;Sensor B&quot;</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Multiple Time Series&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Cumulative Value&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_18_0.png" src="../_images/_demos_gen_02_data_visualization_18_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-2:-Using-subplots-for-different-groups">
+<h2>Example 2: Using subplots for different groups<a class="headerlink" href="#Example-2:-Using-subplots-for-different-groups" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create more time series</span>
+<span class="n">series_c</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+<span class="n">series_d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">)</span>
+
+<span class="c1"># Create subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># First plot: A and B</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_multiple_series</span><span class="p">(</span>
+    <span class="n">series_list</span><span class="o">=</span><span class="p">[</span><span class="n">series_a</span><span class="p">,</span> <span class="n">series_b</span><span class="p">],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sensor A&quot;</span><span class="p">,</span> <span class="s2">&quot;Sensor B&quot;</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Group 1&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Second plot: C and D</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_multiple_series</span><span class="p">(</span>
+    <span class="n">series_list</span><span class="o">=</span><span class="p">[</span><span class="n">series_c</span><span class="p">,</span> <span class="n">series_d</span><span class="p">],</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Sensor C&quot;</span><span class="p">,</span> <span class="s2">&quot;Sensor D&quot;</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Group 2&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_20_0.png" src="../_images/_demos_gen_02_data_visualization_20_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-3:-Using-3W-Data---Simple-usage-with-multiple-time-series">
+<h2>Example 3: Using 3W Data - Simple usage with multiple time series<a class="headerlink" href="#Example-3:-Using-3W-Data---Simple-usage-with-multiple-time-series" title="Link to this heading"></a></h2>
+<p>We generate a random time series with daily frequency. The <code class="docutils literal notranslate"><span class="pre">plot_multiple_series</span></code> method is used to display the values with a custom title and labeled axes.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">],</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-TPT&quot;</span><span class="p">]]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_multiple_series</span><span class="p">(</span>
+    <span class="n">series_list</span><span class="o">=</span><span class="n">series_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">,</span> <span class="s2">&quot;P-TPT&quot;</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&#39;P-ANULAR&#39;, &#39;P-TPT&#39;&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Timestamp&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_22_0.png" src="../_images/_demos_gen_02_data_visualization_22_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-4:-Using-3W-Data---Using-subplots-for-different-groups">
+<h2>Example 4: Using 3W Data - Using subplots for different groups<a class="headerlink" href="#Example-4:-Using-3W-Data---Using-subplots-for-different-groups" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">series_list_group1</span> <span class="o">=</span> <span class="p">[</span><span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">],</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;P-TPT&quot;</span><span class="p">]]</span>
+<span class="n">series_list_group2</span> <span class="o">=</span> <span class="p">[</span><span class="n">sig</span><span class="p">[</span><span class="s2">&quot;T-TPT&quot;</span><span class="p">]]</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># First plot: P-ANULAR and P-TPT</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_multiple_series</span><span class="p">(</span>
+    <span class="n">series_list</span><span class="o">=</span><span class="n">series_list_group1</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">,</span> <span class="s2">&quot;P-TPT&quot;</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Group 1&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Second plot: T-TPT</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">plot_multiple_series</span><span class="p">(</span>
+    <span class="n">series_list</span><span class="o">=</span><span class="n">series_list_group2</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;T-TPT&quot;</span><span class="p">],</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Group 2&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_24_0.png" src="../_images/_demos_gen_02_data_visualization_24_0.png" />
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">plot_multiple_series</span></code> method provides a clean and reusable way to visualize time series with:</p>
+<ul class="simple">
+<li><p>Custom titles and axis labels,</p></li>
+<li><p>Event overlays for missing values,</p></li>
+<li><p>Full support for <code class="docutils literal notranslate"><span class="pre">pandas.Series</span></code> with datetime indices.</p></li>
+</ul>
+<p>This makes it a practical tool for time series forecasting, anomaly detection, and reporting in real-world pipelines.</p>
+</section>
+</section>
+<section id="Heatmap">
+<h1>Heatmap<a class="headerlink" href="#Heatmap" title="Link to this heading"></a></h1>
+<section id="Correlation-Heatmap-Demonstration">
+<h2>Correlation Heatmap Demonstration<a class="headerlink" href="#Correlation-Heatmap-Demonstration" title="Link to this heading"></a></h2>
+<p>This notebook demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">DataVisualization.correlation_heatmap</span></code> function in various scenarios.</p>
+<p>The function accepts:</p>
+<ul class="simple">
+<li><p>A DataFrame of time series (<code class="docutils literal notranslate"><span class="pre">df_of_series</span></code>)</p></li>
+<li><p>Additional keyword arguments (<code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>) for customization (e.g., <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">figsize</span></code>, <code class="docutils literal notranslate"><span class="pre">annot</span></code>, <code class="docutils literal notranslate"><span class="pre">cmap</span></code>, <code class="docutils literal notranslate"><span class="pre">ax</span></code>, etc.)</p></li>
+</ul>
+<section id="Example-1:-Basic-Usage">
+<h3>Example 1: Basic Usage<a class="headerlink" href="#Example-1:-Basic-Usage" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">correlation_heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_29_0.png" src="../_images/_demos_gen_02_data_visualization_29_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-2:-Custom-Title-and-Annotations">
+<h3>Example 2: Custom Title and Annotations<a class="headerlink" href="#Example-2:-Custom-Title-and-Annotations" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">correlation_heatmap</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Annotated Heatmap&quot;</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_31_0.png" src="../_images/_demos_gen_02_data_visualization_31_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-3:-Multiple-Heatmaps-in-Subplots">
+<h3>Example 3: Multiple Heatmaps in Subplots<a class="headerlink" href="#Example-3:-Multiple-Heatmaps-in-Subplots" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">correlation_heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Dataset 1&quot;</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">DataVisualization</span><span class="o">.</span><span class="n">correlation_heatmap</span><span class="p">(</span>
+    <span class="n">df2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Dataset 2&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;crest&quot;</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_33_0.png" src="../_images/_demos_gen_02_data_visualization_33_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-4:-Using-3W-data---Basic-Usage">
+<h3>Example 4: Using 3W data - Basic Usage<a class="headerlink" href="#Example-4:-Using-3W-data---Basic-Usage" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">,</span> <span class="s2">&quot;P-JUS-CKGL&quot;</span><span class="p">,</span> <span class="s2">&quot;P-MON-CKP&quot;</span><span class="p">,</span> <span class="s2">&quot;P-TPT&quot;</span><span class="p">,</span> <span class="s2">&quot;T-JUS-CKP&quot;</span><span class="p">,</span> <span class="s2">&quot;T-TPT&quot;</span><span class="p">]</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">correlation_heatmap</span><span class="p">(</span>
+    <span class="n">df_of_series</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Correlation Heatmap of Selected Features&quot;</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_35_0.png" src="../_images/_demos_gen_02_data_visualization_35_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-5:-Using-3W-data---Custom-Title-and-Annotations">
+<h3>Example 5: Using 3W data - Custom Title and Annotations<a class="headerlink" href="#Example-5:-Using-3W-data---Custom-Title-and-Annotations" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">,</span> <span class="s2">&quot;P-JUS-CKGL&quot;</span><span class="p">,</span> <span class="s2">&quot;P-MON-CKP&quot;</span><span class="p">,</span> <span class="s2">&quot;P-TPT&quot;</span><span class="p">,</span> <span class="s2">&quot;T-JUS-CKP&quot;</span><span class="p">,</span> <span class="s2">&quot;T-TPT&quot;</span><span class="p">]</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">correlation_heatmap</span><span class="p">(</span>
+    <span class="n">subset</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Annotated Heatmap&quot;</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_37_0.png" src="../_images/_demos_gen_02_data_visualization_37_0.png" />
+</div>
+</div>
+</section>
+<section id="Example-6:-Using-3W-data---Custom-Figure-Size-and-Color-Map">
+<h3>Example 6: Using 3W data - Custom Figure Size and Color Map<a class="headerlink" href="#Example-6:-Using-3W-data---Custom-Figure-Size-and-Color-Map" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;P-ANULAR&quot;</span><span class="p">,</span> <span class="s2">&quot;P-JUS-CKGL&quot;</span><span class="p">,</span> <span class="s2">&quot;P-MON-CKP&quot;</span><span class="p">,</span> <span class="s2">&quot;P-TPT&quot;</span><span class="p">,</span> <span class="s2">&quot;T-JUS-CKP&quot;</span><span class="p">,</span> <span class="s2">&quot;T-TPT&quot;</span><span class="p">]</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">DataVisualization</span><span class="o">.</span><span class="n">correlation_heatmap</span><span class="p">(</span>
+    <span class="n">subset</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Larger Heatmap with &#39;coolwarm&#39;&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span>
+    <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/_demos_gen_02_data_visualization_39_0.png" src="../_images/_demos_gen_02_data_visualization_39_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="01_dataset_examples.html" class="btn btn-neutral float-left" title="Dataset loading examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="03_data_cleaning_examples.html" class="btn btn-neutral float-right" title="Exploring the 3W dataset" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Ricardo Emanuel Vaz Vargas.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
