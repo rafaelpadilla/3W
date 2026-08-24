@@ -58,18 +58,28 @@ Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/).
   ```
 2. **Create a virtual environment with `uv`:**
 
-  **Linux / macOS:**
+  **Linux / macOS (terminal):**
   ```bash
    uv venv .venv
    source .venv/bin/activate
   ```
 
-  **Windows:**
+  **Windows (cmd):**
+  ```cmd
+   uv venv .venv
+   .venv\Scripts\activate.bat
+  ```
+
+  **Windows (PowerShell):**
   ```powershell
    uv venv .venv
-   # Command Prompt (cmd):  .venv\Scripts\activate.bat
-   # PowerShell:            .venv\Scripts\Activate.ps1
-   # Git Bash:              source .venv/Scripts/activate
+   .venv\Scripts\Activate.ps1
+  ```
+
+  **Windows (Bash):**
+  ```bash
+   uv venv .venv
+   source .venv/Scripts/activate
   ```
 
 3. **Install development dependencies:**
