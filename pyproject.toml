@@ -76,6 +76,12 @@ docs = [
     "mkdocstrings[python]",
     "sphinx",
 ]
+images = [
+    "geonamescache>=2.0.0",
+    "svgwrite>=1.4.3",
+    "openpyxl>=3.1.5",
+    "kaleido>=1.1.0",
+]
 
 [tool.setuptools.packages.find]
 where = ["toolkit"]
