@@ -27,22 +27,22 @@ The chart below shows the cumulative number of works citing the 3W Dataset since
 
 The panel below shows for each country covered so far which institution gave rise to the largest number of citations (representatives x published works citing the 3W Dataset). In the event of a tie, all the tied institutions are presented for the same country.
 
-![Main Institutions by Country](../images/citations_main_institutions_by_country.png)
+![Main Institutions by Country](../images/citations_main_institutions_by_country.svg)
 
 ## All Institutions by Country
 
 The following panel shows the geographical dispersion of all identified institutions that have published works citing the 3W Dataset.
 
-![All Institutions by Country](../images/citations_all_institutions_by_country.png)
+![All Institutions by Country](../images/citations_all_institutions_by_country.svg)
 
 # Stars by Country
 
 Below we have the locations of the GitHub users who gave stars to the 3W Project repository. It's important to note that not all GitHub users make their locations publicly available.
 
-![Stars](../images/stars_by_country.png)
+![Stars](../images/stars_by_country.svg)
 
 # Forks by Country
 
 Now we have the locations of the GitHub users who generated forks of the 3W Project repository. Fork is a kind of copy that facilitates use, customization and contributions in Git repositories.
 
-![Forks](../images/forks_by_country.png)
+![Forks](../images/forks_by_country.svg)
