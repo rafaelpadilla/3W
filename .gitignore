@@ -169,5 +169,3 @@ cython_debug/
 processed_data/
 output/
 */download/
-
-uv.lock
