@@ -32,11 +32,8 @@ jobs:
       - name: Make helper scripts executable
         run: chmod +x bin/lint
 
-      - name: Create venv
-        run: uv venv .venv
-
       - name: Install package with dev extras
-        run: uv pip install -e .[dev]
+        run: uv sync --locked --extra dev
 
       - name: Run lint
         run: uv run ./bin/lint
@@ -76,11 +73,8 @@ jobs:
       - name: Make helper scripts executable
         run: chmod +x bin/test
 
-      - name: Create venv
-        run: uv venv .venv
-
       - name: Install package with dev extras
-        run: uv pip install -e .[dev]
+        run: uv sync --locked --extra dev
 
       - name: Testing
         run: uv run ./bin/test
