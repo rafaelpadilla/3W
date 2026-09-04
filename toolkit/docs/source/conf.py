@@ -109,33 +109,26 @@ suppress_warnings = [
     "ref.doc"
 ]
 
-def link_or_copy_demos(app):
+def copy_demos(app):
     source_dir = Path(app.srcdir)
-    demos_src = source_dir.parent / "demos"
+
+    demos_src = source_dir.parent.parent / "demos"
     demos_dst = source_dir / "_demos_gen"
 
+    print(f"[ThreeWToolkit] Demos source: {demos_src}")
+    print(f"[ThreeWToolkit] Demos destination: {demos_dst}")
+
     if not demos_src.exists():
+        print(f"[ThreeWToolkit] Demos directory not found: {demos_src}")
         return
 
-    # Remove o link/pasta antiga, se existir
-    if demos_dst.exists() or demos_dst.is_symlink():
-        try:
-            # Remove links/junctions sem tocar no conteúdo real
-            os.rmdir(str(demos_dst))
-        except OSError:
-            # Não era link — é pasta de verdade com conteúdo
-            shutil.rmtree(demos_dst)
+    if demos_dst.exists():
+        shutil.rmtree(demos_dst)
 
-    try:
-        if platform.system() == "Windows":
-            subprocess.run(
-                ["cmd", "/c", "mklink", "/J", str(demos_dst), str(demos_src)],
-                check=True,
-            )
-        else:
-            demos_dst.symlink_to(demos_src, target_is_directory=True)
-    except (OSError, subprocess.CalledProcessError):
-        shutil.copytree(demos_src, demos_dst)
+    shutil.copytree(demos_src, demos_dst)
+
+    print("[ThreeWToolkit] Demos copied successfully")
+
 
 def setup(app):
-    app.connect("builder-inited", link_or_copy_demos)
+    app.connect("builder-inited", copy_demos)
