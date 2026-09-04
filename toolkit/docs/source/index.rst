@@ -9,14 +9,14 @@ ThreeWToolkit documentation
 .. image:: https://raw.githubusercontent.com/petrobras/3W/main/images/3w_logo.png
    :width: 80px
    :align: right
-   :alt: 3W Logo
+   :alt: ThreeWToolkit Logo
 
-**3W Toolkit** is an open-source Python framework for time-series processing, early fault detection, and event classification in oil well and pipeline operations.
+**ThreeWToolkit** is an open-source Python framework for time-series processing, early fault detection, and event classification in oil well and pipeline operations.
 
 Developed as a standardized platform built on top of Petrobras's benchmark **3W Dataset**, the toolkit bridges raw physical sensor telemetry with modern machine learning paradigms. It enables researchers, data scientists, and engineers to run fully reproducible experiments and develop operational models.
 
-Why 3W Toolkit?
-===============
+Why ThreeWToolkit?
+==================
 
 * **Domain-Aware Pipelines**: Designed specifically for the heterogeneous composition and multi-source telemetry (real, simulated, and hand-drawn synthetic instances) of oil well operations.
 * **Standardized Benchmarking**: Offers a unified framework to ensure fair, reproducible performance evaluations across the global **3W Community**.
@@ -25,7 +25,7 @@ Why 3W Toolkit?
 Project & Community
 ===================
 
-The **3W Toolkit** is part of the **3W Project**, an initiative developed in partnership by:
+The **ThreeWToolkit** is part of the **3W Project**, an initiative developed in partnership by:
 
 * **Petrobras**
 * **Signal, Multimedia and Telecommunications Laboratory (SMT)** – Federal University of Rio de Janeiro (UFRJ)
@@ -36,7 +36,7 @@ It actively supports the **3W Community**, an international collaboration of res
 Next Steps
 ==========
 
-* **New to 3W Toolkit?** Start with our :doc:`installation` and :doc:`quickstart` guides.
+* **New to ThreeWToolkit?** Start with our :doc:`installation` and :doc:`quickstart` guides.
 * **Exploring the framework?** Read the :doc:`user_guide/index` or dive into the :doc:`api`.
 * **Want to contribute?** Check out the :doc:`developer_guide/index`.
 

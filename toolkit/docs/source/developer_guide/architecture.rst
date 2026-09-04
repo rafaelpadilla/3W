@@ -72,7 +72,7 @@ Below is the class and interaction schema illustrating the main components of th
 
 .. image:: ../../../../paper/assets/diagrama_classes_joss-background.drawio.svg
    :align: center
-   :alt: 3W Toolkit Class Diagram
+   :alt: ThreeWToolkit Class Diagram
    :width: 100%
 
 ---

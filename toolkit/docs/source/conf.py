@@ -2,11 +2,8 @@
 #
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-import os
 import sys
 import shutil
-import platform
-import subprocess
 
 from pathlib import Path
 
@@ -15,10 +12,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "ThreeWTo
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'ThreeWToolkit'
-copyright = '2026, Ricardo Emanuel Vaz Vargas'
-author = 'Ricardo Emanuel Vaz Vargas'
-release = '3.2.1'
+project = "ThreeWToolkit"
+copyright = "2026, Ricardo Emanuel Vaz Vargas"
+author = "Ricardo Emanuel Vaz Vargas"
+release = "3.2.1"
 language = "en"
 
 # -- General configuration ---------------------------------------------------
@@ -41,7 +38,7 @@ myst_enable_extensions = [
 ]
 myst_heading_anchors = 4
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = [
     "_build",
     "Thumbs.db",
@@ -52,8 +49,8 @@ exclude_patterns = [
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
 
 html_theme_options = {
     "navigation_depth": 4,
@@ -73,7 +70,7 @@ autodoc_default_options = {
     "members": True,
     "undoc-members": True,
     "show-inheritance": True,
-    'imported-members': False,
+    "imported-members": False,
 }
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
@@ -86,10 +83,7 @@ intersphinx_mapping = {
     "sklearn": ("https://scikit-learn.org/stable/", None),
 }
 
-source_suffix = {
-    ".rst": "restructuredtext",
-    ".md": "markdown"
-}
+source_suffix = {".rst": "restructuredtext", ".md": "markdown"}
 
 nbsphinx_execute = "never"
 
@@ -102,12 +96,8 @@ nitpick_ignore_regex = [
     (r"py:.*", r"pydantic\.functional_validators\.field_validator"),
 ]
 
-suppress_warnings = [
-    "ref.python",
-    "ref.footnote",
-    "ref.ref",
-    "ref.doc"
-]
+suppress_warnings = ["ref.python", "ref.footnote", "ref.ref", "ref.doc"]
+
 
 def copy_demos(app):
     source_dir = Path(app.srcdir)

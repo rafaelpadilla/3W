@@ -2,7 +2,7 @@
 User Guide
 ==========
 
-Detailed guides on how to use the core components of **3WToolkit**.
+Detailed guides on how to use the core components of **ThreeWToolkit**.
 
 .. toctree::
    :maxdepth: 2
@@ -11,3 +11,5 @@ Detailed guides on how to use the core components of **3WToolkit**.
    preprocessing
    feature_extraction
    models_and_training
+   evaluation
+   reporting

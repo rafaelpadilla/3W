@@ -4,6 +4,11 @@ Installation
 
 This guide covers the prerequisites and step-by-step instructions for installing **ThreeWToolkit**.
 
+It is possible to perform the installation in different ways, depending on what you want to do:
+
+- **Just want to use the 3W Toolkit?** Install the published package from PyPI. You don't need to clone the repository.
+- **Want to develop or contribute to the 3W Toolkit?** Clone (or fork) the repository and install it locally in editable mode, so your changes are picked up immediately without reinstalling.
+
 Prerequisites
 =============
 
@@ -18,9 +23,10 @@ Direct Installation via PyPI
 
 The simplest and recommended way for end users to install the latest released version of **ThreeWToolkit** is directly via ``pip``:
 
-.. code-block:: bash
-
-   pip install ThreeWToolkit
+.. include:: ../../ThreeWToolkit/README.md
+   :parser: myst_parser.sphinx_
+   :start-after: <!-- start-installation-opt-a -->
+   :end-before: <!-- end-installation-opt-a -->
 
 Development Installation (Source)
 =================================
@@ -61,34 +67,10 @@ Option B: Fork and Clone
 2. Install in Editable Mode
 ---------------------------
 
-Choose your preferred environment manager:
-
-Using ``pip``
-~~~~~~~~~~~~~
-
-.. code-block:: bash
-
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   pip install -e .
-
-Using ``uv`` (Fastest)
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: bash
-
-   uv venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip install -e .
-
-Using ``conda``
-~~~~~~~~~~~~~~~
-
-.. code-block:: bash
-
-   conda env create -f environment.yml
-   conda activate 3W
-   pip install -e .
+.. include:: ../../ThreeWToolkit/README.md
+   :parser: myst_parser.sphinx_
+   :start-after: <!-- start-installation-editable -->
+   :end-before: <!-- end-installation-editable -->
 
 Verifying the Installation
 ==========================
