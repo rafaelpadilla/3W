@@ -1,18 +1,16 @@
-The list of priority improvements for the 3W Project that we intend to develop collaboratively with the community is detailed below.
+The list of priority improvements for the 3W Project that we intend to develop collaboratively with the 3W Community is detailed below:
 
-* Extend the 3W Dataset with more instances of new event types;
-* Finalize incorporation of MAIS into the 3W Toolkit;
-* Configure other GitHub resources that may be useful for our development. What resources exactly?
-* Incorporate and provide in this repository documentation automatically generated from docstrings. How exactly?
-* Review strategy for generating `folds_clf_XX.csv`;
-* Review strategy for virtual environment specification (`environment.yml`);
-* Develop a `setup.py`. Is this module interesting for our project?
-* Develop tool to generate `diff` between versions of the 3W Dataset
-* Develop unit tests for the main methods and functions;
-* Set up action for automatic execution of unit tests after creating PRs;
-* Establish coding guidelines. Which one?
-* Reevaluate the use of the [rolling_window.py](toolkit/rolling_window.py). Is there a better option or a newer version?
-* Evaluate inclusion of specific features for hyperparameter optimization;
-* Assess feasibility and benefits of using [Sklearn Pipeline](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html);
-* Evaluate the use of [Docker](https://www.docker.com/) to facilitate the use of the 3W Toolkit and the approval of contributions;
-* Establish one or more time-related metrics for anomaly detection and classification.
+1. Extend the 3W Toolkit with more useful resources for the 3W Community. For example:
+    - Benchmarks (specific challenges described in detail so that solutions proposed by different members of the 3W Community can be properly compared);
+    - Methods for validating proposed models for benchmarks (using existing data from the 3W Dataset or new data);
+    - Methods for hyperparameters optimization;
+    - Time-related metrics for anomaly detection and classification;
+    - A tool to generate `diff` between versions of the 3W Dataset.
+1. Extend the 3W Dataset with more instances involving new event types or not. For example:
+    - Cover more wells in different fields;
+    - Cover mor event types;
+    - Event types that are rare cease to be rare (with more instances).
+1. Configure other resources that may be useful for our collaborative development. For example:
+    - Technical documentation on [Read the Docs](https://about.readthedocs.com/);
+    - Configuration files for AI agents;
+    - Configuration files for [Docker](https://www.docker.com/).

@@ -1,12 +1,12 @@
 [![Apache 2.0][apache-shield]][apache] 
-[![Code style][black-shield]][black]
+[![Code style][ruff-shield]][ruff]
 [![Versioning][semver-shield]][semver]
 [![Coverage Status][coveralls-shield]][coveralls]
 
 [apache]: https://opensource.org/licenses/Apache-2.0
 [apache-shield]: https://img.shields.io/badge/License-Apache_2.0-blue.svg
-[black]: https://github.com/psf/black
-[black-shield]: https://img.shields.io/badge/code%20style-black-000000.svg
+[ruff]: https://github.com/astral-sh/ruff
+[ruff-shield]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
 [semver]: https://semver.org
 [semver-shield]: https://img.shields.io/badge/semver-2.0.1-blue
 [coveralls]: https://coveralls.io/github/rafaelpadilla/3W?branch=dev
@@ -68,10 +68,26 @@ Further details on the 3W dataset’s structure, preprocessing, and usage are av
 
 ## ⚙️ Installation & Setup  <a id="installation"></a>
 
-It is possible to perform the installation in different ways.
+It is possible to perform the installation in different ways, depending on what you want to do:
+
+- **Just want to use the 3W Toolkit?** Install the published package from PyPI. You don't need to clone the repository.
+- **Want to develop or contribute to the 3W Toolkit?** Clone (or fork) the repository and install it locally in editable mode, so your changes are picked up immediately without reinstalling.
+
+### Option A: Install from PyPI (for using the toolkit)
+
+```bash
+pip install ThreeWToolkit
+```
+
+or, using `uv`:
+```bash
+uv pip install ThreeWToolkit
+```
+
+### Option B: Clone/Fork and install in editable mode (for development/contribution)
 
 **1. Fork or clone the repository**  
-**Option A: Fork** 
+**Fork** 
 1. Go to [https://github.com/petrobras/3W](https://github.com/petrobras/3W)
 2. Click “Fork” in the top-right corner to create a copy under your GitHub account.
 3. Clone your forked repository:
@@ -79,28 +95,48 @@ It is possible to perform the installation in different ways.
 git clone git@github.com:<your-username>/3W.git
 ```
 
-**Option B: Clone**
+**Clone**
 ```bash
 git clone git@github.com:petrobras/3W.git
 ```
 
-**2. Install the package**  
-**Option A: Using `pip`** 
-```bash
-pip install -e .
-```
+**2. Install the package in editable mode**  
 
-**Option B: Using `uv`**
+Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/). Install `uv` according to the [official instructions](https://docs.astral.sh/uv/getting-started/installation/).
+
+**Using `uv` (recommended)**
+
+**Linux / macOS (terminal):**
 ```bash
 uv venv .venv
-source venv/bin/activate
+source .venv/bin/activate
 uv pip install -e .
 ```
 
-**Option C: Using `conda`**
+**Windows (cmd):**
+```cmd
+uv venv .venv
+.venv\Scripts\activate.bat
+uv pip install -e .
+```
+
+**Windows (PowerShell):**
+```powershell
+uv venv .venv
+.venv\Scripts\Activate.ps1
+uv pip install -e .
+```
+
+**Windows (Bash):**
 ```bash
-conda env create -f environment.yml
-conda activate 3W
+uv venv .venv
+source .venv/Scripts/activate
+uv pip install -e .
+```
+
+**Using `pip`** 
+```bash
+pip install -e .
 ```
 
 ## 🪐 Jupyter Notebooks & Examples <a id="notebooks"></a>

@@ -49,21 +49,42 @@ This project adheres to a [code of conduct](https://github.com/petrobras/3W/blob
 
 ### Setting Up Your Development Environment
 
+Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/). Install `uv` according to the [official instructions](https://docs.astral.sh/uv/getting-started/installation/).
+
 1. **Clone and navigate to repository:**
   ```bash
    git clone https://github.com/petrobras/3W.git
    cd 3W
   ```
-2. **Create a virtual environment:**
+2. **Create a virtual environment with `uv`:**
+
+  **Linux / macOS (terminal):**
   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   uv venv .venv
+   source .venv/bin/activate
   ```
+
+  **Windows (cmd):**
+  ```cmd
+   uv venv .venv
+   .venv\Scripts\activate.bat
+  ```
+
+  **Windows (PowerShell):**
+  ```powershell
+   uv venv .venv
+   .venv\Scripts\Activate.ps1
+  ```
+
+  **Windows (Bash):**
+  ```bash
+   uv venv .venv
+   source .venv/Scripts/activate
+  ```
+
 3. **Install development dependencies:**
   ```bash
-   pip install -e '.[dev]'
-   # or with uv:
-   uv sync --all-extras
+   uv pip install -e '.[dev]'
   ```
 
 3.1. **Install additional tooling (required for linting):**
@@ -937,7 +958,7 @@ Any additional context or notes for reviewers.
 
 - Follow **PEP 8**
 - Use **type hints** for all function parameters and returns
-- Maximum line length: **88 characters** (Black formatter)
+- Maximum line length: **88 characters** (Ruff formatter)
 - Use **meaningful variable names**
 - Prefer **explicit over implicit**
 
@@ -1029,19 +1050,18 @@ class YourClass:
 Before committing, run:
 
 ```bash
-# Format code with Black and fix with Ruff
+# Format and lint code with Ruff
 ./bin/lint
 
 # Or manually:
-black --extend-exclude '\.ipynb$' toolkit tests
+ruff format --extend-exclude '*.ipynb' toolkit tests
 ruff check --fix toolkit tests
 mypy toolkit tests
 ```
 
 **Key tools:**
 
-- **Black** - Code formatter (line length: 88)
-- **Ruff** - Fast linter and auto-fixer
+- **Ruff** - Fast formatter (line length: 88), linter and auto-fixer
 - **Mypy** - Static type checker
 
 ### Configuration Examples
