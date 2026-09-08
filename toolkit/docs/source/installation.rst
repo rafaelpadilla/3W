@@ -16,7 +16,7 @@ Ensure your environment meets the following baseline requirements:
 
 * **Python**: Version 3.10 or higher.
 * **Operating System**: Linux, macOS, or Windows (64-bit).
-* **Package Manager**: ``pip``, or ``uv`` (recommended for fast dependency resolution).
+* **Package Manager**: ``pip`` or ``uv`` (recommended for fast dependency resolution).
 
 Direct Installation via PyPI
 ============================
