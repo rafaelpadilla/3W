@@ -6,8 +6,8 @@ This guide covers the prerequisites and step-by-step instructions for installing
 
 It is possible to perform the installation in different ways, depending on what you want to do:
 
-- **Just want to use the 3W Toolkit?** Install the published package from PyPI. You don't need to clone the repository.
-- **Want to develop or contribute to the 3W Toolkit?** Clone (or fork) the repository and install it locally in editable mode, so your changes are picked up immediately without reinstalling.
+- **Just want to use the ThreeWToolkit?** Install the published package from PyPI. You don't need to clone the repository.
+- **Want to develop or contribute to the ThreeWToolkit?** Clone (or fork) the repository and install it locally in editable mode, so your changes are picked up immediately without reinstalling.
 
 Prerequisites
 =============
@@ -16,7 +16,7 @@ Ensure your environment meets the following baseline requirements:
 
 * **Python**: Version 3.10 or higher.
 * **Operating System**: Linux, macOS, or Windows (64-bit).
-* **Package Manager**: ``pip``, ``conda``, or ``uv`` (recommended for fast dependency resolution).
+* **Package Manager**: ``pip``, or ``uv`` (recommended for fast dependency resolution).
 
 Direct Installation via PyPI
 ============================
