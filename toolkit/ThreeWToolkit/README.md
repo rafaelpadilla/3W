@@ -106,32 +106,44 @@ Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/).
 
 **Using `uv` (recommended)**
 
-**Linux / macOS (terminal):**
+From the project root, synchronize the environment using the exact dependency versions recorded in `uv.lock`:
+
 ```bash
-uv venv .venv
-source .venv/bin/activate
-uv pip install -e .
+uv sync --locked
 ```
 
-**Windows (cmd):**
+This command automatically creates the `.venv` virtual environment and installs the project and its locked dependencies.
+
+### Activate the environment
+
+**Linux / macOS:**
+```bash
+source .venv/bin/activate
+```
+
+**Windows (Command Prompt):**
 ```console
-uv venv .venv
 .venv\Scripts\activate.bat
-uv pip install -e .
 ```
 
 **Windows (PowerShell):**
 ```powershell
-uv venv .venv
 .venv\Scripts\Activate.ps1
-uv pip install -e .
 ```
 
 **Windows (Bash):**
 ```bash
-uv venv .venv
 source .venv/Scripts/activate
-uv pip install -e .
+```
+
+For development, including the optional `dev` dependencies:
+```bash
+uv sync --locked --extra dev
+```
+
+Or include all dependencies (dev, docs, images):
+```bash
+uv sync --locked --all-extras
 ```
 
 **Using `pip`** 
