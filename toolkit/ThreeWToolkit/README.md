@@ -65,7 +65,6 @@ The **3W dataset** serves as a **reference dataset** for this project and is hos
 
 Further details on the 3W dataset’s structure, preprocessing, and usage are available in the [3W_DATASET_STRUCTURE.md](https://github.com/petrobras/3W/blob/main/3W_DATASET_STRUCTURE.md) file.
 
-
 ## ⚙️ Installation & Setup  <a id="installation"></a>
 
 It is possible to perform the installation in different ways, depending on what you want to do:
@@ -74,7 +73,7 @@ It is possible to perform the installation in different ways, depending on what 
 - **Want to develop or contribute to the 3W Toolkit?** Clone (or fork) the repository and install it locally in editable mode, so your changes are picked up immediately without reinstalling.
 
 ### Option A: Install from PyPI (for using the toolkit)
-
+<!-- start-installation-opt-a -->
 ```bash
 pip install ThreeWToolkit
 ```
@@ -83,7 +82,7 @@ or, using `uv`:
 ```bash
 uv pip install ThreeWToolkit
 ```
-
+<!-- end-installation-opt-a -->
 ### Option B: Clone/Fork and install in editable mode (for development/contribution)
 
 **1. Fork or clone the repository**  
@@ -102,6 +101,7 @@ git clone git@github.com:petrobras/3W.git
 
 **2. Install the package in editable mode**  
 
+<!-- start-installation-editable -->
 Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/). Install `uv` according to the [official instructions](https://docs.astral.sh/uv/getting-started/installation/).
 
 **Using `uv` (recommended)**
@@ -122,7 +122,7 @@ source .venv/bin/activate
 ```
 
 **Windows (Command Prompt):**
-```cmd
+```console
 .venv\Scripts\activate.bat
 ```
 
@@ -150,7 +150,7 @@ uv sync --locked --all-extras
 ```bash
 pip install -e .
 ```
-
+<!-- end-installation-editable -->
 ## 🪐 Jupyter Notebooks & Examples <a id="notebooks"></a>
 A curated set of ready-to-use jupyter notebooks that demonstrate how to use the toolkit to common fault detection tasks using the 3W dataset. These examples accelerate onboarding and reproducibility.
 

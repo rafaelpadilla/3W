@@ -1,6 +1,6 @@
 # 🤝 Contributing Guide
 
-Welcome to our **3W Toolkit**! 🎉 We're excited that you're interested in contributing. This guide will help you understand our modular architecture and how to extend the toolkit with new models, preprocessing steps, feature extractors, trainers, and assessments.
+Welcome to our **ThreeWToolkit**! 🎉 We're excited that you're interested in contributing. This guide will help you understand our modular architecture and how to extend the toolkit with new models, preprocessing steps, feature extractors, trainers, and assessments.
 
 We welcome contributions in all forms and truly appreciate every effort. 💙 Helping the community goes beyond writing code — answering questions, supporting other users, and improving documentation are just as important.
 
@@ -74,8 +74,9 @@ Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/).
    source .venv/bin/activate
   ```
 
-  **Windows (Command Prompt):**
-  ```cmd
+  **Windows (cmd):**
+  ```console
+   uv venv .venv
    .venv\Scripts\activate.bat
   ```
 
@@ -125,7 +126,7 @@ The CI pipeline will execute these checks automatically, and your PR will fail i
 
 ## Architecture Overview
 
-The 3W Toolkit follows a **modular, plugin-based architecture** using base classes and the **Strategy Pattern** to enable extensibility.
+The ThreeWToolkit follows a **modular, plugin-based architecture** using base classes and the **Strategy Pattern** to enable extensibility.
 
 ### 1. Core Principles
 
