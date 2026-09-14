@@ -21,6 +21,9 @@ Ensure your environment meets the following baseline requirements:
 Direct Installation via PyPI
 ============================
 
+.. note::
+   The package name used for installation differs slightly from the project name. Because PyPI and ``pip`` do not allow package names starting with a digit, use **ThreeWToolkit** for installation commands (e.g., ``pip install ThreeWToolkit``) and dependency specification, whereas **3W Toolkit** refers to the project name and its features.
+
 The simplest and recommended way for end users to install the latest released version of **ThreeWToolkit** is directly via ``pip``:
 
 .. include:: ../../ThreeWToolkit/README.md
