@@ -31,6 +31,58 @@ The simplest and recommended way for end users to install the latest released ve
    :start-after: <!-- start-installation-opt-a -->
    :end-before: <!-- end-installation-opt-a -->
 
+Optional Dependencies (Extras)
+==============================
+
+**ThreeWToolkit** provides optional dependency sets for specific workflows (such as development, documentation building, image generation, or advanced ML backends).
+
+You can install them by appending the extra group inside brackets (use quotes to prevent shell issues in environments like ``zsh``):
+
+* **Development suite** (testing, linting, type-checking):
+
+  .. code-block:: bash
+
+     pip install "ThreeWToolkit[dev]"
+
+* **Documentation tools** (Sphinx, MyST Parser, RTD theme):
+
+  .. code-block:: bash
+
+     pip install "ThreeWToolkit[docs]"
+
+* **Image & SVG processing tools**:
+
+  .. code-block:: bash
+
+     pip install "ThreeWToolkit[images]"
+
+* **Jupyter Notebook integration**:
+
+  .. code-block:: bash
+
+     pip install "ThreeWToolkit[notebooks]"
+
+* **Computer Vision & Advanced Deep Learning extras** (Torchvision, Timm, Torchmetrics):
+
+  .. code-block:: bash
+
+     pip install "ThreeWToolkit[torch-extras]"
+
+* **Image processing algorithms** (Scikit-Image):
+
+  .. code-block:: bash
+
+     pip install "ThreeWToolkit[scikit-extras]"
+
+Combining Multiple Extras
+-------------------------
+
+To set up a full development environment with docs and image tools combined, pass a comma-separated list:
+
+.. code-block:: bash
+
+   pip install "ThreeWToolkit[dev,docs,images,notebooks]"
+
 Development Installation (Source)
 =================================
 
