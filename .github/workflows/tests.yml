@@ -63,6 +63,9 @@ jobs:
       - name: Run lint
         run: uv run --no-sync ./bin/lint
 
+      - name: Check agent skill copies
+        run: uv run --no-sync python bin/sync_agent_files --check
+
   test:
     name: Test with Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
