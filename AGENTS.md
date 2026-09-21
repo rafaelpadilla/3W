@@ -45,7 +45,7 @@ and pinned in `uv.lock`.
 
 ```bash
 uv sync --locked --extra dev        # dev environment (.venv)
-uv sync --locked --all-extras       # dev + docs + images extras
+uv sync --locked --all-extras       # every extra in pyproject.toml
 ./bin/test                          # pytest + coverage, skips `slow` tests
 RUN_SLOW_TESTS=1 ./bin/test         # include tests that read the real dataset
 pytest tests/preprocessing/test_normalize.py -k l2   # targeted run
