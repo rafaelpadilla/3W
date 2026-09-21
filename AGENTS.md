@@ -140,7 +140,7 @@ Reusable task guides live in `.agents/skills/<name>/SKILL.md`:
 - `load-3w-dataset`: load, filter and inspect 3W Dataset instances.
 - `add-demo-notebook`: add a demo or overview notebook in the right place.
 
-`.agents/skills/` is the only place to edit skills. `.claude/skills/` and
-`.qwen/skills/` are generated copies for agents that do not read
-`.agents/skills/`: never edit them directly. After changing a skill, run
-`python bin/sync_agent_files` (CI runs it with `--check`).
+`.agents/skills/` is the only place to edit skills. `.claude/skills/` is a
+generated copy for agents that do not read `.agents/skills/`: never edit it
+directly. After changing a skill, run `python bin/sync_agent_files`
+(CI runs it with `--check`).
