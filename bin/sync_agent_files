@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+"""Copy agent skills from .agents/skills to tool-specific directories.
+
+.agents/skills/ is the only place where skills are edited. Some agents do
+not read it, so this script mirrors it into the directories they do read:
+
+    .claude/skills/  Claude Code
+
+Usage:
+    python bin/sync_agent_files          # update the copies
+    python bin/sync_agent_files --check  # exit 1 if a copy is outdated
+"""
+
+import argparse
+import filecmp
+import shutil
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+SOURCE = ROOT / ".agents" / "skills"
+TARGETS = [
+    ROOT / ".claude" / "skills",
+]
+IGNORED = shutil.ignore_patterns("__pycache__", "*.pyc", ".DS_Store")
+
+
+def find_differences(source: Path, target: Path) -> list[str]:
+    """List relative paths that differ between two directory trees.
+
+    Args:
+        source: Canonical directory.
+        target: Copied directory.
+
+    Returns:
+        Sorted relative paths that are missing, extra or different.
+    """
+    if not target.is_dir():
+        return [f"{target.relative_to(ROOT)} (missing)"]
+
+    differences: list[str] = []
+    comparison = filecmp.dircmp(source, target, ignore=["__pycache__", ".DS_Store"])
+    stack = [(comparison, Path())]
+    while stack:
+        current, prefix = stack.pop()
+        for name in current.left_only:
+            differences.append(f"{prefix / name} (missing in copy)")
+        for name in current.right_only:
+            differences.append(f"{prefix / name} (not in .agents/skills)")
+        for name in current.common_files:
+            left = Path(current.left) / name
+            right = Path(current.right) / name
+            if not filecmp.cmp(left, right, shallow=False):
+                differences.append(f"{prefix / name} (content differs)")
+        for name in current.funny_files + current.common_funny:
+            differences.append(f"{prefix / name} (type differs)")
+        for name, sub in current.subdirs.items():
+            stack.append((sub, prefix / name))
+    return sorted(differences)
+
+
+def sync(target: Path) -> None:
+    """Replace a target directory with a fresh copy of the source.
+
+    Args:
+        target: Directory to overwrite.
+    """
+    if target.exists():
+        shutil.rmtree(target)
+    shutil.copytree(SOURCE, target, ignore=IGNORED)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="only report outdated copies, without changing files",
+    )
+    args = parser.parse_args()
+
+    if not SOURCE.is_dir():
+        print(f"Source directory not found: {SOURCE.relative_to(ROOT)}")
+        return 2
+
+    outdated = False
+    for target in TARGETS:
+        relative_target = target.relative_to(ROOT)
+        differences = find_differences(SOURCE, target)
+        if not differences:
+            print(f"{relative_target}: up to date")
+            continue
+        if args.check:
+            outdated = True
+            print(f"{relative_target}: outdated")
+            for difference in differences:
+                print(f"  - {difference}")
+        else:
+            sync(target)
+            print(f"{relative_target}: updated")
+
+    if outdated:
+        print("Run `python bin/sync_agent_files` and commit the result.")
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
