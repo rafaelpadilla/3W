@@ -1,8 +1,8 @@
 # AGENTS.md
 
 Instructions for AI coding agents working in the 3W repository. This is the
-single source of truth shared by every agent; tool-specific files
-(`CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`) only point here.
+single source of truth shared by every agent. Claude Code, GitHub Copilot,
+Cursor and Codex read this file directly; `GEMINI.md` only points here.
 Human contributors should read [CONTRIBUTING.md](CONTRIBUTING.md) and
 [3W_TOOLKIT_CONTRIBUTING.md](3W_TOOLKIT_CONTRIBUTING.md); this file
 summarizes them and does not replace them.
@@ -142,5 +142,5 @@ Reusable task guides live in `.agents/skills/<name>/SKILL.md`:
 
 `.agents/skills/` is the only place to edit skills. `.claude/skills/` is a
 generated copy for agents that do not read `.agents/skills/`: never edit it
-directly. After changing a skill, run `python bin/sync_agent_files`
+directly. After changing a skill, run `./bin/sync_agent_files`
 (CI runs it with `--check`).

@@ -95,8 +95,8 @@ It is also very important to know, participate and follow the discussions. See t
 
 This repository includes configuration files for AI coding agents, so that tools such as Claude Code, GitHub Copilot, Cursor, Gemini, Codex and others follow the project's conventions:
 
-* [AGENTS.md](AGENTS.md) holds the instructions shared by all agents. [CLAUDE.md](CLAUDE.md), [GEMINI.md](GEMINI.md) and [.github/copilot-instructions.md](.github/copilot-instructions.md) only point to it;
-* [.agents/skills](.agents/skills) holds reusable task guides (`SKILL.md` files). The copy in `.claude/skills` is generated with `python bin/sync_agent_files` and must not be edited directly.
+* [AGENTS.md](AGENTS.md) holds the instructions shared by all agents. Claude Code, GitHub Copilot, Cursor and Codex read it directly; [GEMINI.md](GEMINI.md) only points to it, since Gemini CLI looks for its own file name;
+* [.agents/skills](.agents/skills) holds reusable task guides (`SKILL.md` files). The copy in `.claude/skills` is generated with `./bin/sync_agent_files` and must not be edited directly.
 
 ## Licenses
 

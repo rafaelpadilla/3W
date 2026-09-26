@@ -55,7 +55,7 @@ jobs:
           uv --version
 
       - name: Make helper scripts executable
-        run: chmod +x bin/lint
+        run: chmod +x bin/lint bin/sync_agent_files
 
       - name: Install locked dependencies
         run: uv sync --locked --extra dev
@@ -64,7 +64,7 @@ jobs:
         run: uv run --no-sync ./bin/lint
 
       - name: Check agent skill copies
-        run: uv run --no-sync python bin/sync_agent_files --check
+        run: ./bin/sync_agent_files --check
 
   test:
     name: Test with Python ${{ matrix.python-version }}

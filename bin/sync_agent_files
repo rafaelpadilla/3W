@@ -1,109 +1,80 @@
-#!/usr/bin/env python3
-"""Copy agent skills from .agents/skills to tool-specific directories.
+#!/bin/bash
+set -eu
 
-.agents/skills/ is the only place where skills are edited. Some agents do
-not read it, so this script mirrors it into the directories they do read:
+# Copy agent skills from .agents/skills to tool-specific directories.
+#
+# .agents/skills/ is the only place where skills are edited. Some agents do
+# not read it, so this script mirrors it into the directories they do read:
+#
+#   .claude/skills/  Claude Code
+#
+# Usage:
+#   ./bin/sync_agent_files          # update the copies
+#   ./bin/sync_agent_files --check  # exit 1 if a copy is outdated
 
-    .claude/skills/  Claude Code
+cd "$(dirname "$0")"/..
 
-Usage:
-    python bin/sync_agent_files          # update the copies
-    python bin/sync_agent_files --check  # exit 1 if a copy is outdated
-"""
+SOURCE=".agents/skills"
+TARGETS=(".claude/skills")
+EXCLUDES=(--exclude=__pycache__ --exclude="*.pyc" --exclude=.DS_Store)
 
-import argparse
-import filecmp
-import shutil
-import sys
-from pathlib import Path
+CHECK=false
+case "${1:-}" in
+    --check)
+        CHECK=true
+        ;;
+    "")
+        ;;
+    *)
+        echo "Usage: $0 [--check]"
+        exit 2
+        ;;
+esac
 
-ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT / ".agents" / "skills"
-TARGETS = [
-    ROOT / ".claude" / "skills",
-]
-IGNORED = shutil.ignore_patterns("__pycache__", "*.pyc", ".DS_Store")
+if [ ! -d "${SOURCE}" ]; then
+    echo "Source directory not found: ${SOURCE}"
+    exit 2
+fi
 
+# Replace a target directory with a fresh copy of the source.
+sync_target() {
+    local target="$1"
 
-def find_differences(source: Path, target: Path) -> list[str]:
-    """List relative paths that differ between two directory trees.
+    rm -rf "${target}"
+    mkdir -p "$(dirname "${target}")"
+    cp -R "${SOURCE}" "${target}"
+    find "${target}" \
+        \( -name __pycache__ -o -name "*.pyc" -o -name .DS_Store \) \
+        -exec rm -rf {} +
+}
 
-    Args:
-        source: Canonical directory.
-        target: Copied directory.
+outdated=false
 
-    Returns:
-        Sorted relative paths that are missing, extra or different.
-    """
-    if not target.is_dir():
-        return [f"{target.relative_to(ROOT)} (missing)"]
+for target in "${TARGETS[@]}"; do
+    if [ -d "${target}" ]; then
+        # "diff" exits non-zero when the trees differ, which is not an error
+        # here: the output is the report we want.
+        differences="$(diff -r "${EXCLUDES[@]}" --brief "${SOURCE}" "${target}" || true)"
+    else
+        differences="${target} (missing)"
+    fi
 
-    differences: list[str] = []
-    comparison = filecmp.dircmp(source, target, ignore=["__pycache__", ".DS_Store"])
-    stack = [(comparison, Path())]
-    while stack:
-        current, prefix = stack.pop()
-        for name in current.left_only:
-            differences.append(f"{prefix / name} (missing in copy)")
-        for name in current.right_only:
-            differences.append(f"{prefix / name} (not in .agents/skills)")
-        for name in current.common_files:
-            left = Path(current.left) / name
-            right = Path(current.right) / name
-            if not filecmp.cmp(left, right, shallow=False):
-                differences.append(f"{prefix / name} (content differs)")
-        for name in current.funny_files + current.common_funny:
-            differences.append(f"{prefix / name} (type differs)")
-        for name, sub in current.subdirs.items():
-            stack.append((sub, prefix / name))
-    return sorted(differences)
+    if [ -z "${differences}" ]; then
+        echo "${target}: up to date"
+        continue
+    fi
 
+    if [ "${CHECK}" = true ]; then
+        outdated=true
+        echo "${target}: outdated"
+        echo "${differences}" | sed "s/^/  - /"
+    else
+        sync_target "${target}"
+        echo "${target}: updated"
+    fi
+done
 
-def sync(target: Path) -> None:
-    """Replace a target directory with a fresh copy of the source.
-
-    Args:
-        target: Directory to overwrite.
-    """
-    if target.exists():
-        shutil.rmtree(target)
-    shutil.copytree(SOURCE, target, ignore=IGNORED)
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument(
-        "--check",
-        action="store_true",
-        help="only report outdated copies, without changing files",
-    )
-    args = parser.parse_args()
-
-    if not SOURCE.is_dir():
-        print(f"Source directory not found: {SOURCE.relative_to(ROOT)}")
-        return 2
-
-    outdated = False
-    for target in TARGETS:
-        relative_target = target.relative_to(ROOT)
-        differences = find_differences(SOURCE, target)
-        if not differences:
-            print(f"{relative_target}: up to date")
-            continue
-        if args.check:
-            outdated = True
-            print(f"{relative_target}: outdated")
-            for difference in differences:
-                print(f"  - {difference}")
-        else:
-            sync(target)
-            print(f"{relative_target}: updated")
-
-    if outdated:
-        print("Run `python bin/sync_agent_files` and commit the result.")
-        return 1
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+if [ "${outdated}" = true ]; then
+    echo "Run \`./bin/sync_agent_files\` and commit the result."
+    exit 1
+fi
