@@ -7,7 +7,7 @@ Welcome! These Jupyter notebooks were prepared for the **3WToolkit Workshop 2026
 This workshop consists of 10 progressive notebooks that will take you from an introduction to the toolkit through model evaluation and report generation:
 
 ### 1. [Introduction](1_introduction.ipynb)
-**Getting Started with 3WToolkit — Workshop 2026**
+**Getting Started with 3WToolkit - 5th 3W Workshop**
 - Welcome and overview of the workshop series
 - What's new in the toolkit
 - Key features at a glance
