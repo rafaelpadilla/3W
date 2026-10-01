@@ -90,7 +90,29 @@ Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/).
    source .venv/Scripts/activate
   ```
 
-3.1. **Install additional tooling (required for linting):**
+3.1. **Install development dependencies:**
+  ```bash
+   uv pip install -e '.[dev]'
+  ```
+
+3.2. **Install the Git pre-commit hook (required once per clone):**
+
+Adding `pre-commit` as a dependency does not activate the Git hook by itself. Run this once after installing the development dependencies so checks run automatically on `git commit`:
+
+  ```bash
+   uv run pre-commit install
+  ```
+
+This creates the local `.git/hooks/pre-commit` bridge used by Git. After that, commits that include `uv.lock` are checked for private Petrobras JFrog URLs (`jfrog.petrobras.dev.br`). If that domain is present, the commit is blocked. If `uv.lock` is not part of the commit, the check is skipped.
+
+You can also run the check manually:
+
+  ```bash
+   uv run pre-commit run check-uv-lock-jfrog --all-files
+   uv run pre-commit run --all-files
+  ```
+
+3.3. **Install additional tooling (required for linting):**
 
 Lychee is used for link checking in `./bin/lint`, but it is not installed via pip.
 
@@ -235,11 +257,9 @@ class BaseTrainer(ABC):
 ```python
 class BasePreprocessing(ABC, BaseTransform):
     """Non-destructive data transformation."""
-    
+
     @abstractmethod
-    def fit_and_transform(
-        self, dataset: BaseDataset
-    ) -> DatasetOutputs:
+    def fit_and_transform(self, dataset: BaseDataset) -> DatasetOutputs:
         """Fit and transform, returning new DatasetOutputs."""
         pass
 ```
@@ -250,13 +270,14 @@ class BasePreprocessing(ABC, BaseTransform):
 from pydantic import BaseModel, Field, field_validator
 from ThreeWToolkit.core import Instantiable
 
+
 class MyComponentConfig(BaseModel, Instantiable):
     """Configuration for custom component."""
-    
+
     _target: type["MyComponent"]  # For dynamic instantiation
     param1: int = Field(..., description="First parameter", gt=0)
     param2: float = Field(default=0.5, description="Second parameter")
-    
+
     @field_validator("param1")
     @classmethod
     def validate_param1(cls, v):
@@ -374,15 +395,16 @@ Create a configuration class in your model file:
 from pydantic import BaseModel, Field, field_validator
 from ThreeWToolkit.core import ModelsConfig, Instantiable
 
+
 class YourModelConfig(ModelsConfig, Instantiable):
     """Configuration for YourModel."""
-    
+
     _target: type["YourModel"]
-    
+
     param1: int = Field(..., description="First hyperparameter", gt=0)
     param2: float = Field(default=0.1, description="Second hyperparameter")
     learning_rate: float = Field(default=0.01, description="Learning rate", gt=0)
-    
+
     @field_validator("param1")
     @classmethod
     def validate_param1(cls, v):
@@ -401,35 +423,36 @@ Inherit from `BaseModels` and implement required methods:
 from ThreeWToolkit.core import BaseModels
 import pickle
 
+
 class YourModel(BaseModels):
     """Scikit-learn style model."""
-    
+
     def __init__(self, config: YourModelConfig):
         self.config = config
         self._model = None  # Initialize actual sklearn model
         # self._model = SomeSklearnEstimator(param1=config.param1, ...)
-    
+
     @property
     def model_name(self) -> str:
         return "YourModel"
-    
+
     def save(self, filename: str | Path) -> Path:
         """Save model using pickle."""
         path = Path(filename)
         path.parent.mkdir(parents=True, exist_ok=True)
-        with open(path, 'wb') as f:
+        with open(path, "wb") as f:
             pickle.dump(self._model, f)
         return path
-    
+
     @classmethod
     def load(cls, filename: str | Path) -> "YourModel":
         """Load model from pickle."""
-        with open(filename, 'rb') as f:
+        with open(filename, "rb") as f:
             model = pickle.load(f)
         instance = cls(YourModelConfig(param1=1))
         instance._model = model
         return instance
-    
+
     def predict(self, X):
         """Make predictions."""
         return self._model.predict(X)
@@ -442,42 +465,43 @@ import torch
 from torch import nn
 from ThreeWToolkit.core import BaseModels
 
+
 class YourTorchModel(BaseModels, nn.Module):
     """PyTorch model."""
-    
+
     def __init__(self, config: YourModelConfig):
         super().__init__()
         nn.Module.__init__(self)
-        
+
         self.config = config
         # Define layers
         self.fc1 = nn.Linear(10, config.param1)
         self.fc2 = nn.Linear(config.param1, 2)
-    
+
     @property
     def model_name(self) -> str:
         return "YourTorchModel"
-    
+
     def forward(self, x):
         """Forward pass."""
         x = torch.relu(self.fc1(x))
         x = self.fc2(x)
         return x
-    
+
     def save(self, filename: str | Path) -> Path:
         """Save model state dict."""
         path = Path(filename)
         path.parent.mkdir(parents=True, exist_ok=True)
         torch.save(self.state_dict(), path)
         return path
-    
+
     @classmethod
     def load(cls, filename: str | Path) -> "YourTorchModel":
         """Load model from state dict."""
         instance = cls(YourModelConfig(param1=10))
         instance.load_state_dict(torch.load(filename))
         return instance
-    
+
     def predict(self, X):
         """Make predictions."""
         self.eval()
@@ -511,26 +535,27 @@ import pytest
 import numpy as np
 from ThreeWToolkit.models import YourModel, YourModelConfig
 
+
 class TestYourModel:
     @pytest.fixture
     def config(self):
         return YourModelConfig(param1=10, param2=0.1)
-    
+
     @pytest.fixture
     def model(self, config):
         return YourModel(config)
-    
+
     def test_initialization(self, model):
         """Test model initialization."""
         assert model.model_name == "YourModel"
         assert model.config.param1 == 10
-    
+
     def test_predict(self, model):
         """Test prediction."""
         X = np.random.randn(5, 10)
         predictions = model.predict(X)
         assert predictions.shape[0] == 5
-    
+
     def test_save_load(self, model, tmp_path):
         """Test save and load."""
         path = tmp_path / "model.pkl"
@@ -551,9 +576,10 @@ Preprocessing steps perform non-destructive data transformations. Create a new s
 from pydantic import BaseModel, Field
 from ThreeWToolkit.core import BasePreprocessingConfig, Instantiable
 
+
 class YourPreprocessingConfig(BasePreprocessingConfig, Instantiable):
     """Configuration for YourPreprocessing."""
-    
+
     _target: type["YourPreprocessing"]
     param1: float = Field(default=0.1, description="Threshold")
     column_names: list[str] | None = Field(
@@ -566,37 +592,34 @@ class YourPreprocessingConfig(BasePreprocessingConfig, Instantiable):
 ```python
 from ThreeWToolkit.core import BasePreprocessing, DatasetOutputs
 
+
 class YourPreprocessing(BasePreprocessing):
     """Custom preprocessing step."""
-    
+
     def __init__(self, config: YourPreprocessingConfig):
         super().__init__(config)
         self.config = config
         self._fitted_stats = None
-    
-    def fit_and_transform(
-        self, dataset: BaseDataset
-    ) -> DatasetOutputs:
+
+    def fit_and_transform(self, dataset: BaseDataset) -> DatasetOutputs:
         """
         Fit and transform data (non-destructive).
-        
+
         Returns:
             DatasetOutputs with transformed data
         """
         signal_df = dataset.signal_df
         label_df = dataset.label_df
-        
+
         # Compute statistics on original data (fit)
         self._fitted_stats = signal_df.describe()
-        
+
         # Create transformed copy (non-destructive)
         transformed_signal = signal_df.copy()
         # Apply transformation...
-        
+
         return DatasetOutputs(
-            signal=transformed_signal,
-            label=label_df,
-            metadata=dataset.metadata
+            signal=transformed_signal, label=label_df, metadata=dataset.metadata
         )
 ```
 
@@ -628,29 +651,27 @@ from ThreeWToolkit.core import (
     BaseFeatureExtractor,
     WindowSizeMixin,
     OverlapOffsetMixin,
-    Instantiable
+    Instantiable,
 )
 from pydantic import Field
 
+
 class YourFeatureExtractorConfig(BaseModel, Instantiable):
     """Configuration for feature extractor."""
-    
+
     _target: type["YourFeatureExtractor"]
     window_size: int = Field(default=100, description="Window size")
     overlap_offset: int = Field(default=50, description="Overlap offset")
 
-class YourFeatureExtractor(
-    BaseFeatureExtractor, 
-    WindowSizeMixin, 
-    OverlapOffsetMixin
-):
+
+class YourFeatureExtractor(BaseFeatureExtractor, WindowSizeMixin, OverlapOffsetMixin):
     """Extract custom features from windowed data."""
-    
+
     def __init__(self, config: YourFeatureExtractorConfig):
         super().__init__(config)
         self.window_size = config.window_size
         self.overlap_offset = config.overlap_offset
-    
+
     def extract_features(self, signal_df) -> np.ndarray:
         """Extract features from signal."""
         # Apply windowing and feature extraction
@@ -666,21 +687,16 @@ Create framework-specific trainers by inheriting from `BaseTrainer`:
 ```python
 from ThreeWToolkit.core import BaseTrainer, TrainingResult, TrainingHistory
 
+
 class YourFrameworkTrainer(BaseTrainer):
     """Trainer for YourFramework models."""
-    
+
     def fit(
-        self,
-        model: BaseModels,
-        X_train,
-        y_train,
-        X_val=None,
-        y_val=None,
-        **kwargs
+        self, model: BaseModels, X_train, y_train, X_val=None, y_val=None, **kwargs
     ) -> TrainingResult:
         """
         Train the model.
-        
+
         Args:
             model: Model instance to train
             X_train: Training features
@@ -688,21 +704,14 @@ class YourFrameworkTrainer(BaseTrainer):
             X_val: Validation features
             y_val: Validation labels
             **kwargs: Additional training parameters
-        
+
         Returns:
             TrainingResult with trained model and history
         """
         # Training logic here
-        history = TrainingHistory(
-            train_loss=[...],
-            val_loss=[...]
-        )
-        
-        return TrainingResult(
-            model=model,
-            history=history,
-            metadata={}
-        )
+        history = TrainingHistory(train_loss=[...], val_loss=[...])
+
+        return TrainingResult(model=model, history=history, metadata={})
 ```
 
 ---
@@ -714,18 +723,14 @@ Assessment strategies evaluate model performance:
 ```python
 from ThreeWToolkit.core import BaseAssessment, AssessmentOutput
 
+
 class YourAssessment(BaseAssessment):
     """Custom assessment strategy."""
-    
-    def assess(
-        self,
-        y_true,
-        y_pred,
-        **kwargs
-    ) -> AssessmentOutput:
+
+    def assess(self, y_true, y_pred, **kwargs) -> AssessmentOutput:
         """
         Assess model predictions.
-        
+
         Returns:
             AssessmentOutput with metrics and visualizations
         """
@@ -733,11 +738,8 @@ class YourAssessment(BaseAssessment):
             "accuracy": np.mean(y_true == y_pred),
             # ... more metrics
         }
-        
-        return AssessmentOutput(
-            metrics=metrics,
-            visualizations={}
-        )
+
+        return AssessmentOutput(metrics=metrics, visualizations={})
 ```
 
 ---
@@ -859,20 +861,18 @@ class TestYourModel:
     @pytest.fixture
     def config(self):
         return YourModelConfig(...)
-    
+
     @pytest.fixture
     def model(self, config):
         return YourModel(config)
-    
-    def test_initialization(self, model):
-        ...
-    
-    def test_predict(self, model):
-        ...
+
+    def test_initialization(self, model): ...
+
+    def test_predict(self, model): ...
+
 
 class TestYourModelConfig:
-    def test_validation(self):
-        ...
+    def test_validation(self): ...
 ```
 
 ### Fixtures
@@ -995,6 +995,7 @@ Always include type hints:
 def fit_and_transform(self, dataset):
     return dataset.transform()
 
+
 # ✅ Good
 def fit_and_transform(self, dataset: BaseDataset) -> DatasetOutputs:
     """Fit and transform dataset."""
@@ -1074,27 +1075,18 @@ mypy toolkit tests
 # ✅ Good Pydantic config
 from pydantic import BaseModel, Field, field_validator
 
+
 class MyConfig(BaseModel):
     """Configuration for MyComponent."""
-    
+
     learning_rate: float = Field(
-        default=0.01,
-        description="Learning rate for optimization",
-        gt=0,
-        le=1
+        default=0.01, description="Learning rate for optimization", gt=0, le=1
     )
     batch_size: int = Field(
-        default=32,
-        description="Batch size for training",
-        gt=0,
-        le=512
+        default=32, description="Batch size for training", gt=0, le=512
     )
-    num_epochs: int = Field(
-        default=100,
-        description="Number of training epochs",
-        ge=1
-    )
-    
+    num_epochs: int = Field(default=100, description="Number of training epochs", ge=1)
+
     @field_validator("learning_rate")
     @classmethod
     def validate_lr(cls, v):

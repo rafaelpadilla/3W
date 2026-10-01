@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: check-uv-lock-jfrog
+        name: Check uv.lock for private JFrog URLs
+        entry: bin/check_uv_lock
+        language: script
+        files: ^uv\.lock$
+        pass_filenames: false
