@@ -87,7 +87,24 @@ Our recommended virtual environment manager is [uv](https://docs.astral.sh/uv/).
    uv pip install -e '.[dev]'
   ```
 
-3.1. **Install additional tooling (required for linting):**
+3.1. **Install the Git pre-commit hook (required once per clone):**
+
+Adding `pre-commit` as a dependency does not activate the Git hook by itself. Run this once after installing the development dependencies so checks run automatically on `git commit`:
+
+  ```bash
+   uv run pre-commit install
+  ```
+
+This creates the local `.git/hooks/pre-commit` bridge used by Git. After that, commits that include `uv.lock` are checked for private Petrobras JFrog URLs (`jfrog.petrobras.dev.br`). If that domain is present, the commit is blocked. If `uv.lock` is not part of the commit, the check is skipped.
+
+You can also run the check manually:
+
+  ```bash
+   uv run pre-commit run check-uv-lock-jfrog --all-files
+   uv run pre-commit run --all-files
+  ```
+
+3.2. **Install additional tooling (required for linting):**
 
 Lychee is used for link checking in `./bin/lint`, but it is not installed via pip.
 
