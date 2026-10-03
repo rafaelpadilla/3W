@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+
+UV_LOCK="uv.lock"
+FORBIDDEN_DOMAIN="jfrog.petrobras.dev.br"
+
+if grep -q "${FORBIDDEN_DOMAIN}" "${UV_LOCK}"; then
+    echo
+    echo "ERROR: uv.lock contains references to ${FORBIDDEN_DOMAIN}."
+    echo "Commit aborted."
+    echo
+    echo "Please regenerate uv.lock without the private JFrog registry."
+    echo
+    exit 1
+fi
