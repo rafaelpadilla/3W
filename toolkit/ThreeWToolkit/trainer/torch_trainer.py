@@ -1,10 +1,9 @@
 import logging
-from typing import Literal, Any
+from typing import Any, Literal
 
-from pydantic import Field, PrivateAttr, field_validator, ValidationInfo
 import torch
-import torch.nn as nn
-import torch.optim as optim
+from pydantic import Field, PrivateAttr, ValidationInfo, field_validator
+from torch import nn, optim
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm.auto import tqdm
 
@@ -15,7 +14,8 @@ from ..core.base_trainer import (
     PredictionResult,
     TrainingHistory,
 )
-from ..models.torch_models import TorchModelsConfig, TorchModels
+from ..models.torch_models import TorchModels, TorchModelsConfig
+from .early_stopping import EarlyStopping, EarlyStoppingConfig
 
 logger = logging.getLogger(__name__)
 
@@ -29,6 +29,9 @@ class TorchTrainerConfig(BaseTrainerConfig):
 
     batch_size: int = Field(default=32, gt=0, description="Batch size")
     epochs: int = Field(default=50, gt=0, description="Training epochs")
+    early_stopping: EarlyStoppingConfig | None = Field(
+        default=None, description="Optional validation-based early stopping."
+    )
 
     optimizer: type[optim.Optimizer] = Field(
         default=optim.Adam, description="Optimizer"
@@ -194,6 +197,11 @@ class TorchTrainer(BaseTrainer):
 
         train_loss: list[float] = []
         val_loss: list[float] | None = [] if val_data else None
+        early_stopping = (
+            EarlyStopping(self.config.early_stopping)
+            if self.config.early_stopping is not None and val_data is not None
+            else None
+        )
 
         pbar = tqdm(
             range(self.config.epochs),
@@ -213,10 +221,19 @@ class TorchTrainer(BaseTrainer):
                 pbar.set_postfix(
                     loss=f"{epoch_train_loss:.4f}", val_loss=f"{epoch_val_loss:.4f}"
                 )
+                if early_stopping is not None and early_stopping.step(
+                    epoch_val_loss, self.model
+                ):
+                    logger.info("Early stopping at epoch %d", epoch + 1)
+                    break
             else:
                 pbar.set_postfix(loss=f"{epoch_train_loss:.4f}")
 
             pbar.refresh()
+
+        if early_stopping is not None and self.config.early_stopping is not None:  # noqa: SIM102
+            if self.config.early_stopping.restore_best_weights:
+                early_stopping.restore(self.model)
 
         return TrainingHistory(train_loss=train_loss, val_loss=val_loss)
 
