@@ -1,32 +1,36 @@
+[November 17th, 2026] ~ 35 minutes
+
 # Introduction to 3W Toolkit 3.2.1
 
-## Examples and contributing
-
-This session is on 17 November 2026 and is expected to last 35 minutes. The first session, [Architecture and installation](01_architecture_and_installation.md), is on 16 November 2026 and is expected to last 25 minutes.
-
-Four points from that session:
-
-1. A step is a config plus a class: `SomeConfig(...).build()`.
-2. Steps exchange a `DatasetOutputs` with `signal`, `label`, and `metadata`.
-3. Install with `pip install ThreeWToolkit`, clone and `uv sync --locked`, or fork and `uv sync --locked --extra dev`.
-4. The documentation is https://threewtoolkit.readthedocs.io/en/latest/ .
-
-The examples below use a small table written in the session. They leave the 3W Dataset untouched. The demo notebooks and the Quickstart are where that dataset is loaded.
-
-Confirm the import before the examples:
-
-```bash
-python -c "import ThreeWToolkit; print(ThreeWToolkit.__version__)"
-# 3.2.1
-```
-
-`PlotSeries` opens a matplotlib window. In Jupyter the figure appears in the notebook. In a terminal without a display, save it with `plt.savefig("pressure.png")`.
+1. [Examples](#examples)
+2. [Demos](#demos)
+3. [Contributing](#contributing)
+4. [Quality checks](#quality-checks)
+5. [Agent skills](#agent-skills)
+6. [What is coming next](#next)
 
 ---
 
-## Example 1 — config, build, transform
+The first session, [Architecture and installation](01_architecture_and_installation.md), covered four ideas used throughout this one:
 
-`RenameColumns` is a complete step with no `fit`. The config builds the step, `transform` returns a new sample, and the input keeps its original column name.
+1. A component is a config plus a class: `SomeConfig(...).build()`.
+2. Components exchange a `DatasetOutputs` with `signal`, `label` and `metadata`.
+3. `transform` returns a new `DatasetOutputs` and leaves its input unchanged.
+4. Install from PyPI with `uv pip install ThreeWToolkit`, or clone (or fork) and run `uv sync --locked`.
+
+This session shows how little code a task takes in v.3.2.1, and how a change reaches the toolkit.
+
+---
+
+<a id="examples"></a>
+
+## 🧪 Examples
+
+Every example below uses classes added since the 2.0.0 workshop. Run them from the repository root with the environment active. `path="dataset"` points at the 3W Dataset in the clone. If it is missing, the loader downloads it from Figshare first.
+
+### 1️⃣ Config, build, transform
+
+`DatasetOutputs` is new in 3.2.1. Here it wraps a small table written in the session, so this example does not need the 3W Dataset.
 
 ```python
 import pandas as pd
@@ -34,17 +38,17 @@ import pandas as pd
 from ThreeWToolkit.core import DatasetOutputs
 from ThreeWToolkit.preprocessing import RenameColumnsConfig
 
-data = DatasetOutputs(
+sample = DatasetOutputs(
     signal=pd.DataFrame({"P-PDG": [1.0, 2.0, 3.0]}),
     label=None,
     metadata={"source": "workshop"},
 )
 
 step = RenameColumnsConfig(columns_map={"P-PDG": "pressure"}).build()
-out = step.transform(data)
+renamed = step.transform(sample)
 
-print("input columns: ", list(data.signal.columns))
-print("output columns:", list(out.signal.columns))
+print("input columns: ", list(sample.signal.columns))
+print("output columns:", list(renamed.signal.columns))
 ```
 
 ```text
@@ -52,135 +56,185 @@ input columns:  ['P-PDG']
 output columns: ['pressure']
 ```
 
-- `DatasetOutputs` is the object every step accepts.
-- `RenameColumnsConfig` checks the mapping before any work runs.
-- `.build()` returns the `RenameColumns` object. That is the mechanism in [`.agents/skills/add-toolkit-component/SKILL.md`](../../.agents/skills/add-toolkit-component/SKILL.md).
-- `transform` returns a new sample. `data` still has the column `P-PDG`.
+- `RenameColumnsConfig` validates the mapping before any work runs.
+- `.build()` creates the `RenameColumns` object named in the config's `_target`.
+- `transform` returns a new sample. `sample` still has the column `P-PDG`.
 
-`Normalize` has the same shape and needs `fit` on a whole dataset before `transform`. That example is in [`04_preprocessing_examples.ipynb`](../../toolkit/demos/04_preprocessing_examples.ipynb).
+Any other time series works the same way: put it in a DataFrame, wrap it in a `DatasetOutputs`, and every step of the toolkit accepts it.
 
-An import error means `.venv` is inactive, or the package is not installed. The three install profiles are in [Architecture and installation](01_architecture_and_installation.md).
+### 2️⃣ Chain preprocessing steps
 
----
-
-## Example 2 — impute and plot
-
-Constant imputation fills the gap with `0.0` and does not need `fit`. `PlotSeries` then draws the filled series. Plots are constructed directly. They have no config class.
+`CleanSignals` and `SequentialPreprocessingAdapter` are new. `TransformConfig` (also new) applies the chain to a whole dataset: `fit` learns from the data (for example, which columns to drop and the normalization statistics), and `transform` applies it.
 
 ```python
-import matplotlib.pyplot as plt
-import pandas as pd
-
-from ThreeWToolkit.core import DatasetOutputs
-from ThreeWToolkit.data_visualization import PlotSeries
-from ThreeWToolkit.preprocessing import ImputeMissingConfig
-
-data = DatasetOutputs(
-    signal=pd.DataFrame({"pressure": [10.0, None, 30.0, 40.0]}),
-    label=None,
-    metadata={},
+from ThreeWToolkit.dataset import ParquetDatasetConfig, TransformConfig
+from ThreeWToolkit.preprocessing import (
+    CleanSignalsConfig,
+    ImputeMissingConfig,
+    NormalizeConfig,
+    SequentialPreprocessingAdapterConfig,
 )
 
-filled = ImputeMissingConfig(strategy="constant", fill_value=0.0).build()
-out = filled.transform(data)
+dataset = ParquetDatasetConfig(
+    path="dataset", event_type=["real"], target_class=[2]
+).build()
 
-print("input:")
-print(data.signal)
-print("output:")
-print(out.signal)
+processor = TransformConfig(
+    pre_processing=SequentialPreprocessingAdapterConfig(
+        steps=[
+            CleanSignalsConfig(),
+            ImputeMissingConfig(strategy="mean"),
+            NormalizeConfig(),
+        ]
+    ),
+).build()
+processor.fit(dataset)
+clean = processor.transform(dataset)
 
-plot = PlotSeries(
-    series=out.signal["pressure"],
-    title="Pressure after constant imputation",
-    xlabel="sample",
-    ylabel="pressure",
-)
-plot.plot()
-plt.show()
+print("instances:", len(dataset))
+print("columns before:", dataset[0].signal.shape[1])
+print("columns after: ", clean[0].signal.shape[1])
+print("missing values after:", int(clean[0].signal.isna().sum().sum()))
 ```
 
 ```text
-input:
-   pressure
-0      10.0
-1       NaN
-2      30.0
-3      40.0
-
-output:
-   pressure
-0      10.0
-1       0.0
-2      30.0
-3      40.0
+instances: 22
+columns before: 28
+columns after:  15
+missing values after: 0
 ```
 
-The input still has the missing value. The output has `0.0` in its place. The figure is the series with a dip at the second sample. `mean`, `ffill`, `bfill`, and `interpolate` are the same class with another `strategy`. `mean` needs `fit` first.
+`CleanSignals` dropped the frozen and mostly empty sensors, imputation filled the gaps, and normalization scaled what was left. `FillLabels` and `RemapClass` join the same list when labels need cleaning.
 
-Further plots, including those added since the 2.0.0 workshop (`ThreeWChart`, FFT, wavelet spectrogram, clustering charts), are in [`02_data_visualization.ipynb`](../../toolkit/demos/02_data_visualization.ipynb) and [`14_three_w_chart_example.ipynb`](../../toolkit/demos/14_three_w_chart_example.ipynb).
+### 3️⃣ From signals to features
+
+`Windowing` now lives in feature extraction. `ConcatFeatureAdapter` (new) runs several extractors on the same windows and joins their columns into one table.
+
+```python
+from ThreeWToolkit.feature_extraction import (
+    ConcatFeatureAdapterConfig,
+    EWStatisticalConfig,
+    SequentialFeatureAdapterConfig,
+    StatisticalConfig,
+    WindowingConfig,
+)
+
+features = TransformConfig(
+    pre_processing=SequentialPreprocessingAdapterConfig(
+        steps=[CleanSignalsConfig(), ImputeMissingConfig(strategy="mean")]
+    ),
+    feature_extraction=SequentialFeatureAdapterConfig(
+        steps=[
+            WindowingConfig(window_size=128),
+            ConcatFeatureAdapterConfig(
+                steps=[
+                    StatisticalConfig(features=["mean", "std"]),
+                    EWStatisticalConfig(),
+                ]
+            ),
+        ]
+    ),
+).build()
+features.fit(dataset)
+table = features.transform(dataset)[0]
+
+print("raw signal:   ", dataset[0].signal.shape)
+print("feature table:", table.signal.shape)
+```
+
+```text
+raw signal:    (12721, 28)
+feature table: (100, 165)
+```
+
+One instance with 12,721 time steps becomes 100 windows of 128 steps, each described by 165 features.
+
+Training a model, running the whole experiment from one `PipelineConfig` and plotting an event with `ThreeWChart` are in the [demos](#demos): `08_sklearn_models_examples`, `00_overview` and `14_three_w_chart_example`.
 
 ---
 
-## The same pattern, composed
+<a id="demos"></a>
 
-A full pipeline downloads the dataset and trains a model. The shape of that pipeline is the [Quickstart](https://threewtoolkit.readthedocs.io/en/latest/quickstart.html). The same story opens [`00_overview.ipynb`](../../toolkit/demos/00_overview.ipynb).
+## 📓 Demos
 
-`PipelineConfig` chains the classes from the first session:
+Each example above has a longer version in [toolkit/demos/](../../toolkit/demos/). The same notebooks are rendered in the [Read the Docs tutorials](https://threewtoolkit.readthedocs.io/en/latest/tutorials/index.html).
 
-1. `ParquetDatasetConfig` loads real, simulated, or hand-drawn files.
-2. `SequentialPreprocessingAdapterConfig` chains `CleanSignalsConfig`, `FillLabelsConfig`, `RemapClassConfig`, `NormalizeConfig`, and `ImputeMissingConfig`. The adapter and the first three steps are new since the 2.0.0 workshop.
-3. `WindowingConfig` cuts the series. Windowing now lives in feature extraction.
-4. `SequentialFeatureAdapterConfig` and `ConcatFeatureAdapterConfig` run `StatisticalConfig`, `EWStatisticalConfig`, and `WaveletConfig`. Both adapters are new.
-5. `MLPConfig` is the model. `TorchTrainerConfig` trains it. `SklearnTrainerConfig` is the pair for scikit-learn models. Both trainers are new. The 2.0.0 notebooks had a single `ModelTrainer`.
+| If you want to…                                  | Open                                                                                                                                                                     |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| See the whole toolkit in one notebook            | [00_overview.ipynb](../../toolkit/demos/00_overview.ipynb)                                                                                                              |
+| Filter the dataset by class, source or file list | [01_dataset_examples.ipynb](../../toolkit/demos/01_dataset_examples.ipynb)                                                                                              |
+| Plot series, spectra and data quality            | [02_data_visualization.ipynb](../../toolkit/demos/02_data_visualization.ipynb)                                                                                          |
+| Explore an event interactively                   | [14_three_w_chart_example.ipynb](../../toolkit/demos/14_three_w_chart_example.ipynb)                                                                                    |
+| Clean and preprocess signals                     | [03_data_cleaning_examples.ipynb](../../toolkit/demos/03_data_cleaning_examples.ipynb), [04_preprocessing_examples.ipynb](../../toolkit/demos/04_preprocessing_examples.ipynb) |
+| Extract features                                 | [05_feature_extraction_examples.ipynb](../../toolkit/demos/05_feature_extraction_examples.ipynb)                                                                        |
+| Compare real and simulated events by clustering  | [06_clustering_pipeline_examples.ipynb](../../toolkit/demos/06_clustering_pipeline_examples.ipynb), [07_clustering_real_vs_simulated_examples.ipynb](../../toolkit/demos/07_clustering_real_vs_simulated_examples.ipynb) |
+| Train scikit-learn models with a confusion matrix | [08_sklearn_models_examples.ipynb](../../toolkit/demos/08_sklearn_models_examples.ipynb)                                                                               |
+| Train an MLP on time series                      | [09_mlp_timeseries_example.ipynb](../../toolkit/demos/09_mlp_timeseries_example.ipynb)                                                                                  |
+| Save and load a trained model                    | [10_load_save_model_examples.ipynb](../../toolkit/demos/10_load_save_model_examples.ipynb)                                                                              |
+| Evaluate a model and compute metrics             | [11_assessment_examples.ipynb](../../toolkit/demos/11_assessment_examples.ipynb), [12_using_metrics.ipynb](../../toolkit/demos/12_using_metrics.ipynb)                  |
+| Generate an HTML or LaTeX report                 | [13_report_generation_examples.ipynb](../../toolkit/demos/13_report_generation_examples.ipynb)                                                                          |
 
-One config describes the experiment. `.build()` creates the `Pipeline`. Each piece is the same kind of object as in the two examples: a config, then `.build()`, then a new `DatasetOutputs`.
+Good starting points for this session: `00_overview` for the full flow, `08_sklearn_models_examples` for a complete classifier, and `07_clustering_real_vs_simulated_examples` for what clustering adds.
 
 ---
 
-## How to contribute
+<a id="contributing"></a>
 
-Toolkit changes follow [3W_TOOLKIT_CONTRIBUTING.md](../../3W_TOOLKIT_CONTRIBUTING.md). The short version, also used by coding agents, is [add-toolkit-component](../../.agents/skills/add-toolkit-component/SKILL.md) and [run-quality-checks](../../.agents/skills/run-quality-checks/SKILL.md). The repository is https://github.com/petrobras/3W .
+## 🤝 Contributing
 
-### Before the first pull request
+The rules come from three files. This section summarizes them:
 
-- [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md)
-- [CONTRIBUTOR_LICENSE_AGREEMENT.md](../../CONTRIBUTOR_LICENSE_AGREEMENT.md)
-- [CONTRIBUTING.md](../../CONTRIBUTING.md)
+- [CONTRIBUTING.md](../../CONTRIBUTING.md): every kind of contribution (dataset, overviews, documentation, toolkit).
+- [3W_TOOLKIT_CONTRIBUTING.md](../../3W_TOOLKIT_CONTRIBUTING.md): toolkit code, with step-by-step guides for a new model, preprocessing step, feature extractor, trainer or assessment.
+- [AGENTS.md](../../AGENTS.md): the same rules in short form, written for coding agents and useful for people too.
 
-The pull-request form asks for a Contributor License Agreement, individual or corporate.
+### 📋 Before the first pull request
 
-Questions go to [GitHub Discussions](https://github.com/petrobras/3W/discussions). Issues are for bugs and proposed changes.
+- Read and accept the [Code of Conduct](../../CODE_OF_CONDUCT.md) and the [Contributor License Agreement](../../CONTRIBUTOR_LICENSE_AGREEMENT.md). The pull request form asks you to confirm the individual or the corporate CLA.
+- Questions go to [GitHub Discussions](https://github.com/petrobras/3W/discussions). Issues are for bugs and proposed changes.
+- For a larger change, check the [backlog](../../BACKLOG.md) and say in Discussions that you are taking it.
 
-### Fork, branch, pull request
+### 🎯 What you can contribute
 
-Toolkit pull requests target the **`dev`** branch.
+| Contribution                          | Where it goes                         |
+| ------------------------------------- | ------------------------------------- |
+| A bug report                          | An issue                              |
+| A bug fix, a new toolkit component    | `toolkit/ThreeWToolkit/` and `tests/` |
+| A toolkit demo                        | `toolkit/demos/NN_topic.ipynb`        |
+| A 3W Dataset overview                 | `dataset/demos/<your_name>/main.ipynb` |
+| A tutorial or course material         | `resources/<topic>/`                  |
+| A complete benchmark                  | `benchmarks/<name>/`                  |
+| A documentation improvement           | The Markdown files or `toolkit/docs/` |
 
-```mermaid
-flowchart LR
-  fork["Fork petrobras/3W"] --> clone["Clone your fork"]
-  clone --> branch["Branch feature/..."]
-  branch --> checks["./bin/lint and ./bin/test"]
-  checks --> pr["Pull request into dev"]
-```
+### 🔀 Fork, branch, pull request
 
-Fork the repository on GitHub, then:
+Every pull request comes from a fork (see [Change the toolkit from a fork](01_architecture_and_installation.md#-change-the-toolkit-from-a-fork-recommended) in the first session) and targets the **`main`** branch of `petrobras/3W`.
+
+1. Fork `petrobras/3W` on GitHub.
+2. Clone your fork.
+3. Create a branch from `main`.
+4. Write the code and its tests.
+5. Run `./bin/lint` and `./bin/test`.
+6. Open a pull request into `main`.
+7. CI runs and a maintainer reviews it.
 
 ```bash
 git clone git@github.com:<your-username>/3W.git
 cd 3W
-git checkout dev
-git pull
-git checkout -b feature/short-name
+git remote add upstream git@github.com:petrobras/3W.git
+git fetch upstream
+git checkout -b feature/short-name upstream/dev
+uv sync --locked --extra dev
 ```
 
-| Branch | Use |
-|--------|-----|
-| `feature/<name>` | A new model, preprocessing step, or feature extractor |
-| `bugfix/<name>` | A fix |
-| `docs/<name>` | Documentation |
-| `refactor/<name>` | A restructure with the same behavior |
+| Branch              | Use                                                   |
+| ------------------- | ----------------------------------------------------- |
+| `feature/<name>`    | A new model, preprocessing step or feature extractor  |
+| `bugfix/<name>`     | A fix                                                 |
+| `docs/<name>`       | Documentation                                         |
+| `refactor/<name>`   | A restructure with the same behavior                  |
 
-One pull request, one change. A commit message looks like this:
+One pull request, one change. Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```text
 feat(preprocessing): add a clip step for sensor ranges
@@ -188,48 +242,218 @@ feat(preprocessing): add a clip step for sensor ranges
 Clip each signal column to the bounds declared on the config.
 ```
 
-Common types are `feat`, `fix`, `docs`, `test`, and `refactor`.
+Common types are `feat`, `fix`, `docs`, `test`, `refactor` and `chore`. The scope is the submodule.
 
-On the pull request, the base repository is `petrobras/3W` and the base branch is `dev`. The description includes the CLA confirmation.
+### 🧩 Adding a component in practice
 
-Dataset overviews, citations, and benchmark notebooks are described in [CONTRIBUTING.md](../../CONTRIBUTING.md). A new toolkit class still uses the config, the tests, and a pull request into `dev`.
+A new preprocessing step touches three files: the component, the submodule's `__init__.py` and a test file. The example below adds `ClipSignals`, which clips every column to a range.
 
-### Lint and tests
+**1. The component: `toolkit/ThreeWToolkit/preprocessing/clip_signals.py`**
 
-Install the `dev` extra first:
+The config comes first, then the class, in the same file. Every parameter is a `Field` with a description, and checks live in a `field_validator`.
 
-```bash
-uv sync --locked --extra dev
+```python
+from pydantic import Field, PrivateAttr, ValidationInfo, field_validator
+
+from ..core.base_preprocessing import BasePreprocessing, BasePreprocessingConfig
+from ..core.dataset_outputs import DatasetOutputs
+
+
+class ClipSignalsConfig(BasePreprocessingConfig):
+    """Configuration for clipping every signal column to a range."""
+
+    lower: float = Field(..., description="Lower bound for every column.")
+    upper: float = Field(..., description="Upper bound for every column.")
+
+    _target: type = PrivateAttr(default_factory=lambda: ClipSignals)
+
+    @field_validator("upper")
+    @classmethod
+    def check_bounds(cls, upper: float, info: ValidationInfo) -> float:
+        lower = info.data.get("lower")
+        if lower is not None and upper <= lower:
+            raise ValueError("upper must be greater than lower")
+        return upper
+
+
+class ClipSignals(BasePreprocessing):
+    """Clip every signal column to the bounds in the config."""
+
+    def __init__(self, config: ClipSignalsConfig):
+        self.config = config
+
+    def transform(self, data: DatasetOutputs) -> DatasetOutputs:
+        signal = data.signal.clip(self.config.lower, self.config.upper)
+        return data.model_copy(update={"signal": signal})
 ```
 
-From the repository root, the two commands CI runs:
+`transform` builds a new `DatasetOutputs` with `model_copy`, so the input is never modified. `fit` is inherited and does nothing, because clipping learns nothing from the data.
+
+**2. The export: `toolkit/ThreeWToolkit/preprocessing/__init__.py`**
+
+Import the two classes and add them to `__all__`, so users can write `from ThreeWToolkit.preprocessing import ClipSignalsConfig`:
+
+```python
+from .impute_missing import ImputeMissingConfig, ImputeMissing
+from .normalize import NormalizeConfig, Normalize
+
+# ... the other existing imports ...
+from .clip_signals import ClipSignalsConfig, ClipSignals
+
+__all__ = [
+    "ImputeMissingConfig",
+    "ImputeMissing",
+    # ... the other existing names ...
+    "ClipSignalsConfig",
+    "ClipSignals",
+]
+```
+
+**3. The tests: `tests/preprocessing/test_clip_signals.py`**
+
+Tests are grouped in a class. The `mock_dataset_factory` fixture from `tests/conftest.py` builds a synthetic dataset (sensor columns named `sensor_0`, `sensor_1`, ...) with the size, mean, standard deviation and fraction of missing values you ask for, so the tests do not need the 3W Dataset.
+
+```python
+"""Tests for ClipSignals preprocessing class."""
+
+import pandas as pd
+import pytest
+
+from ThreeWToolkit.core.dataset_outputs import DatasetOutputs
+from ThreeWToolkit.dataset import ParquetDatasetConfig
+from ThreeWToolkit.preprocessing import ClipSignalsConfig
+
+
+class TestClipSignals:
+    """Test config validation and clipping behavior."""
+
+    def test_rejects_inverted_bounds(self):
+        with pytest.raises(ValueError):
+            ClipSignalsConfig(lower=10.0, upper=0.0)
+
+    def test_values_stay_within_bounds(self, mock_dataset_factory):
+        dataset = mock_dataset_factory(num_events=3, global_mean=50.0, global_std=15.0)
+        step = ClipSignalsConfig(lower=40.0, upper=60.0).build()
+
+        for event in dataset:
+            out = step.transform(event)
+            assert out.signal.min().min() >= 40.0
+            assert out.signal.max().max() <= 60.0
+
+    def test_input_is_not_modified(self, mock_dataset_factory):
+        event = mock_dataset_factory(num_events=1)[0]
+        before = event.signal.copy()
+
+        ClipSignalsConfig(lower=40.0, upper=60.0).build().transform(event)
+
+        pd.testing.assert_frame_equal(event.signal, before)
+
+    def test_nan_values_are_kept(self, mock_dataset_factory):
+        event = mock_dataset_factory(num_events=1, nan_row_rate=0.2)[0]
+
+        out = ClipSignalsConfig(lower=40.0, upper=60.0).build().transform(event)
+
+        assert out.signal.isna().equals(event.signal.isna())
+
+    def test_empty_signal(self):
+        event = DatasetOutputs(signal=pd.DataFrame(), label=None)
+
+        out = ClipSignalsConfig(lower=0.0, upper=1.0).build().transform(event)
+
+        assert out.signal.empty
+
+
+@pytest.mark.slow
+class TestClipSignalsOnRealData:
+    """Tests that read the real 3W Parquet files."""
+
+    def test_real_instance(self):
+        dataset = ParquetDatasetConfig(path="dataset", target_class=[1]).build()
+        step = ClipSignalsConfig(lower=0.0, upper=1e7).build()
+
+        out = step.transform(dataset[0])
+
+        assert out.signal.shape == dataset[0].signal.shape
+```
+
+The five tests in `TestClipSignals` cover what every component needs: config validation, the behavior, edge cases (NaN and empty input) and an unchanged input. `TestClipSignalsOnRealData` reads `dataset/`, so it is marked `@pytest.mark.slow`: CI checks out the repository without the Parquet files, and `./bin/test` skips `slow` tests unless `RUN_SLOW_TESTS=1` is set.
+
+Run only these tests while you work:
+
+```bash
+pytest tests/preprocessing/test_clip_signals.py -v
+```
+
+The full guide, with a template for each kind of component, is [How to Contribute](../../3W_TOOLKIT_CONTRIBUTING.md#how-to-contribute). The base class to start from and a file to copy for each kind are in the [add-toolkit-component](../../.agents/skills/add-toolkit-component/SKILL.md) skill.
+
+### ✅ Before opening the pull request
+
+- `./bin/lint` and `./bin/test` pass (next section).
+- New behavior has tests. Docstrings are in English, Google style.
+- The description follows the [pull request template](../../.github/pull_request_template.md) and confirms the CLA.
+
+---
+
+<a id="quality-checks"></a>
+
+## 🔍 Quality checks
+
+The scripts in [bin/](../../bin/) are the same checks CI runs. Run them from the repository root after `uv sync --locked --extra dev`:
 
 ```bash
 CI=false ./bin/lint
 ./bin/test
 ```
 
-| Command | What it does |
-|---------|--------------|
-| `CI=false ./bin/lint` | Local mode. mypy and ruff. Ruff may fix style issues. |
-| `./bin/lint` | CI mode. The same checks, without auto-fix. |
-| `./bin/test` | pytest and coverage. Skips tests marked `slow`. |
-| `RUN_SLOW_TESTS=1 ./bin/test` | Also the tests that read the real Parquet dataset. |
-| `pytest tests/preprocessing/test_normalize.py -v` | One module, while editing. |
+| Command                                     | What it does                                                                                          |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `CI=false ./bin/lint`                       | Local mode: mypy, then `ruff check --fix`. Also checks links with `lychee` when it is installed.       |
+| `./bin/lint`                                | CI mode: the same checks, without auto-fix.                                                           |
+| `./bin/test`                                | pytest with coverage. Skips tests marked `slow`.                                                      |
+| `RUN_SLOW_TESTS=1 ./bin/test`               | Also runs the tests that read the real Parquet files.                                                 |
+| `pytest tests/preprocessing/test_normalize.py -k l2` | One file or one test while you work.                                                         |
+| `./bin/nb_test`                             | Executes the demo notebooks in `toolkit/demos/` and `dataset/demos/_basic/`. Slow, and not run by CI. |
+| `./bin/sync_agent_files`                    | Copies the agent skills to `.claude/skills/`. CI runs it with `--check`.                               |
 
-`./bin/nb_test` executes the demo notebooks. It is slow. Run it when a change touches a notebook or a class those notebooks import.
+What CI runs on each push ([tests.yml](../../.github/workflows/tests.yml)):
 
-A test that needs files under `dataset/` fails in CI, because that checkout has no Parquet files. Use `mock_dataset_factory` from `tests/conftest.py`, or mark the test `slow`.
+- **Lint** on Python 3.12: `./bin/lint` and `./bin/sync_agent_files --check`.
+- **Tests** on Python 3.10, 3.11 and 3.12: `./bin/test`.
 
-When `pyproject.toml` changes, run `uv lock` and commit `uv.lock` with the change. CI installs with `uv sync --locked`.
+Both install with `uv sync --locked --extra dev`, and the checkout has no Parquet files. A test that silently depends on `dataset/` passes locally and fails in CI.
+
+Run `./bin/nb_test` when a change touches a notebook or a class the demos import. Those notebooks are part of what the project keeps working across releases.
 
 ---
 
-## What is coming next
+<a id="agent-skills"></a>
 
-The list we are working from is [BACKLOG.md](../../BACKLOG.md). Read the Docs is already published, so that item is in the session above. Still ahead:
+## 🤖 Agent skills
 
-**Toolkit**
+The repository is prepared for coding agents (Claude Code, GitHub Copilot, Cursor, Codex, Gemini). [AGENTS.md](../../AGENTS.md) holds the project rules: layout, commands, architecture conventions, testing and dataset rules. Agents read it automatically. `GEMINI.md` points to it.
+
+For recurring tasks there are skills: short, step-by-step guides an agent loads when the task matches.
+
+| Skill                                                                       | Use it to                                                                          |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| [add-toolkit-component](../../.agents/skills/add-toolkit-component/SKILL.md) | Add a preprocessing step, feature extractor, model, metric or plot with config, tests and docs |
+| [run-quality-checks](../../.agents/skills/run-quality-checks/SKILL.md)       | Run and fix lint, tests and notebook checks the way CI does                        |
+| [load-3w-dataset](../../.agents/skills/load-3w-dataset/SKILL.md)             | Load, filter and inspect 3W instances                                              |
+| [add-demo-notebook](../../.agents/skills/add-demo-notebook/SKILL.md)         | Put a new notebook in the right folder so it keeps running                         |
+
+With an agent, a contribution can start from one sentence, for example: *"Add a ClipSignals preprocessing step that clips every column to a lower and upper bound, following the add-toolkit-component skill, then run the quality checks."* The agent follows the skill, writes the config, the class, the export and the tests, and runs `./bin/lint` and `./bin/test`. Review the result like any other pull request.
+
+Skills are edited only in `.agents/skills/`. `.claude/skills/` is a generated copy: after changing a skill, run `./bin/sync_agent_files` and commit both.
+
+The skills are also a short reference for people: each one is the checklist a maintainer would give you.
+
+---
+
+<a id="next"></a>
+
+## 🔭 What is coming next
+
+The list we work from is [BACKLOG.md](../../BACKLOG.md). Still ahead:
 
 - Benchmarks so two solutions can be compared on the same task.
 - A shared way to validate a model on those benchmarks.
@@ -237,24 +461,15 @@ The list we are working from is [BACKLOG.md](../../BACKLOG.md). Read the Docs is
 - Time-aware metrics for detection and classification.
 - A tool that shows the difference between two versions of the 3W Dataset.
 
-**Dataset**
-
-- More wells and more event types.
-- More instances of events that are still rare.
-
-**Environment**
-
-- A Docker setup for the development environment.
-
-A first contribution can be a small preprocessing or feature step that follows the component skill, with tests, in a pull request to `dev`. Issues labeled as a good first issue are a starting point. Discussions is the place to say you are taking one.
+A first contribution can be a small preprocessing or feature step that follows the `add-toolkit-component` skill, with tests, in a pull request to `dev`. Issues labeled as a good first issue are a starting point.
 
 ---
 
 | | |
 |--|--|
 | Documentation | https://threewtoolkit.readthedocs.io/en/latest/ |
-| Install | `pip install ThreeWToolkit` |
-| Examples | [`toolkit/demos/`](../../toolkit/demos/) |
+| Install | `uv pip install ThreeWToolkit` |
+| Examples | [toolkit/demos/](../../toolkit/demos/) |
 | Questions | https://github.com/petrobras/3W/discussions |
 
 Previous session: [Architecture and installation](01_architecture_and_installation.md).
