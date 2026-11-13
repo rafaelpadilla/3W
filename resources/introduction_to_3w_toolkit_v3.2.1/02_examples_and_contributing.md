@@ -119,6 +119,18 @@ from ThreeWToolkit.feature_extraction import (
     WindowingConfig,
 )
 
+from ThreeWToolkit.dataset.transform_dataset import (
+    TransformConfig,
+)
+
+from ThreeWToolkit.dataset import ParquetDatasetConfig, TransformConfig
+
+from ThreeWToolkit.preprocessing import *
+
+dataset = ParquetDatasetConfig(
+    path="dataset", event_type=["real"], target_class=[2]
+).build()
+
 features = TransformConfig(
     pre_processing=SequentialPreprocessingAdapterConfig(
         steps=[CleanSignalsConfig(), ImputeMissingConfig(strategy="mean")]
